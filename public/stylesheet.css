@@ -5,11 +5,11 @@
     left: 0;
     right: 0;
     display: flex;
-    background-image: radial-gradient(center center, circle cover, #969590, #424845);
-    background-image: -o-radial-gradient(center center, circle cover, #969590, #424845);
-    background-image: -ms-radial-gradient(center center, circle cover, #969590, #424845);
-    background-image: -moz-radial-gradient(center center, circle cover, #969590, #424845);
-    background-image: -webkit-radial-gradient(center center, circle cover, #969590, #424845);
+    background-image: radial-gradient(circle, #969590, #424845);
+    background-image: -o-radial-gradient(circle, #969590, #424845);
+    background-image: -ms-radial-gradient(circle, #969590, #424845);
+    background-image: -moz-radial-gradient(circle, #969590, #424845);
+    background-image: -webkit-radial-gradient(circle, #969590, #424845);
 }
 
 .logo {
