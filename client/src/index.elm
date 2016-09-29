@@ -1,62 +1,125 @@
-import Html exposing (Html, text, button, div, section, article, h1, p)
+import Html exposing (Html, text, button, div, section, article, h1, p, a, header)
 import Html.App as App
-import Html.Events exposing (onClick)
+import Html exposing ( Html, h1, h2, text, section, div, p, form, input, label, button )
+import Html.Events exposing (onClick, on)
+import Html.Attributes exposing ( id, type', for, value, class, href )
+import Http
+import Task exposing (Task)
+import Json.Decode exposing (list, string)
 
-import Registration as Registration
-
-main = App.beginnerProgram
-    { model = model
+main = App.program
+    { init = init
     , view = view
     , update = update
+    , subscriptions = subscriptions
     }
 
 -- MODEL
 type alias Model = 
-    { signed : Bool
-    , user : Registration.Model
+    { name : String
+    , surname : String
+    , registered : Bool
+    , signed : Bool
+    , error : String
     }
 
-model : Model
-model = Model False (Registration.Model "" "")
+initialModel : Model
+initialModel =
+    { name = ""
+    , surname = ""
+    , registered = False
+    , signed = False
+    , error = ""
+    }
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( initialModel, Cmd.none )
 
 
 -- UPDATE
-type alias Msg = Registration.Msg
+type Msg
+    = Name String
+    | Surname String
+    | Register
+    | PostSucceed String
+    | PostFail Http.Error
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    model
-    {--
-    case msg.signed of
-        SignOn ->
-            True
-        SignOff ->
-            False --}
+    case msg of
+        Name name ->
+            ( { model | name = name }, Cmd.none )
+        Surname surname ->
+            ( { model | surname = surname }, Cmd.none )
+        Register ->
+            ( model, registerMe model )
+        PostSucceed result ->
+            ( { model | registered = True }, Cmd.none )
+        PostFail error ->
+            ( { model | error = "Sorry, there was an error." }, Cmd.none )
+
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
-  let
-    buttonText = if model.signed then "Welcome!" else "Sign it, man!"
-  in
     article []
-        [ section [] [ h1 [][ text "Home and banner here"] ]
-        , section []
-            [ h1 [] [ text "Event description"]
-            , div []
-                [ p [] [ text "Fantastic event in Malta, hosted by MaltaJS: will speak about Elm."]]
+        [ header []
+            [ a [ href "#about" ] [ text "About" ]
+            , a [ href "#event" ] [ text "Event" ]
+            , a [ href "#registration" ] [ text "Registration" ]
+            , a [ href "#venue" ] [ text "Venue" ]
             ]
-        , Registration.view model.user
+        , section [] [ h1 [][ text "Home and banner here"] ]
+        , eventView
         , section []
-            [ h1 [] [ text "Venue"]
-            , div []
-                [ p [] [ text "Super cool Microsoft's Office :-)"]]
+            [ h1 [ id "registration" ] [ text "Registration"]
+            , h2 [] [ text "MaltaJS event" ]
+            , form [ id "signup-form" ] 
+                [ label [ for "name" ] [ text "Name: " ]
+                , input [ id "name", type' "text", value model.name ] []
+                , label [ for "surname" ] [ text "Surname: " ]
+                , input [ id "surname", type' "text", value model.surname ] []
+                ]
+            , button [ onClick Register ] [ text "Sign Up!" ]
             ]
-        , section []
-            [ h1 [] [ text "MaltaJS"]
+        , venueView
+        , aboutView
+        ]
+
+aboutView : Html a
+aboutView =
+    section []
+            [ h1 [ id "about" ] [ text "MaltaJS"]
             , div []
                 [ p [] [ text "Bombastic community in Malta!"]]
             ]
-       ]
-       
+
+venueView : Html a
+venueView = 
+    section []
+            [ h1 [ id "venue" ] [ text "Venue"]
+            , div []
+                [ p [] [ text "Super cool Microsoft's Office :-)"]]
+            ]
+
+eventView : Html a
+eventView = section []
+            [ h1 [ id "event" ] [ text "Event description"]
+            , div []
+                [ p [] [ text "Fantastic event in Malta, hosted by MaltaJS: will speak about Elm."]]
+            ]
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+registerMe : Model -> Cmd Msg
+registerMe data =
+    let
+        url = "http://localhost:8001"
+    in
+        Task.perform PostFail PostSucceed (Http.post string url Http.empty) 
