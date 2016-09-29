@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "MaltaJS Elm page",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  },
   "devDependencies": {
     "elm": "0.17.0",
     "gulp": "^3.9.1",

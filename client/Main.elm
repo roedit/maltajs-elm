@@ -1,8 +1,8 @@
-import Html exposing (Html, text, button, div, section, article, h1, p, a, header)
+import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label)
+
 import Html.App as App
-import Html exposing ( Html, h1, h2, text, section, div, p, form, input, label, button )
 import Html.Events exposing (onClick, on)
-import Html.Attributes exposing ( id, type', for, value, class, href )
+import Html.Attributes exposing ( id, type', for, value, class, href, class)
 import Http
 import Task exposing (Task)
 import Json.Decode exposing (list, string)
@@ -67,11 +67,7 @@ view : Model -> Html Msg
 view model =
     article []
         [ header []
-            [ a [ href "#about" ] [ text "About" ]
-            , a [ href "#event" ] [ text "Event" ]
-            , a [ href "#registration" ] [ text "Registration" ]
-            , a [ href "#venue" ] [ text "Venue" ]
-            ]
+            [ headerView "" ]
         , section [] [ h1 [][ text "Home and banner here"] ]
         , eventView
         , section []
@@ -88,6 +84,16 @@ view model =
         , venueView
         , aboutView
         ]
+
+headerView : String -> Html a 
+headerView selected = 
+    ol [ class "breadcrumb" ]
+    [ li [ class selected ] [ a [ href "#about" ] [ text "About" ] ]
+    , li [] [ a [ href "#event" ] [ text "Event" ] ]
+    , li [] [ a [ href "#registration" ] [ text "Registration" ] ]
+    , li [] [ a [ href "#venue" ] [ text "Venue" ] ]
+    ]
+
 
 aboutView : Html a
 aboutView =
