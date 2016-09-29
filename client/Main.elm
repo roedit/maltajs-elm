@@ -1,11 +1,12 @@
-import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label)
+import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label, fieldset, img)
 
 import Html.App as App
-import Html.Events exposing (onClick, on)
-import Html.Attributes exposing ( id, type', for, value, class, href, class)
+import Html.Events exposing (onClick, on, onInput)
+import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src)
 import Http
 import Task exposing (Task)
 import Json.Decode exposing (list, string)
+import String exposing (join, isEmpty)
 
 main = App.program
     { init = init
@@ -18,6 +19,7 @@ main = App.program
 type alias Model = 
     { name : String
     , surname : String
+    , email : String
     , registered : Bool
     , signed : Bool
     , error : String
@@ -27,6 +29,7 @@ initialModel : Model
 initialModel =
     { name = ""
     , surname = ""
+    , email = ""
     , registered = False
     , signed = False
     , error = ""
@@ -42,6 +45,7 @@ init =
 type Msg
     = Name String
     | Surname String
+    | Email String
     | Register
     | PostSucceed String
     | PostFail Http.Error
@@ -53,6 +57,8 @@ update msg model =
             ( { model | name = name }, Cmd.none )
         Surname surname ->
             ( { model | surname = surname }, Cmd.none )
+        Email email ->
+            ( { model | email = email }, Cmd.none )
         Register ->
             ( model, registerMe model )
         PostSucceed result ->
@@ -65,24 +71,53 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    article []
+    article [ class "container-fluid" ]
         [ header []
             [ headerView "" ]
-        , section [] [ h1 [][ text "Home and banner here"] ]
+        , section []
+            [ h1 [][ text "Home and banner here"]
+            , img [ src "malta.jpg" ] []
+            ]
         , eventView
         , section []
             [ h1 [ id "registration" ] [ text "Registration"]
             , h2 [] [ text "MaltaJS event" ]
-            , form [ id "signup-form" ] 
-                [ label [ for "name" ] [ text "Name: " ]
-                , input [ id "name", type' "text", value model.name ] []
-                , label [ for "surname" ] [ text "Surname: " ]
-                , input [ id "surname", type' "text", value model.surname ] []
+            , form [ id "signup-form", class "container-fluid" ]  
+                [ fieldset [ class "row"] 
+                    [ label [ for "name", class "col-md-4" ] [ text "Name: " ]
+                    , input 
+                        [ id "name"
+                        , type' "text"
+                        , class "col-md-4"
+                        , value model.name
+                        , onInput Name
+                        ] []
+                    ]
+                , fieldset [ class "row"] 
+                    [ label [ for "surname", class "col-md-4" ] [ text "Surname: " ]
+                    , input 
+                        [ id "surname"
+                        , type' "text"
+                        , class "col-md-4"
+                        , value model.surname
+                        , onInput Surname
+                        ] []
+                    ]
+                , fieldset [ class "row"] 
+                    [ label [ for "email", class "col-md-4" ] [ text "email: " ]
+                    , input 
+                        [ id "email"
+                        , type' "email"
+                        , class "col-md-4"
+                        , value model.email
+                        , onInput Email
+                        ] []
+                    ]
                 ]
             , button [ onClick Register ] [ text "Sign Up!" ]
             ]
         , venueView
-        , aboutView
+        , aboutView model.name
         ]
 
 headerView : String -> Html a 
@@ -95,13 +130,21 @@ headerView selected =
     ]
 
 
-aboutView : Html a
-aboutView =
-    section []
-            [ h1 [ id "about" ] [ text "MaltaJS"]
-            , div []
-                [ p [] [ text "Bombastic community in Malta!"]]
-            ]
+aboutView : String -> Html a
+aboutView name =
+    let
+        default = "Bombastic community in Malta!"
+        message =
+            if isEmpty name then
+                "We are waiting for you."
+            else
+                "We are waiting for you, " ++ name ++ "."
+    in
+        section []
+                [ h1 [ id "about" ] [ text "MaltaJS"]
+                , div []
+                    [ p [] [ text ( join " " [ default, message ])]]
+                ]
 
 venueView : Html a
 venueView = 
@@ -124,7 +167,7 @@ subscriptions model =
 
 
 registerMe : Model -> Cmd Msg
-registerMe data =
+registerMe model =
     let
         url = "http://localhost:8001"
     in
