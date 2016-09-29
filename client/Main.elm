@@ -2,7 +2,7 @@ import Html exposing (Html, text, button, div, section, article, h1, p, a, heade
 
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
-import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src)
+import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled)
 import Http
 import Task exposing (Task)
 import Json.Decode exposing (list, string)
@@ -60,7 +60,7 @@ update msg model =
         Email email ->
             ( { model | email = email }, Cmd.none )
         Register ->
-            ( model, registerMe model )
+            ( { model | signed = True }, registerMe model )
         PostSucceed result ->
             ( { model | registered = True }, Cmd.none )
         PostFail error ->
@@ -90,6 +90,7 @@ view model =
                         , type' "text"
                         , class "col-md-4"
                         , value model.name
+                        , required True
                         , onInput Name
                         ] []
                     ]
@@ -100,6 +101,7 @@ view model =
                         , type' "text"
                         , class "col-md-4"
                         , value model.surname
+                        , required True
                         , onInput Surname
                         ] []
                     ]
@@ -110,15 +112,19 @@ view model =
                         , type' "email"
                         , class "col-md-4"
                         , value model.email
+                        , required True
                         , onInput Email
                         ] []
                     ]
                 ]
-            , button [ onClick Register ] [ text "Sign Up!" ]
+                , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
             ]
         , venueView
         , aboutView model.name
         ]
+
+isFormInvalid model = isEmpty model.name || isEmpty model.surname || isEmpty model.email
+isFormValid model = not (isFormInvalid model)
 
 headerView : String -> Html a 
 headerView selected = 
