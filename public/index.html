@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <meta charset="UTF-8">
     <title>Maltajs Elm App</title>
+    <script src="bundle.js"></script>
 </head>
 <body>
-<div class="content">
-    <span class="center"></span>
-    <img class="logo" src="logo.jpg"/>
-</div>
+<div id="main"></div>
+<script>
+    var mountNode = document.getElementById('main');
+    var app = Elm.Main.embed(mountNode);
+</script>
 </body>
 </html>
