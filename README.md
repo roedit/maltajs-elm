@@ -9,7 +9,7 @@ MongoDB
 
 $ npm install
 
-$ gulp elm-bundle
-
+$ gulp build
+ 
 $ npm start
 
