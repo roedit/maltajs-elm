@@ -8,6 +8,8 @@ import Task exposing (Task)
 import Json.Decode exposing (list, string)
 import String exposing (join, isEmpty)
 import Regex
+import Json.Encode
+import Json.Decode 
 
 import Content exposing (..)
 
@@ -156,7 +158,8 @@ view model =
       , h2 [] [ text "MaltaJS event" ]
       , formView model
       , alertView model
-      , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
+      , button [ onClick Register ] [ text "Sign Up!" ]
+      -- , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
       ]
     , section []
       [ h1 [ id "venue" ] [ text "Venue"]
@@ -177,7 +180,7 @@ isFormInvalid model =
       |> Regex.regex
       |> Regex.caseInsensitive
   in
-    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) || not (Regex.contains regex model.email)
+    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) --|| not (Regex.contains regex model.email)
 
 isFormValid model = not (isFormInvalid model)
 
@@ -196,10 +199,29 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
+decoder : Json.Decode.Decoder String 
+decoder =
+    Json.Decode.at [ "result" ]
+       ( Json.Decode.string )
 
 registerMe : Model -> Cmd Msg
 registerMe model =
   let
-    url = "http://localhost:8001"
+    url = "http://localhost:3000/api/add-subscriber"
+    body = 
+      [ ("name", Json.Encode.string model.name)
+      , ("surname", Json.Encode.string model.surname)
+      , ("company", Json.Encode.string model.company)
+      , ("email", Json.Encode.string model.email)
+      ]
+      |> Json.Encode.object
+      |> Json.Encode.encode 0 
+      |> Http.string
+    request =
+      { verb = "POST"
+      , headers = [( "Content-Type", "application/json" )]
+      , url = url
+      , body = body 
+      }
   in
-    Task.perform PostFail PostSucceed (Http.post string url Http.empty) 
+    Task.perform PostFail PostSucceed (Http.fromJson decoder (Http.send Http.defaultSettings request))
