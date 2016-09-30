@@ -2,14 +2,16 @@
 
 ## Requirements
 
-NodeJs and Npm
-MongoDB
+ - NodeJs
+ - Npm
+ - MongoDB
 
 ## Instructions
 
 $ npm install
 
 $ gulp build
- 
+
 $ npm start
 
+Navigate to `localhost:3000`
