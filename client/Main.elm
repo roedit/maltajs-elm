@@ -22,6 +22,7 @@ main = App.program
 type alias Model = 
   { name : String
   , surname : String
+  , company : String
   , email : String
   , registered : Bool
   , signed : Bool
@@ -32,6 +33,7 @@ initialModel : Model
 initialModel =
   { name = ""
   , surname = ""
+  , company = ""
   , email = ""
   , registered = False
   , signed = False
@@ -47,6 +49,7 @@ init =
 type Msg
   = Name String
   | Surname String
+  | Company String
   | Email String
   | Register
   | PostSucceed String
@@ -59,6 +62,8 @@ update msg model =
       ( { model | name = name }, Cmd.none )
     Surname surname ->
       ( { model | surname = surname }, Cmd.none )
+    Company company ->
+      ( { model | company = company }, Cmd.none )
     Email email ->
       ( { model | email = email }, Cmd.none )
     Register ->
@@ -94,6 +99,17 @@ formView model =
         , value model.surname
         , required True
         , onInput Surname
+        ] []
+      ]
+    , fieldset [ class "row"] 
+      [ label [ for "company", class "col-xs-4" ] [ text "Company: " ]
+      , input 
+        [ id "company"
+        , type' "text"
+        , class "col-xs-4"
+        , value model.company
+        , required True
+        , onInput Company
         ] []
       ]
     , fieldset [ class "row"] 
