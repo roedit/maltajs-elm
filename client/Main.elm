@@ -8,6 +8,8 @@ import Task exposing (Task)
 import Json.Decode exposing (list, string)
 import String exposing (join, isEmpty)
 
+import Content exposing (..)
+
 main = App.program
     { init = init
     , view = view
@@ -69,6 +71,44 @@ update msg model =
 
 -- VIEW
 
+formView : Model -> Html Msg
+formView model =
+    form [ id "signup-form", class "container-fluid" ]  
+                [ fieldset [ class "row"] 
+                    [ label [ for "name", class "col-xs-4" ] [ text "Name: " ]
+                    , input 
+                        [ id "name"
+                        , type' "text"
+                        , class "col-xs-4"
+                        , value model.name
+                        , required True
+                        , onInput Name
+                        ] []
+                    ]
+                , fieldset [ class "row"] 
+                    [ label [ for "surname", class "col-xs-4" ] [ text "Surname: " ]
+                    , input 
+                        [ id "surname"
+                        , type' "text"
+                        , class "col-xs-4"
+                        , value model.surname
+                        , required True
+                        , onInput Surname
+                        ] []
+                    ]
+                , fieldset [ class "row"] 
+                    [ label [ for "email", class "col-xs-4" ] [ text "email: " ]
+                    , input 
+                        [ id "email"
+                        , type' "email"
+                        , class "col-xs-4"
+                        , value model.email
+                        , required True
+                        , onInput Email
+                        ] []
+                    ]
+                ]
+
 view : Model -> Html Msg
 view model =
     article [ class "container-fluid" ]
@@ -78,49 +118,24 @@ view model =
             [ h1 [][ text "Home and banner here"]
             , img [ src "malta.jpg" ] []
             ]
-        , eventView
+        , section []
+            [ h1 [ id "event" ] [ text "Event description"]
+            , eventView
+            ]
         , section []
             [ h1 [ id "registration" ] [ text "Registration"]
             , h2 [] [ text "MaltaJS event" ]
-            , form [ id "signup-form", class "container-fluid" ]  
-                [ fieldset [ class "row"] 
-                    [ label [ for "name", class "col-md-4" ] [ text "Name: " ]
-                    , input 
-                        [ id "name"
-                        , type' "text"
-                        , class "col-md-4"
-                        , value model.name
-                        , required True
-                        , onInput Name
-                        ] []
-                    ]
-                , fieldset [ class "row"] 
-                    [ label [ for "surname", class "col-md-4" ] [ text "Surname: " ]
-                    , input 
-                        [ id "surname"
-                        , type' "text"
-                        , class "col-md-4"
-                        , value model.surname
-                        , required True
-                        , onInput Surname
-                        ] []
-                    ]
-                , fieldset [ class "row"] 
-                    [ label [ for "email", class "col-md-4" ] [ text "email: " ]
-                    , input 
-                        [ id "email"
-                        , type' "email"
-                        , class "col-md-4"
-                        , value model.email
-                        , required True
-                        , onInput Email
-                        ] []
-                    ]
-                ]
-                , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
+            , formView model
+            , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
             ]
-        , venueView
-        , aboutView model.name
+        , section []
+            [ h1 [ id "venue" ] [ text "Venue"]
+            , venueView
+            ]
+        , section []
+            [ h1 [ id "about" ] [ text "MaltaJS"]
+            , aboutView
+            ]
         ]
 
 isFormInvalid model = isEmpty model.name || isEmpty model.surname || isEmpty model.email
@@ -135,37 +150,6 @@ headerView selected =
     , li [] [ a [ href "#venue" ] [ text "Venue" ] ]
     ]
 
-
-aboutView : String -> Html a
-aboutView name =
-    let
-        default = "Bombastic community in Malta!"
-        message =
-            if isEmpty name then
-                "We are waiting for you."
-            else
-                "We are waiting for you, " ++ name ++ "."
-    in
-        section []
-                [ h1 [ id "about" ] [ text "MaltaJS"]
-                , div []
-                    [ p [] [ text ( join " " [ default, message ])]]
-                ]
-
-venueView : Html a
-venueView = 
-    section []
-            [ h1 [ id "venue" ] [ text "Venue"]
-            , div []
-                [ p [] [ text "Super cool Microsoft's Office :-)"]]
-            ]
-
-eventView : Html a
-eventView = section []
-            [ h1 [ id "event" ] [ text "Event description"]
-            , div []
-                [ p [] [ text "Fantastic event in Malta, hosted by MaltaJS: will speak about Elm."]]
-            ]
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
