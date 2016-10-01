@@ -1,7 +1,7 @@
 module.exports= function(app) {
     var model     = require('../models/schema');
-    var nodemailer = require('../../devtools/node_modules/nodemailer');
-    var sgTransport = require('../../devtools/node_modules/nodemailer-sendgrid-transport');
+    var nodemailer = require('../../node_modules/nodemailer');
+    var sgTransport = require('../../node_modules/nodemailer-sendgrid-transport');
     /**
      * Get subscribers list
      * http://localhost:3000/api/subscribers
@@ -23,10 +23,10 @@ module.exports= function(app) {
         console.log(req.body);
         var subscriber = new model.Subscribers();
 
-        subscriber.subscriberFirstName = req.body.subscriberFirstName;
-        subscriber.subscriberLastName = req.body.subscriberLastName;
-        subscriber.subscriberCompany = req.body.subscriberCompany;
-        subscriber.subscriberEmail = req.body.subscriberEmail;
+        subscriber.subscriberFirstName = req.body.name;
+        subscriber.subscriberLastName = req.body.surname;
+        subscriber.subscriberCompany = req.body.company;
+        subscriber.subscriberEmail = req.body.email;
         subscriber.save(function(err, subscriber) {
             if (err) {
                 // if an error occurs, show it in console

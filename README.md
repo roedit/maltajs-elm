@@ -1,4 +1,17 @@
 # MaltaJS Elm event
 
+## Requirements
+
+ - NodeJs
+ - Npm
+ - MongoDB
+
+## Instructions
+
 $ npm install
-$ gulp elm-bundle
+
+$ gulp build
+
+$ npm start
+
+Navigate to `localhost:3000`

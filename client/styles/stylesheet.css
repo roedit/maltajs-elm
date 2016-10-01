@@ -17,3 +17,14 @@
     height: 300px;
     margin: auto;
 }
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+section:first-of-type {
+    margin-top: 6rem;
+}
