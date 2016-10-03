@@ -6,12 +6,11 @@ import Html.Attributes exposing ( id, type', for, value, class, href, class, req
 import Http
 import Task exposing (Task)
 import Json.Decode exposing (list, string)
-import String exposing (join, isEmpty)
-import Regex
 import Json.Encode
 import Json.Decode 
 
 import Content exposing (..)
+import Widget
 
 main = App.program
   { init = init
@@ -20,26 +19,21 @@ main = App.program
   , subscriptions = subscriptions
   }
 
+
 -- MODEL
 type alias Model = 
-  { name : String
-  , surname : String
-  , company : String
-  , email : String
-  , registered : Bool
+  { registered : Bool
   , signed : Bool
   , error : String
+  , widgetModel : Widget.Model
   }
 
 initialModel : Model
 initialModel =
-  { name = ""
-  , surname = ""
-  , company = ""
-  , email = ""
-  , registered = False
+  { registered = False
   , signed = False
   , error = ""
+  , widgetModel = Widget.initialModel
   }
 
 init : ( Model, Cmd Msg )
@@ -49,97 +43,30 @@ init =
 
 -- UPDATE
 type Msg
-  = Name String
-  | Surname String
-  | Company String
-  | Email String
-  | Register
+  = Register
   | PostSucceed String
   | PostFail Http.Error
+  | WidgetMsg Widget.Msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    Name name ->
-      ( { model | name = name }, Cmd.none )
-    Surname surname ->
-      ( { model | surname = surname }, Cmd.none )
-    Company company ->
-      ( { model | company = company }, Cmd.none )
-    Email email ->
-      ( { model | email = email }, Cmd.none )
     Register ->
       ( { model | signed = True }, registerMe model )
     PostSucceed result ->
       ( { model | registered = True }, Cmd.none )
     PostFail error ->
       ( { model | error = "Sorry, there was an error." }, Cmd.none )
+    WidgetMsg subMsg ->
+      let
+        ( updatedWidgetModel, widgetCmd ) =
+          Widget.update subMsg model.widgetModel
+      in
+        ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
 
 
 -- VIEW
-
-formView : Model -> Html Msg
-formView model =
-  form [ id "signup-form", class "container-fluid" ]  
-    [ fieldset [ class "row"] 
-      [ label [ for "name", class "col-xs-4" ] [ text "Name: " ]
-      , input 
-        [ id "name"
-        , type' "text"
-        , class "col-xs-4"
-        , value model.name
-        , required True
-        , onInput Name
-        ] []
-      ]
-    , fieldset [ class "row"] 
-      [ label [ for "surname", class "col-xs-4" ] [ text "Surname: " ]
-      , input 
-        [ id "surname"
-        , type' "text"
-        , class "col-xs-4"
-        , value model.surname
-        , required True
-        , onInput Surname
-        ] []
-      ]
-    , fieldset [ class "row"] 
-      [ label [ for "company", class "col-xs-4" ] [ text "Company: " ]
-      , input 
-        [ id "company"
-        , type' "text"
-        , class "col-xs-4"
-        , value model.company
-        , required True
-        , onInput Company
-        ] []
-      ]
-    , fieldset [ class "row"] 
-      [ label [ for "email", class "col-xs-4" ] [ text "Email: " ]
-      , input 
-        [ id "email"
-        , type' "email"
-        , class "col-xs-4"
-        , value model.email
-        , required True
-        , onInput Email
-        ] []
-      ]
-   ]
-
-alertView : Model -> Html a
-alertView model =
-  let
-    classes =
-      if (isFormInvalid model) then "alert alert-danger small" 
-      else "hide"
-  in
-    div [ class classes ]
-      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , text "please fill in all the required fields" 
-      ]
-
-
+  
 view : Model -> Html Msg
 view model =
   article [ class "container-fluid" ]
@@ -156,10 +83,9 @@ view model =
     , section []
       [ h1 [ id "registration" ] [ text "Registration"]
       , h2 [] [ text "MaltaJS event" ]
-      , formView model
-      , alertView model
+      , App.map WidgetMsg (Widget.view model.widgetModel)
+      , App.map WidgetMsg (Widget.alertView model.widgetModel)
       , button [ onClick Register ] [ text "Sign Up!" ]
-      -- , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
       ]
     , section []
       [ h1 [ id "venue" ] [ text "Venue"]
@@ -171,18 +97,6 @@ view model =
       ]
     ]
 
-isFormInvalid model = 
-  let
-    -- from http://emailregex.com/
-    regex = """[-a-z0-9~!$%^&*_=+}{\\'?]+(\\.[-a-z0-9~!$%^&*_=+}{\\'?]+)*@([a-z0-9_][-a-z0-9_]*(\\.[-a-z0-9_]+)*
-            \\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}
-            \\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,5})?$"""
-      |> Regex.regex
-      |> Regex.caseInsensitive
-  in
-    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) --|| not (Regex.contains regex model.email)
-
-isFormValid model = not (isFormInvalid model)
 
 -- todo: handle selected section
 headerView : String -> Html a 
@@ -208,13 +122,8 @@ registerMe : Model -> Cmd Msg
 registerMe model =
   let
     url = "http://localhost:3000/api/add-subscriber"
-    body = 
-      [ ("name", Json.Encode.string model.name)
-      , ("surname", Json.Encode.string model.surname)
-      , ("company", Json.Encode.string model.company)
-      , ("email", Json.Encode.string model.email)
-      ]
-      |> Json.Encode.object
+    body = model.widgetModel
+      |> Widget.formToJson
       |> Json.Encode.encode 0 
       |> Http.string
     request =
