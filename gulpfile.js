@@ -23,7 +23,7 @@ gulp.task('clean', () =>
     .pipe(clean())
 );
 
-gulp.task('build', ['clean', 'js', 'elm-bundle', 'styles'], () =>
+gulp.task('build', [ 'clean', 'js', 'elm-bundle', 'styles'], () =>
   console.log(`application ready! type 'npm start' and go to 'localhost:3000'`)
 )
 
@@ -67,5 +67,5 @@ gulp.task('js', () =>
   gulp.src('server/**/*.js')
     .pipe(concat('server.js'))
     .pipe(minify())
-    .pipe(gulp.dest(distDir))
+    .pipe(gulp.dest(serverDistDir))
 );
