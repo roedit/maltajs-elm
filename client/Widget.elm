@@ -115,13 +115,12 @@ alertView model =
 isFormInvalid model = 
   let
     -- from http://emailregex.com/
-    regex = """[-a-z0-9~!$%^&*_=+}{\\'?]+(\\.[-a-z0-9~!$%^&*_=+}{\\'?]+)*@([a-z0-9_][-a-z0-9_]*(\\.[-a-z0-9_]+)*
-            \\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}
-            \\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,5})?$"""
+    regex = "^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]{1,6})+$"
       |> Regex.regex
       |> Regex.caseInsensitive
+    res = Debug.log "regex" (Regex.contains regex model.email)
   in
-    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) --|| not (Regex.contains regex model.email)
+    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) || not (res)
 
 isFormValid model = not (isFormInvalid model)
 

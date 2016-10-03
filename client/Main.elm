@@ -6,8 +6,6 @@ import Html.Attributes exposing ( id, type', for, value, class, href, class, req
 import Http
 import Task exposing (Task)
 import Json.Decode exposing (list, string)
-import String exposing (join, isEmpty)
-import Regex
 import Json.Encode
 import Json.Decode 
 
@@ -60,11 +58,11 @@ update msg model =
     PostFail error ->
       ( { model | error = "Sorry, there was an error." }, Cmd.none )
     WidgetMsg subMsg ->
-          let
-              ( updatedWidgetModel, widgetCmd ) =
-                  Widget.update subMsg model.widgetModel
-          in
-              ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
+      let
+        ( updatedWidgetModel, widgetCmd ) =
+          Widget.update subMsg model.widgetModel
+      in
+        ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
 
 
 -- VIEW
@@ -88,7 +86,6 @@ view model =
       , App.map WidgetMsg (Widget.view model.widgetModel)
       , App.map WidgetMsg (Widget.alertView model.widgetModel)
       , button [ onClick Register ] [ text "Sign Up!" ]
-      -- , button [ onClick Register, disabled (isFormInvalid model) ] [ text "Sign Up!" ]
       ]
     , section []
       [ h1 [ id "venue" ] [ text "Venue"]
