@@ -2,15 +2,19 @@ import Html exposing (Html, text, button, div, section, article, h1, p, a, heade
 
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
-import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled)
-import Http
-import Task exposing (Task)
-import Json.Decode exposing (list, string)
-import Json.Encode
-import Json.Decode 
+import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
+-- import Task exposing (Task)
+-- import Json.Decode 
+import Scroll exposing (Move)
 
 import Content exposing (..)
+import Ports exposing (..)
 import Widget
+import Shared exposing (..)
+import HttpUtils exposing (registerMe)
+
+
+-- PROGRAM
 
 main = App.program
   { init = init
@@ -19,34 +23,12 @@ main = App.program
   , subscriptions = subscriptions
   }
 
-
--- MODEL
-type alias Model = 
-  { registered : Bool
-  , signed : Bool
-  , error : String
-  , widgetModel : Widget.Model
-  }
-
-initialModel : Model
-initialModel =
-  { registered = False
-  , signed = False
-  , error = ""
-  , widgetModel = Widget.initialModel
-  }
-
 init : ( Model, Cmd Msg )
 init =
     ( initialModel, Cmd.none )
 
 
 -- UPDATE
-type Msg
-  = Register
-  | PostSucceed String
-  | PostFail Http.Error
-  | WidgetMsg Widget.Msg
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -63,14 +45,22 @@ update msg model =
           Widget.update subMsg model.widgetModel
       in
         ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
+    Scrolling move ->
+      let
+        newModel = Debug.log "scroll" { model | scrollTop = snd(move) }
+      in
+        (newModel, Cmd.none)
 
-
+    
 -- VIEW
   
 view : Model -> Html Msg
 view model =
   article [ class "container-fluid" ]
-    [ header []
+    [ header
+      [ style
+          [ ("top", toString model.scrollTop ++ "px") ]
+      ]
       [ headerView "" ]
     , section []
       [ h1 [][ text "Home and banner here"]
@@ -111,26 +101,5 @@ headerView selected =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
-
-decoder : Json.Decode.Decoder String 
-decoder =
-    Json.Decode.at [ "result" ]
-       ( Json.Decode.string )
-
-registerMe : Model -> Cmd Msg
-registerMe model =
-  let
-    url = "http://localhost:3000/api/add-subscriber"
-    body = model.widgetModel
-      |> Widget.formToJson
-      |> Json.Encode.encode 0 
-      |> Http.string
-    request =
-      { verb = "POST"
-      , headers = [( "Content-Type", "application/json" )]
-      , url = url
-      , body = body 
-      }
-  in
-    Task.perform PostFail PostSucceed (Http.fromJson decoder (Http.send Http.defaultSettings request))
+    Sub.batch
+        [ scroll Scrolling ]
