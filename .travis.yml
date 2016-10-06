@@ -1,13 +1,10 @@
 language: haskell
 install:
-  - cabal install elm-make
-  - cabal install elm-package
-  - curl https://raw.githubusercontent.com/maxsnew/IO/master/elm-io.sh > elm-io.sh
-  - npm install jsdom
+  - npm install
   - elm-package install -y
 before_script: 
-  # - elm-make --yes --output raw-test.js Tests/Tests.elm
-  # - bash elm-io.sh raw-test.js test.js
-script:
-  - gulp build:client 
+  # - elm-make --yes --output raw-test.js tests/Tests.elm
+  # - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
+script: 
+  - gulp build:client
   # - node test.js
