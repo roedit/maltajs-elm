@@ -4,8 +4,8 @@
 
 ## Requirements
 
- - NodeJs
- - Npm
+ - NodeJs >= 4.3.2
+ - Npm >= 3.1.0
  - MongoDB
 
 ## Instructions
