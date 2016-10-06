@@ -6,7 +6,7 @@ import Json.Encode
 import Task
 
 import Shared exposing (..)
-import Widget exposing (formToJson)
+import Form exposing (formToJson)
 
 decoder : Json.Decode.Decoder String 
 decoder =
@@ -17,8 +17,8 @@ registerMe : Model -> Cmd Msg
 registerMe model =
   let
     url = "http://localhost:3000/api/add-subscriber"
-    body = model.widgetModel
-      |> Widget.formToJson
+    body = model.formModel
+      |> Form.formToJson
       |> Json.Encode.encode 0 
       |> Http.string
     request =

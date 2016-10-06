@@ -3,10 +3,16 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 99;
 }
 
 section:first-of-type {
     margin-top: 6rem;
+}
+
+article.container-fluid {
+    margin: 0 2rem;
+    overflow: hidden;
 }
 
 .content {
@@ -39,4 +45,9 @@ section:first-of-type {
 .form-error-message {
   display: inline-block;
   margin-left: 1rem;
+}
+
+article.container-fluid {
+    margin: 0 2rem;
+    overflow: hidden;
 }

@@ -1,6 +1,6 @@
 module Shared exposing (..)
 
-import Widget exposing (Model)
+import Form exposing (Model)
 import Scroll exposing (Move)
 import Http exposing (Error)
 
@@ -11,7 +11,7 @@ type alias Model =
   { registered : Bool
   , signed : Bool
   , error : String
-  , widgetModel : Widget.Model
+  , formModel : Form.Model
   , scrollTop: Float 
   }
 
@@ -20,7 +20,7 @@ initialModel =
   { registered = False
   , signed = False
   , error = ""
-  , widgetModel = Widget.initialModel
+  , formModel = Form.initialModel
   , scrollTop = 0.0 
   }
 
@@ -31,5 +31,5 @@ type Msg
   = Register
   | PostSucceed String
   | PostFail Error
-  | WidgetMsg Widget.Msg
+  | FormMsg Form.Msg
   | Scrolling Move 

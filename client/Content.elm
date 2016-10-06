@@ -21,7 +21,7 @@ defaultClassesWith customClasses =
   [ defaultClasses ] ++ customClasses
   |> String.join " "
 
-defaultClasses = String.join " " [ "col-xs-12" ]
+defaultClasses = String.join " " [ "col-xs-11" ]
 
 markDownWithDefault = Markdown.toHtml [ class defaultClasses ]
 

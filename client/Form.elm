@@ -1,4 +1,4 @@
-module Widget exposing (..)
+module Form exposing (..)
 
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label, fieldset, img, span)
 
@@ -47,11 +47,12 @@ type Msg
 
 -- VIEW
 
+formFieldClasses = String.join " " [ "form-group", "col-xs-9" ]
 
 view : Model -> Html Msg
 view model =
     form [ id "signup-form", class "container-fluid" ]  
-    [ fieldset [ class "form-group"] 
+    [ fieldset [ class formFieldClasses ]
       [ label [ for "name" ] [ text "Name: " ]
       , input 
         [ id "name"
@@ -62,7 +63,7 @@ view model =
         , onInput Name
         ] []
       ]
-    , fieldset [ class "form-group"] 
+    , fieldset [ class formFieldClasses ]
       [ label [ for "surname" ] [ text "Surname: " ]
       , input 
         [ id "surname"
@@ -73,7 +74,7 @@ view model =
         , onInput Surname
         ] []
       ]
-    , fieldset [ class "form-group"] 
+    , fieldset [ class formFieldClasses ]
       [ label [ for "company" ] [ text "Company: " ]
       , input 
         [ id "company"
@@ -84,7 +85,7 @@ view model =
         , onInput Company
         ] []
       ]
-    , fieldset [ class "form-group"] 
+    , fieldset [ class formFieldClasses ]
       [ label [ for "email" ] [ text "Email: " ]
       , input 
         [ id "email"
@@ -118,9 +119,9 @@ isFormInvalid model =
     regex = "^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]{1,6})+$"
       |> Regex.regex
       |> Regex.caseInsensitive
-    res = Debug.log "regex" (Regex.contains regex model.email)
+    isMailOk = Regex.contains regex model.email
   in
-    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) || not (res)
+    (isEmpty model.name || isEmpty model.surname || isEmpty model.email) || not isMailOk
 
 isFormValid model = not (isFormInvalid model)
 

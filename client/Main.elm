@@ -3,13 +3,12 @@ import Html exposing (Html, text, button, div, section, article, h1, p, a, heade
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
 import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
--- import Task exposing (Task)
--- import Json.Decode 
 import Scroll exposing (Move)
+import String
 
 import Content exposing (..)
 import Ports exposing (..)
-import Widget
+import Form
 import Shared exposing (..)
 import HttpUtils exposing (registerMe)
 
@@ -39,20 +38,21 @@ update msg model =
       ( { model | registered = True }, Cmd.none )
     PostFail error ->
       ( { model | error = "Sorry, there was an error." }, Cmd.none )
-    WidgetMsg subMsg ->
+    FormMsg subMsg ->
       let
-        ( updatedWidgetModel, widgetCmd ) =
-          Widget.update subMsg model.widgetModel
+        ( updatedFormModel, widgetCmd ) =
+          Form.update subMsg model.formModel
       in
-        ( { model | widgetModel = updatedWidgetModel }, Cmd.map WidgetMsg widgetCmd )
+        ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
     Scrolling move ->
       let
-        newModel = Debug.log "scroll" { model | scrollTop = snd(move) }
+        newModel = { model | scrollTop = snd(move) }
       in
         (newModel, Cmd.none)
 
     
 -- VIEW
+
   
 view : Model -> Html Msg
 view model =
@@ -62,32 +62,32 @@ view model =
           [ ("top", toString model.scrollTop ++ "px") ]
       ]
       [ headerView "" ]
-    , section []
+    , section [ class "row" ]
       [ h1 [][ text "Home and banner here"]
       , img [ src "malta.jpg" ] []
       ]
-    , section []
+    , section [ class "row" ]
       [ h1 [ id "event" ] [ text "Event description"]
       , eventView
       ]
-    , section []
+    , section [ class "row" ]
       [ h1 [ id "registration" ] [ text "Registration"]
       , h2 [] [ text "MaltaJS event" ]
-      , App.map WidgetMsg (Widget.view model.widgetModel)
+      , App.map FormMsg (Form.view model.formModel)
       , div [ class "form-footer" ]
-        [ App.map WidgetMsg (Widget.alertView model.widgetModel)
+        [ App.map FormMsg (Form.alertView model.formModel)
         , button 
           [ onClick Register
           , class "btn btn-default"
-          , disabled (Widget.isFormInvalid model.widgetModel)
+          , disabled (Form.isFormInvalid model.formModel)
           ] [ text "Sign Up!" ]
         ]
       ]
-    , section []
+    , section [ class "row" ]
       [ h1 [ id "venue" ] [ text "Venue"]
       , venueView
       ]
-    , section []
+    , section [ class "row" ]
       [ h1 [ id "about" ] [ text "MaltaJS"]
       , aboutView
       ]
