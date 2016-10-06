@@ -1,6 +1,6 @@
 language: haskell
 node_js:
-  - 4.0.0
+  - 4.3.2
 install:
   - npm install
   - elm-package install -y
