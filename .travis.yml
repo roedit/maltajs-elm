@@ -7,6 +7,7 @@ install:
 before_script: 
   # - elm-make --yes --output raw-test.js tests/Tests.elm
   # - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
+  - node --version
 script: 
   - gulp build:client
   # - node test.js
