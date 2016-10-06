@@ -112,15 +112,10 @@ alertView model =
 
 submittedView : Model -> Html a
 submittedView model =
-  let
-    classes =
-      if (isFormInvalid model) then "alert alert-success small"
-      else "hide"
-  in
-    div [ class "alert alert-success smal" ]
-      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
-      ]
+  div [ class "alert alert-success smal" ]
+    [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
+    ]
 
 -- UTILS
 
