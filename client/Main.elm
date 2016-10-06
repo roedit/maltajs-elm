@@ -35,7 +35,7 @@ update msg model =
     Register ->
       ( { model | signed = True }, registerMe model )
     PostSucceed result ->
-      ( { model | registered = True }, Cmd.none )
+        ( { model | registered = True }, Cmd.none )
     PostFail error ->
       ( { model | error = "Sorry, there was an error." }, Cmd.none )
     FormMsg subMsg ->
@@ -56,6 +56,11 @@ update msg model =
   
 view : Model -> Html Msg
 view model =
+  let
+    success =
+      if model.registered then App.map FormMsg (Form.submittedView model.formModel)
+      else  Html.text ""
+  in
   article [ class "container-fluid" ]
     [ header
       [ style
@@ -76,6 +81,8 @@ view model =
       , App.map FormMsg (Form.view model.formModel)
       , div [ class "form-footer" ]
         [ App.map FormMsg (Form.alertView model.formModel)
+        , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
+        , success
         , button 
           [ onClick Register
           , class "btn btn-default"
