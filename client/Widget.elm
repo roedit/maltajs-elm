@@ -51,45 +51,45 @@ type Msg
 view : Model -> Html Msg
 view model =
     form [ id "signup-form", class "container-fluid" ]  
-    [ fieldset [ class "row"] 
-      [ label [ for "name", class "col-xs-4" ] [ text "Name: " ]
+    [ fieldset [ class "form-group"] 
+      [ label [ for "name" ] [ text "Name: " ]
       , input 
         [ id "name"
         , type' "text"
-        , class "col-xs-4"
+        , class "form-control"
         , value model.name
         , required True
         , onInput Name
         ] []
       ]
-    , fieldset [ class "row"] 
-      [ label [ for "surname", class "col-xs-4" ] [ text "Surname: " ]
+    , fieldset [ class "form-group"] 
+      [ label [ for "surname" ] [ text "Surname: " ]
       , input 
         [ id "surname"
         , type' "text"
-        , class "col-xs-4"
+        , class "form-control"
         , value model.surname
         , required True
         , onInput Surname
         ] []
       ]
-    , fieldset [ class "row"] 
-      [ label [ for "company", class "col-xs-4" ] [ text "Company: " ]
+    , fieldset [ class "form-group"] 
+      [ label [ for "company" ] [ text "Company: " ]
       , input 
         [ id "company"
         , type' "text"
-        , class "col-xs-4"
+        , class "form-control"
         , value model.company
         , required True
         , onInput Company
         ] []
       ]
-    , fieldset [ class "row"] 
-      [ label [ for "email", class "col-xs-4" ] [ text "Email: " ]
+    , fieldset [ class "form-group"] 
+      [ label [ for "email" ] [ text "Email: " ]
       , input 
         [ id "email"
         , type' "email"
-        , class "col-xs-4"
+        , class "form-control"
         , value model.email
         , required True
         , onInput Email
@@ -106,7 +106,7 @@ alertView model =
   in
     div [ class classes ]
       [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , text "please fill in all the required fields" 
+      , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
       ]
 
 

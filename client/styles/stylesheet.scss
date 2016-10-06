@@ -1,3 +1,14 @@
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+section:first-of-type {
+    margin-top: 6rem;
+}
+
 .content {
     position: absolute;
     top: 0;
@@ -18,13 +29,14 @@
     margin: auto;
 }
 
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+.form-footer {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
-section:first-of-type {
-    margin-top: 6rem;
+.form-error-message {
+  display: inline-block;
+  margin-left: 1rem;
 }

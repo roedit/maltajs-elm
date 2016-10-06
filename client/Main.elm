@@ -74,8 +74,14 @@ view model =
       [ h1 [ id "registration" ] [ text "Registration"]
       , h2 [] [ text "MaltaJS event" ]
       , App.map WidgetMsg (Widget.view model.widgetModel)
-      , App.map WidgetMsg (Widget.alertView model.widgetModel)
-      , button [ onClick Register ] [ text "Sign Up!" ]
+      , div [ class "form-footer" ]
+        [ App.map WidgetMsg (Widget.alertView model.widgetModel)
+        , button 
+          [ onClick Register
+          , class "btn btn-default"
+          , disabled (Widget.isFormInvalid model.widgetModel)
+          ] [ text "Sign Up!" ]
+        ]
       ]
     , section []
       [ h1 [ id "venue" ] [ text "Venue"]

@@ -25,7 +25,11 @@ gulp.task('clean', () =>
     .pipe(clean())
 );
 
-gulp.task('build:client', [ 'clean', 'elm-bundle', 'styles'], () =>
+gulp.task('build:client', [ 'elm-bundle', 'styles' ], () =>
+  console.log(`client ready in the /public folder!`)
+)
+
+gulp.task('rebuild:client', [ 'clean', 'elm-bundle', 'styles' ], () =>
   console.log(`client ready in the /public folder!`)
 )
 
