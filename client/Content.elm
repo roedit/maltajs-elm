@@ -1,4 +1,4 @@
-module Content exposing (..)
+module Content exposing (aboutView, venueView, eventView)
 
 {-| This module hosts the actual content of the page. Thus can be edited right here,
     using Markdown. 
@@ -12,8 +12,18 @@ module Content exposing (..)
 -}
 
 import Html exposing (Html, h1, div, p, text)
+import Html.Attributes exposing (class)
 import Markdown
+import String
 
+defaultClassesWith : List String -> String
+defaultClassesWith customClasses =
+  [ defaultClasses ] ++ customClasses
+  |> String.join " "
+
+defaultClasses = String.join " " [ "col-xs-11" ]
+
+markDownWithDefault = Markdown.toHtml [ class defaultClasses ]
 
 {-| Renders the HTML for the About section: what is MaltaJS 
 
@@ -21,7 +31,7 @@ import Markdown
 -}
 aboutView : Html a
 aboutView =
-  Markdown.toHtml []
+  markDownWithDefault
   """
 MaltaJS is the new front-end community in Malta: born in 2016 as internal guild at Betsson,
 now is open to all the developers on the island.
@@ -35,7 +45,7 @@ Our aim is to provide a place to share knowledge and technologies, through meeti
 -}
 venueView : Html a
 venueView =
-  Markdown.toHtml []
+  markDownWithDefault
   """
 This event will be hosted by Microsoft.
   """
@@ -46,7 +56,7 @@ This event will be hosted by Microsoft.
 -}
 eventView : Html a
 eventView =
-  Markdown.toHtml []
+  markDownWithDefault
   """
 We will talk about [Elm](http://elm-lang.org/), a new functional language which compiles to Javascript and
 enforce immutability and single source of truth.
