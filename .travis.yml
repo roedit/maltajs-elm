@@ -1,15 +1,13 @@
 language: haskell
 node_js:
-  - "4"
-env:
-  - CXX=g++-4.8
+  - 4.6.0
 install:
   - npm install
   - elm-package install -y
-before_script: 
+# before_script: 
   # - elm-make --yes --output raw-test.js tests/Tests.elm
   # - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
-  - npm install -g gulp
+  # - npm install -g gulp
 script: 
   - gulp build:client
   # - node test.js
