@@ -3,8 +3,10 @@ import Html exposing (Html, text, button, div, section, article, h1, p, a, heade
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
 import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
+import Platform.Sub
 import Scroll exposing (Move)
 import String
+import StickyHeader
 
 import Content exposing (..)
 import Ports exposing (..)
@@ -44,11 +46,14 @@ update msg model =
           Form.update subMsg model.formModel
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
-    Scrolling move ->
-      let
-        newModel = { model | scrollTop = snd(move) }
-      in
-        (newModel, Cmd.none)
+    StickyHeaderMsg subMsg->
+        let
+            ( updatedHeaderModel, headerCmd ) =
+                StickyHeader.update subMsg model.headerModel
+        in
+            ( { model | headerModel = updatedHeaderModel }
+            , Cmd.map StickyHeaderMsg headerCmd
+            )
 
     
 -- VIEW
@@ -62,11 +67,7 @@ view model =
       else  Html.text ""
   in
   article [ class "container-fluid" ]
-    [ header
-      [ style
-          [ ("top", toString model.scrollTop ++ "px") ]
-      ]
-      [ headerView "" ]
+    [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
     , section [ class "row" ]
       [ h1 [][ text "Home and banner here"]
       , img [ src "malta.jpg" ] []
@@ -101,18 +102,7 @@ view model =
     ]
 
 
--- todo: handle selected section
-headerView : String -> Html a 
-headerView selected = 
-  ol [ class "breadcrumb" ]
-  [ li [] [ a [ href "#about" ] [ text "About" ] ]
-  , li [] [ a [ href "#event" ] [ text "Event" ] ]
-  , li [] [ a [ href "#registration" ] [ text "Registration" ] ]
-  , li [] [ a [ href "#venue" ] [ text "Venue" ] ]
-  ]
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch
-        [ scroll Scrolling ]
+    List.map (Platform.Sub.map StickyHeaderMsg) (StickyHeader.subscriptions Ports.scroll model.headerModel)
+        |> Sub.batch
