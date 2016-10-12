@@ -27,7 +27,7 @@ headerLinks =
 initialModel : Model
 initialModel =
   let
-    headerBrand = StickyHeader.buildItem "MaltaJS" [ ]
+    headerBrand = StickyHeader.buildItem "MaltaJS" [ "brand" ]
   in
     { registered = False
     , signed = False

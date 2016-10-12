@@ -1,9 +1,43 @@
+$primary: #cf152b;
+
 header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     z-index: 99;
+    width: 100%;
+    height: auto;
+    background-color: $primary;
+    font-family: sans-serif;
+    overflow: hidden;
+    a {
+        color: white;
+        margin: 0 1.4rem;
+        text-decoration: none;
+        &:not(.brand) { 
+            &:hover {
+                text-decoration: overline;
+                color: black;
+            }
+            &.active {
+                text-decoration: line-through;
+            }
+        }
+        &.brand {
+            &:hover, &.active {
+                text-decoration: none;
+                color: white;
+            }
+        }
+    }
+    .brand {
+        font-variant: small-caps;
+    }
+}
+
+nav {
+    align-self: flex-end;
 }
 
 section:first-of-type {
@@ -50,4 +84,15 @@ article.container-fluid {
 article.container-fluid {
     margin: 0 2rem;
     overflow: hidden;
+}
+
+@media (max-width: 700px) {
+    body {
+        font-size: 14px;
+    }
+    header {
+        a {
+            margin: 0 0.28rem;
+        }
+    }
 }
