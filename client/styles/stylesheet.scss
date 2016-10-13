@@ -41,7 +41,7 @@ nav {
 }
 
 section:first-of-type {
-    margin-top: 6rem;
+    margin-top: 8rem;
 }
 
 article.container-fluid {
@@ -64,8 +64,9 @@ article.container-fluid {
 }
 
 .logo {
-    width: 300px;
-    height: 300px;
+    display: block;
+    width: 30rem;
+    height: 30rem;
     margin: auto;
 }
 
@@ -84,6 +85,14 @@ article.container-fluid {
 article.container-fluid {
     margin: 0 2rem;
     overflow: hidden;
+}
+
+.main {
+  margin: 0 1.2rem;
+}
+
+.btn.btn-default {
+  width: 100%;
 }
 
 @media (max-width: 700px) {

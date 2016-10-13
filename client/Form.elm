@@ -98,17 +98,7 @@ view model =
       ]
    ]
 
-alertView : Model -> Html a
-alertView model =
-  let
-    classes =
-      if (isFormInvalid model) then "alert alert-danger small" 
-      else "hide"
-  in
-    div [ class classes ]
-      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
-      ]
+
 
 submittedView : Model -> Html a
 submittedView model =

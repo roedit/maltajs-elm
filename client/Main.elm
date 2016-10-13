@@ -58,6 +58,16 @@ update msg model =
     
 -- VIEW
 
+renderAlert : Model -> Html Msg
+renderAlert model =
+  if (Form.isFormInvalid model.formModel) then
+    div [ class "alert alert-danger small" ]
+      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+      , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
+      ]
+  else
+    privacyView
+  
   
 view : Model -> Html Msg
 view model =
@@ -66,38 +76,38 @@ view model =
       if model.registered then App.map FormMsg (Form.submittedView model.formModel)
       else  Html.text ""
   in
-  article [ class "container-fluid" ]
+  article []
     [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
-    , section [ class "row" ]
-      [ h1 [][ text "Home and banner here"]
-      , img [ src "malta.jpg" ] []
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "event" ] [ text "Event description"]
-      , eventView
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "registration" ] [ text "Registration"]
-      , h2 [] [ text "MaltaJS event" ]
-      , App.map FormMsg (Form.view model.formModel)
-      , div [ class "form-footer" ]
-        [ App.map FormMsg (Form.alertView model.formModel)
-        , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
-        , success
-        , button 
-          [ onClick Register
-          , class "btn btn-default"
-          , disabled (Form.isFormInvalid model.formModel)
-          ] [ text "Sign Up!" ]
+    , div [ class "container-fluid main" ]
+      [ section [ class "row" ]
+        [ img [ src "logo.jpg", class "logo" ] [] ]
+      , section [ class "row" ]
+        [ h1 [ id "event" ] [ text "Event description"]
+        , eventView
         ]
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "venue" ] [ text "Venue"]
-      , venueView
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "about" ] [ text "MaltaJS"]
-      , aboutView
+      , section [ class "row" ]
+        [ h1 [ id "registration" ] [ text "Registration"]
+        , h2 [] [ text "MaltaJS event" ]
+        , App.map FormMsg (Form.view model.formModel)
+        , div [ class "form-footer" ]
+          [ renderAlert model
+          , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
+          , success
+          , button 
+            [ onClick Register
+            , class "btn btn-default"
+            , disabled (Form.isFormInvalid model.formModel)
+            ] [ text "Sign Up!" ]
+          ]
+        ]
+      , section [ class "row" ]
+        [ h1 [ id "venue" ] [ text "Venue"]
+        , venueView
+        ]
+      , section [ class "row" ]
+        [ h1 [ id "about" ] [ text "MaltaJS"]
+        , aboutView
+        ]
       ]
     ]
 
