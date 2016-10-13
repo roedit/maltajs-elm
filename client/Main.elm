@@ -61,12 +61,16 @@ update msg model =
 renderAlert : Model -> Html Msg
 renderAlert model =
   if (Form.isFormInvalid model.formModel) then
-    div [ class "alert alert-danger small" ]
+    div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
       [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
+      -- , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
+      , formErrorView
       ]
   else
-    privacyView
+    div [ class "alert alert-info small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-info-sign" ] []
+      , privacyView  
+      ]
   
   
 view : Model -> Html Msg
@@ -86,16 +90,15 @@ view model =
         , eventView
         ]
       , section [ class "row" ]
-        [ h1 [ id "registration" ] [ text "Registration"]
-        , h2 [] [ text "MaltaJS event" ]
+        [ h1 [ id "registration" ] [ text "Save your seat!"]
         , App.map FormMsg (Form.view model.formModel)
-        , div [ class "form-footer" ]
+        , div [ class "form-footer container-fluid" ]
           [ renderAlert model
           , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
           , success
           , button 
             [ onClick Register
-            , class "btn btn-default"
+            , class "btn btn-default col-xs-12 col-sm-9"
             , disabled (Form.isFormInvalid model.formModel)
             ] [ text "Sign Up!" ]
           ]

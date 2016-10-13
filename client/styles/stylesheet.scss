@@ -2,7 +2,7 @@ $primary: #cf152b;
 
 header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     position: absolute;
     z-index: 99;
@@ -11,6 +11,8 @@ header {
     background-color: $primary;
     font-family: sans-serif;
     overflow: hidden;
+    border-bottom: 0.18rem solid white;
+
     a {
         color: white;
         margin: 0 1.4rem;
@@ -37,11 +39,17 @@ header {
 }
 
 nav {
-    align-self: flex-end;
+    width: 100%;
+    justify-content: space-around;
+    display: flex;
 }
 
 section:first-of-type {
     margin-top: 8rem;
+}
+
+section.row {
+    padding: 4rem 0;
 }
 
 article.container-fluid {

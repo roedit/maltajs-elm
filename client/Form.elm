@@ -47,7 +47,7 @@ type Msg
 
 -- VIEW
 
-formFieldClasses = String.join " " [ "form-group", "col-xs-9" ]
+formFieldClasses = String.join " " [ "form-group", "col-xs-12", "col-sm-9" ]
 
 view : Model -> Html Msg
 view model =
