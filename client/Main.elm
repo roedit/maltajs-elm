@@ -4,7 +4,6 @@ import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
 import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
 import Platform.Sub
-import Scroll exposing (Move)
 import String
 import StickyHeader
 
@@ -17,6 +16,7 @@ import HttpUtils exposing (registerMe)
 
 -- PROGRAM
 
+main : Program Never
 main = App.program
   { init = init
   , view = view
@@ -89,7 +89,7 @@ view model =
         [ h1 [ id "event" ] [ text "Event description"]
         , eventView
         ]
-      , section [ class "row" ]
+      , section [ class "row jumbotron" ]
         [ h1 [ id "registration" ] [ text "Save your seat!"]
         , App.map FormMsg (Form.view model.formModel)
         , div [ class "form-footer container-fluid" ]

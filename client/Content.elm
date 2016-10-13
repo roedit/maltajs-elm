@@ -74,7 +74,7 @@ privacyView =
   -- Markdown.toHtml [ class (String.join " " ["alert", "small", "alert-info"]) ]
   markDownWithDefault
   """
-By signing up, you agree with with our [privacy policy](/privacy-policy).
+By signing up, you agree with with our <a href="privacy-policy" target="_blank">privacy policy</a>.
   """
   
 formErrorView : Html a
