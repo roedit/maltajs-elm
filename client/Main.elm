@@ -1,4 +1,4 @@
-import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label, fieldset, img, span)
+import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, h3, text, form, input, label, fieldset, img, span)
 
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
@@ -39,7 +39,9 @@ update msg model =
     PostSucceed result ->
         ( { model | registered = True }, Cmd.none )
     PostFail error ->
-      ( { model | error = "Sorry, there was an error." }, Cmd.none )
+      let er = Debug.log "Post failed" (toString error) 
+      in
+      ( { model | error = er }, Cmd.none )
     FormMsg subMsg ->
       let
         ( updatedFormModel, widgetCmd ) =
@@ -63,9 +65,18 @@ renderAlert model =
   if (Form.isFormInvalid model.formModel) then
     div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
       [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      -- , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
       , formErrorView
       ]
+  else if not((String.isEmpty model.error)) then
+    div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+      , p [] [ text model.error ]
+      ]
+  else if (model.registered) then
+    div [ class "alert alert-success small" ]
+    [ span [ class "glyphicon glyphicon-info-sign" ] []
+    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
+    ]
   else
     div [ class "alert alert-info small col-xs-12 col-sm-9" ]
       [ span [ class "glyphicon glyphicon-info-sign" ] []
@@ -76,43 +87,40 @@ renderAlert model =
 view : Model -> Html Msg
 view model =
   let
-    success =
-      if model.registered then App.map FormMsg (Form.submittedView model.formModel)
-      else  Html.text ""
+    disableForm = (Form.isFormInvalid model.formModel) || model.registered
   in
-  article []
-    [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
-    , div [ class "container-fluid main" ]
-      [ section [ class "row" ]
-        [ img [ src "logo.jpg", class "logo" ] [] ]
-      , section [ class "row" ]
-        [ h1 [ id "event" ] [ text "Event description"]
-        , eventView
-        ]
-      , section [ class "row jumbotron" ]
-        [ h1 [ id "registration" ] [ text "Save your seat!"]
-        , App.map FormMsg (Form.view model.formModel)
-        , div [ class "form-footer container-fluid" ]
-          [ renderAlert model
-          , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
-          , success
-          , button 
-            [ onClick Register
-            , class "btn btn-default col-xs-12 col-sm-9"
-            , disabled (Form.isFormInvalid model.formModel)
-            ] [ text "Sign Up!" ]
+    article []
+      [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
+      , div [ class "container-fluid main" ]
+        [ section [ class "row" ]
+          [ img [ src "logo.jpg", class "logo" ] [] ]
+        , section [ class "row" ]
+          [ h1 [ id "event" ] [ text "Elm and functional programming"]
+          , eventView
+          ]
+        , section [ class "row jumbotron" ]
+          [ h1 [ id "registration" ] [ text "Save your seat!"]
+          , h3 [] [ text "Saturday 29 October, 12.00" ]
+          , App.map FormMsg (Form.view model.formModel)
+          , div [ class "form-footer container-fluid" ]
+            [ renderAlert model
+            , button 
+              [ onClick Register
+              , class "btn btn-default col-xs-12 col-sm-9"
+              , disabled disableForm
+              ] [ text "Sign Up!" ]
+            ]
+          ]
+        , section [ class "row" ]
+          [ h1 [ id "venue" ] [ text "The venue"]
+          , venueView
+          ]
+        , section [ class "row" ]
+          [ h1 [ id "about" ] [ text "MaltaJS"]
+          , aboutView
           ]
         ]
-      , section [ class "row" ]
-        [ h1 [ id "venue" ] [ text "Venue"]
-        , venueView
-        ]
-      , section [ class "row" ]
-        [ h1 [ id "about" ] [ text "MaltaJS"]
-        , aboutView
-        ]
       ]
-    ]
 
 
 subscriptions : Model -> Sub Msg

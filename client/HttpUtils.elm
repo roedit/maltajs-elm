@@ -16,6 +16,7 @@ decoder =
 registerMe : Model -> Cmd Msg
 registerMe model =
   let
+    -- url = "http://localhost:3000/api/add-subscriberu"
     url = "http://localhost:3000/api/add-subscriber"
     body = model.formModel
       |> Form.formToJson

@@ -97,7 +97,16 @@ article.container-fluid {
 
 .main {
   margin: 0 1.2rem;
+  background-color: white;
 }
+
+// body {
+//   background-image: radial-gradient(circle, #969590, #424845);
+//   background-image: -o-radial-gradient(circle, #969590, #424845);
+//   background-image: -ms-radial-gradient(circle, #969590, #424845);
+//   background-image: -moz-radial-gradient(circle, #969590, #424845);
+//   background-image: -webkit-radial-gradient(circle, #969590, #424845);
+// }
 
 @media (max-width: 700px) {
     body {
@@ -120,7 +129,10 @@ article.container-fluid {
 
 
 @media (min-width: 1000px) {
+    body {
+      font-size: 16px;
+    }
     .main {
-        margin: 0 10rem;
+        margin: 0 20rem;
     }
 }

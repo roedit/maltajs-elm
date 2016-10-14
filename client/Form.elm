@@ -99,14 +99,6 @@ view model =
    ]
 
 
-
-submittedView : Model -> Html a
-submittedView model =
-  div [ class "alert alert-success smal" ]
-    [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
-    ]
-
 -- UTILS
 
 isFormInvalid model = 
