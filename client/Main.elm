@@ -3,8 +3,9 @@ import Html exposing (Html, text, button, div, section, article, h1, p, a, heade
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
 import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
-import Scroll exposing (Move)
+import Platform.Sub
 import String
+import StickyHeader
 
 import Content exposing (..)
 import Ports exposing (..)
@@ -15,6 +16,7 @@ import HttpUtils exposing (registerMe)
 
 -- PROGRAM
 
+main : Program Never
 main = App.program
   { init = init
   , view = view
@@ -35,7 +37,7 @@ update msg model =
     Register ->
       ( { model | signed = True }, registerMe model )
     PostSucceed result ->
-      ( { model | registered = True }, Cmd.none )
+        ( { model | registered = True }, Cmd.none )
     PostFail error ->
       ( { model | error = "Sorry, there was an error." }, Cmd.none )
     FormMsg subMsg ->
@@ -44,68 +46,76 @@ update msg model =
           Form.update subMsg model.formModel
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
-    Scrolling move ->
-      let
-        newModel = { model | scrollTop = snd(move) }
-      in
-        (newModel, Cmd.none)
+    StickyHeaderMsg subMsg->
+        let
+            ( updatedHeaderModel, headerCmd ) =
+                StickyHeader.update subMsg model.headerModel
+        in
+            ( { model | headerModel = updatedHeaderModel }
+            , Cmd.map StickyHeaderMsg headerCmd
+            )
 
     
 -- VIEW
 
+renderAlert : Model -> Html Msg
+renderAlert model =
+  if (Form.isFormInvalid model.formModel) then
+    div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+      -- , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
+      , formErrorView
+      ]
+  else
+    div [ class "alert alert-info small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-info-sign" ] []
+      , privacyView  
+      ]
+  
   
 view : Model -> Html Msg
 view model =
-  article [ class "container-fluid" ]
-    [ header
-      [ style
-          [ ("top", toString model.scrollTop ++ "px") ]
-      ]
-      [ headerView "" ]
-    , section [ class "row" ]
-      [ h1 [][ text "Home and banner here"]
-      , img [ src "malta.jpg" ] []
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "event" ] [ text "Event description"]
-      , eventView
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "registration" ] [ text "Registration"]
-      , h2 [] [ text "MaltaJS event" ]
-      , App.map FormMsg (Form.view model.formModel)
-      , div [ class "form-footer" ]
-        [ App.map FormMsg (Form.alertView model.formModel)
-        , button 
-          [ onClick Register
-          , class "btn btn-default"
-          , disabled (Form.isFormInvalid model.formModel)
-          ] [ text "Sign Up!" ]
+  let
+    success =
+      if model.registered then App.map FormMsg (Form.submittedView model.formModel)
+      else  Html.text ""
+  in
+  article []
+    [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
+    , div [ class "container-fluid main" ]
+      [ section [ class "row" ]
+        [ img [ src "logo.jpg", class "logo" ] [] ]
+      , section [ class "row" ]
+        [ h1 [ id "event" ] [ text "Event description"]
+        , eventView
         ]
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "venue" ] [ text "Venue"]
-      , venueView
-      ]
-    , section [ class "row" ]
-      [ h1 [ id "about" ] [ text "MaltaJS"]
-      , aboutView
+      , section [ class "row jumbotron" ]
+        [ h1 [ id "registration" ] [ text "Save your seat!"]
+        , App.map FormMsg (Form.view model.formModel)
+        , div [ class "form-footer container-fluid" ]
+          [ renderAlert model
+          , (if (String.isEmpty model.error) then Html.text "" else (p [] [ text model.error ]))
+          , success
+          , button 
+            [ onClick Register
+            , class "btn btn-default col-xs-12 col-sm-9"
+            , disabled (Form.isFormInvalid model.formModel)
+            ] [ text "Sign Up!" ]
+          ]
+        ]
+      , section [ class "row" ]
+        [ h1 [ id "venue" ] [ text "Venue"]
+        , venueView
+        ]
+      , section [ class "row" ]
+        [ h1 [ id "about" ] [ text "MaltaJS"]
+        , aboutView
+        ]
       ]
     ]
 
 
--- todo: handle selected section
-headerView : String -> Html a 
-headerView selected = 
-  ol [ class "breadcrumb" ]
-  [ li [] [ a [ href "#about" ] [ text "About" ] ]
-  , li [] [ a [ href "#event" ] [ text "Event" ] ]
-  , li [] [ a [ href "#registration" ] [ text "Registration" ] ]
-  , li [] [ a [ href "#venue" ] [ text "Venue" ] ]
-  ]
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch
-        [ scroll Scrolling ]
+    List.map (Platform.Sub.map StickyHeaderMsg) (StickyHeader.subscriptions Ports.scroll model.headerModel)
+        |> Sub.batch

@@ -47,7 +47,7 @@ type Msg
 
 -- VIEW
 
-formFieldClasses = String.join " " [ "form-group", "col-xs-9" ]
+formFieldClasses = String.join " " [ "form-group", "col-xs-12", "col-sm-9" ]
 
 view : Model -> Html Msg
 view model =
@@ -98,18 +98,14 @@ view model =
       ]
    ]
 
-alertView : Model -> Html a
-alertView model =
-  let
-    classes =
-      if (isFormInvalid model) then "alert alert-danger small" 
-      else "hide"
-  in
-    div [ class classes ]
-      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , p [ class "text-danger form-error-message" ] [ text "please fill in all the required fields" ]  
-      ]
 
+
+submittedView : Model -> Html a
+submittedView model =
+  div [ class "alert alert-success smal" ]
+    [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
+    ]
 
 -- UTILS
 
