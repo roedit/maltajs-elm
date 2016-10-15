@@ -70,12 +70,13 @@ renderAlert model =
   else if not((String.isEmpty model.error)) then
     div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
       [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-      , p [] [ text model.error ]
+      , p [] [ text "We apologize, something went wrong." ]
+      , p [ class "hide" ] [ text model.error ]
       ]
   else if (model.registered) then
     div [ class "alert alert-success small" ]
     [ span [ class "glyphicon glyphicon-info-sign" ] []
-    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
+    , p [] [ text "You're registered for the event!" ]  
     ]
   else
     div [ class "alert alert-info small col-xs-12 col-sm-9" ]
