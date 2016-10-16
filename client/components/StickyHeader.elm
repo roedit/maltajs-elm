@@ -23,7 +23,7 @@ module StickyHeader exposing
 -}
 
 import Html
-import Html exposing (div, header, text, h1, nav, a, img, span, ul, li)
+import Html exposing (div, header, text, h1, nav, a, img, span, ul, li, button)
 import Html.Attributes exposing (href, class)
 import Html.Events exposing (onClick)
 import Animation exposing (px)
@@ -100,6 +100,7 @@ type alias Model =
     , speedUp : Int
     , speedDown : Int
     , active : Maybe Int
+    , headerCollapsed : Bool
     }
 
 {-| Helper function to initialize the header's model. It accepts an optional brand and a list of links.
@@ -122,6 +123,7 @@ initialModel logo brand links =
     , speedUp = 50
     , speedDown = 500
     , active = Nothing
+    , headerCollapsed = True
     }
 
 {-| The messages being used for scroll events and header's movement. Are to be put in union with your message type.
@@ -136,6 +138,7 @@ type Msg
     = Header Move
     | Animate Animation.Msg
     | Select Int
+    | ToggleNavbar
 
 init =
     ( initialModel, Cmd.none )
@@ -200,6 +203,12 @@ update action model =
                 Scroll.handle [ onGrow model, onShrink model ] move newModel
         Select index ->
             ({ model | active = Just index }, Cmd.none)
+        ToggleNavbar ->
+            let
+                newModel =
+                    { model | headerCollapsed = not model.headerCollapsed }
+            in
+                (newModel, Cmd.none)
 
 makeLink : Int -> Int -> Item -> Html.Html Msg
 makeLink activeIndex index component =
@@ -242,6 +251,9 @@ view model =
             |> Maybe.withDefault (Html.text "")
         navs = 
             List.indexedMap (makeLink activeIndex) model.links
+        collapsedClasses =
+            (if model.headerCollapsed then "collapse"
+            else "collapse in") ++ " navbar-collapse"
     in
         header ([ class "col-xs-12 col-sm-12 col-md-12 menu" ] ++ styles )
             [ nav [ class "navbar navbar-default" ]
@@ -249,8 +261,14 @@ view model =
                 [ div [ class "navbar-header" ]
                   [ a [ href "#home" ]
                     [ div [ class "logo" ] [] ]
+                  , button [ class "navbar-toggle", onClick ToggleNavbar ]
+                    [ span [ class "sr-only" ] []
+                    , span [ class "icon-bar" ] []
+                    , span [ class "icon-bar" ] []
+                    , span [ class "icon-bar" ] []
+                    ]
                   ]
-                , div [ class "navbar-collapse collapse" ]
+                , div [ class collapsedClasses ]
                   [ ul [ class "nav navbar-nav navbar-right" ] navs ]
                 ]
               ]

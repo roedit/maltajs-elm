@@ -1,5 +1,5 @@
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header,
-                      ol, li, h2, h3, h4, text, form, input, label, fieldset, img, span, h6, footer)
+                      ol, li, h2, h3, h4, text, form, input, label, fieldset, img, span, h6, footer, button)
 
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
@@ -192,8 +192,6 @@ view model =
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
         [ h4 [] [ text "location" ] ]
         , venueView
-          --, div [ class "map-gic", style [ ("position", "relative"), ("overflow", "hidden") ] ]
-          -- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
       ]
     , footer [ class "footer" ]
       [ div [ class "row countdown sticky" ]
