@@ -10,7 +10,7 @@ import Form exposing (formToJson)
 
 decoder : Json.Decode.Decoder String 
 decoder =
-    Json.Decode.at [ "result" ]
+    Json.Decode.at [ "subscriber" ]
        ( Json.Decode.string )
 
 registerMe : Model -> Cmd Msg

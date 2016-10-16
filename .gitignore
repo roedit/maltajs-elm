@@ -53,5 +53,4 @@ repl-temp-*
 *.swp
 *.swo
 node_modules/
-dist/
 build/
