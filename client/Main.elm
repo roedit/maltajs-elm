@@ -1,4 +1,5 @@
-import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, h3, text, form, input, label, fieldset, img, span)
+import Html exposing (Html, text, button, div, section, article, h1, p, a, header,
+                      ol, li, h2, h3, h4, text, form, input, label, fieldset, img, span, h6, footer)
 
 import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
@@ -49,13 +50,13 @@ update msg model =
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
     StickyHeaderMsg subMsg->
-        let
-            ( updatedHeaderModel, headerCmd ) =
-                StickyHeader.update subMsg model.headerModel
-        in
-            ( { model | headerModel = updatedHeaderModel }
-            , Cmd.map StickyHeaderMsg headerCmd
-            )
+      let
+        ( updatedHeaderModel, headerCmd ) =
+            StickyHeader.update subMsg model.headerModel
+      in
+        ( { model | headerModel = updatedHeaderModel }
+        , Cmd.map StickyHeaderMsg headerCmd
+        )
 
     
 -- VIEW
@@ -90,12 +91,129 @@ view model =
   let
     disableForm = (Form.isFormInvalid model.formModel) || model.registered
   in
-    article []
+    div [ id "container" ]
       [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
-      , div [ class "container-fluid main" ]
+
+      , section [ id "home", class "row banner" ]
+        [ h2 [] [ text "Malta JS" ]
+        , h2 [] [ text "Javascript community in Malta" ]
+        , p [] [ text "7th of NOVEMBER | MICROSOFT INNOVATION CENTER" ]
+        ]
+
+      , section [ id "subscribe", class "row subscribe" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+          [ h4 [] [ text "Subscribe" ] ]
+        , App.map FormMsg (Form.view model.formModel)
+        , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
+          [ renderAlert model
+          , button 
+            [ onClick Register
+            , class "btn btn-default register"
+            , disabled disableForm
+            ] [ text "Subscribe" ]
+          ]
+        ]
+
+      , section [ id "schedule", class "row schedule" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+          [ h4 [] [ text "Schedule" ] ]
+        , div []
+          [ div [ class "row scheduleRow" ]
+            [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground" ]
+              [ div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
+                [ span [] [ text "12:00" ]
+                , span [] [ text "-" ]
+                , span [] [ text "14:00" ]
+                ]
+              , div [ class "col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter" ]
+                [ text "WELCOME COFFEE & REGISTRATION" ]
+              ]
+            ]
+          ]
+        ]
+
+      , section [ id "speakers", class "row speakers" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+          [ h4 [] [ text "Speakers" ] ]
+        , div []
+          [ div [ class "row" ]
+            [ div [ class "col-xs-12 col-sm-4 col-md-4 col-lg-4 speaker" ]
+              [ div [ class "content" ]
+                [ div [ class "cardFront", style [ ("background-image", "url(/images/speakers/daniel_massa.jpg)") ] ] []
+                , div [ class "cardBack" ]
+                  [ h6 [] [ text "Daniel Massa" ]
+                  , p [ id "speakerPosition" ]
+                    [ span []
+                      [ text "Frontend Development Lead at"
+                      , a [] [ span [] [ text "Sticazzi" ] ]
+                      ]
+                  , a [ class "linkedin" ] []
+                  , p [ id "speakerDescription" ] [ text
+                    """
+                    Daniel Massa is the Frontend Development Lead at Betsson Group. He is focused on optimizing digital performance with strong focus on business goals. Data, analytics and performance run through his veins. He is committed to always providing with quality, security and state-of-the-art functionality. At Betsson he works with a team of highly specialized professionals to push the limits of on-line gaming.
+                    """ ]
+                  ]
+                ]
+              ]
+            , div [ class "speakerInfo" ]
+              [ h6 [] [ text "Daniel Massa" ]
+              , p [] [ text "Frontend Development Lead at Betsson." ]
+              , div [ id "speakersCompany" ]
+                [ a [] [ img [] [] ] ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    , section [ id "contact", class "row contact" ]
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-5 col-md-offset-1 col-lg-5 col-md-offset-1" ]
+          [ h4 [] [ text "Contact" ] ]
+        , div [ class "col-xs-12 col-sm-6 col-md-6 col-lg-6" ]
+          [ div [ class "organizer" ]
+            [ div [ class "name" ] [ text "Andrei Toma" ]
+            , div [ class "position" ] [ text "Event Organizer" ]
+            , div []
+              [ span [ class "glyphicon glyphicon-envelope" ] []
+              , p [ class "tzuuc@yahoo.com" ] [ text "tzuuc@yahoo.com" ]
+              ]
+            , div []
+              [ span [ class "glyphicon glyphicon-earphone" ] []
+              , p [ class "phone" ]
+                [ span [] [ text "+" ]
+                , span [] [ text "40 744267230" ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    , section [ id "location", class "row location" ]
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+        [ h4 [] [ text "location" ] ]
+        , venueView
+          --, div [ class "map-gic", style [ ("position", "relative"), ("overflow", "hidden") ] ]
+          -- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+      ]
+    , footer [ class "footer" ]
+      [ div [ class "row countdown sticky" ]
+        [ div [ class "timer" ] []
+        , div [ class "register" ]
+          [ a [ href "#subscribe" ] [ text "Subscribe" ] ]
+        ]
+      , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+        [ div [ class "leftSide" ]
+          [ p [] [ text "Copyright Ⓒ MaltaJs 2015 All Rights Reserved" ] ]
+        , div [ class "rightSide" ] []
+        ]
+      ]
+    ]
+
+{--
+      , div [ class "container-banner" ]
+          [ img [ src "malta.jpg", class "banner" ] [] ]
+      , div [ class "main" ]
         [ section [ class "row" ]
-          [ img [ src "logo.jpg", class "logo" ] [] ]
-        , section [ class "row" ]
           [ h1 [ id "event" ] [ text "Elm and functional programming"]
           , eventView
           ]
@@ -122,7 +240,7 @@ view model =
           ]
         ]
       ]
-
+      --}
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

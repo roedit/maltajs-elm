@@ -1,0 +1,134 @@
+.speakers{
+  border-top: 1px solid #f2f2f2;
+  margin-top: 35px;
+  padding-top: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  color: #000000;
+
+  h4 {
+    color: #323232;
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 45px;
+  }
+
+  .speaker {
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -o-perspective: 1000px;
+    -ms-perspective: 1000px;
+    display: block;
+
+    .content {
+      position: relative;
+      width: 100%;
+
+
+      &:before {
+        content: "";
+        float: left;
+        padding-bottom: 100%;
+        text-overflow: ellipsis;
+      }
+
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      .cardFront {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+      }
+
+      .cardBack {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 40px;
+        overflow: hidden;
+        z-index: 0;
+
+        h6 {
+          color: #000;
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+
+        .speakerPosition {
+          span {
+            font-weight: 600;
+            margin-bottom: 25px;
+
+            a {
+              font-weight: 600;
+              color: #000;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .speakerInfo {
+      padding: 15px 20px;
+      width: 100%;
+      opacity: 1;
+      min-height: 171px;
+
+      h6 {
+        color: #000;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      p {
+        color: #646464;
+        font-weight: 600;
+        margin-bottom: 25px;
+      }
+
+      .speakersCompany {
+        margin: 0 auto;
+
+        img {
+          max-height: 50px;
+          width: auto;
+          display: inline-block;
+        }
+      }
+    }
+
+  }
+}
+
+.speakers{
+  .speaker:hover {
+    .content {
+      .cardFront {
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: visibility 0.5s, opacity 0.5s linear;
+        -moz-transition: visibility 0.5s, opacity 0.5s linear;
+        -ms-transition: visibility 0.5s, opacity 0.5s linear;
+        -o-transition: visibility 0.5s, opacity 0.5s linear;
+      }
+    }
+
+  }
+}
+
+@media only screen and (max-width: 480px) {
+
+}

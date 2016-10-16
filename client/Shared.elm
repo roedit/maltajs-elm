@@ -3,6 +3,8 @@ module Shared exposing (..)
 import Form exposing (Model)
 import Scroll exposing (Move)
 import Http exposing (Error)
+import Html exposing (img)
+import Html.Attributes exposing (src)
 import StickyHeader
 
 -- MODEL
@@ -28,12 +30,17 @@ initialModel : Model
 initialModel =
   let
     headerBrand = StickyHeader.buildItem "MaltaJS" [ "brand" ]
+    headerLogo =
+      StickyHeader.buildLogo
+        (img [ src "images/logo.jpg" ] []) [ "header-logo" ]
+    headerInitialModel =
+      StickyHeader.initialModel (Just headerLogo) (Just headerBrand) headerLinks
   in
     { registered = False
     , signed = False
     , error = ""
     , formModel = Form.initialModel
-    , headerModel = StickyHeader.initialModel (Just headerBrand) headerLinks
+    , headerModel = headerInitialModel
     }
 
 
