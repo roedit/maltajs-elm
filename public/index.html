@@ -18,22 +18,12 @@
 <body>
 <div id="main"></div>
 <script>
-	var scroll = window.pageYOffset || document.body.scrollTop;
-	var mountNode = document.getElementById('main');
-	var myApp = Elm.Main.embed(mountNode);
 
-    window.onscroll = function() {
-        var newScroll = window.pageYOffset || document.body.scrollTop;
-        myApp.ports.scroll.send([scroll, newScroll]);
-        scroll = newScroll;
-    };
-</script>
-<script>
+
     /** gmap **/
     function myMap() {
         var defaultProps = {
             initialZoom: 17,
-            // 35.8512874,14.4943021
             mapCenterLat: 35.8512874,
             mapCenterLng: 14.4943021
         };
@@ -63,30 +53,55 @@
         var contentString = '<div id="content">'+
             '<div id="location-details">'+
                 '</div>'+
-            '<h1 id="firstHeading" class="firstHeading"><b>Location Details:</b></h1>'+
-            '<div id="bodyContent">'+
-                '<p>Microsoft Innovation Center</p>'+
+                '<h1 id="firstHeading" class="firstHeading"><b>Location Details:</b></h1>'+
+                '<div id="bodyContent">'+
+                    '<p>Microsoft Innovation Center</p>'+
+                    '</div>'+
                 '</div>'+
-            '</div>'+
-        '</div>';
+            '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-    var marker = new google.maps.Marker({
-        position: mapCenterLatLng,
-        title: 'MaltaJS',
-        map: map,
-        draggable: false,
-        icon: image
-    });
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        var marker = new google.maps.Marker({
+            position: mapCenterLatLng,
+            title: 'MaltaJS',
+            map: map,
+            draggable: false,
+            icon: image
+        });
 
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
 
-}
-    setTimeout(myMap, 2000);
+    }
+
+
+	var scroll = window.pageYOffset || document.body.scrollTop;
+    var mountNode = document.getElementById('main');
+
+    // look at http://stackoverflow.com/questions/39687776/how-to-render-embedded-elm-module-synchronously/
+    var mo = new MutationObserver(function(mutationRecords, instance) {
+        // a trivial check
+        for (var i = 0; i < mutationRecords.length; i += 1) {
+            if (mutationRecords[i].addedNodes.length > 0) {
+                myMap();
+                // stop observing, if not needed anymore
+                mo.disconnect();
+            }
+        }
+    });
+    mo.observe(mountNode, { childList: true });
+
+	var myApp = Elm.Main.embed(mountNode);
+
+    window.onscroll = function() {
+        var newScroll = window.pageYOffset || document.body.scrollTop;
+        myApp.ports.scroll.send([scroll, newScroll]);
+        scroll = newScroll;
+    };
+
 </script>
 </body>
 </html>

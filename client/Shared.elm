@@ -20,10 +20,11 @@ type alias Model =
 headerLinks =
     List.map 
         (\(title, url) -> StickyHeader.buildActiveItem title url [])
-        [ ("About", "#about")
-        , ("Event", "#event")
-        , ("Registration", "#registration")
-        , ("Venue", "#venue")
+        [ ("Subscribe", "#subscribe")
+        , ("Schedule", "#schedule")
+        , ("Speakers", "#speakers")
+        , ("Location", "#location")
+        , ("Contacts", "#contacts")
         ]
 
 initialModel : Model

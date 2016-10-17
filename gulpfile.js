@@ -29,7 +29,7 @@ gulp.task('elm-bundle', ['elm-init'], function() {
 
 // CSS
 gulp.task('styles:sass', function() {
-    return gulp.src('client/styles/**/*.scss')
+    return gulp.src(['client/styles/*.scss', 'client/styles/shared/*.scss', 'client/styles/components/*.scss'])
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(buildDir+'css'))
 });
