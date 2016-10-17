@@ -1,5 +1,5 @@
-const sourceRoot = '../../source/',
-    publicRoot = '../../public/',
+const sourceRoot = '../source/',
+    publicRoot = '../public/',
     serverRoot = '../server/',
     bootstrapRoot = '../node_modules/bootstrap/';
 
