@@ -9,5 +9,5 @@ install:
   # - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
   # - npm install -g gulp
 script: 
-  - gulp build:client
+  - gulp build:source
   # - node test.js

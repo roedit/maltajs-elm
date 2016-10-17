@@ -20,15 +20,13 @@
     "gulp-sass": "^2.3.2",
     "mongoose": "~3.6.13",
     "morgan": "~1.0.0",
-    "nodemon": "~1.4.1"
+    "nodemon": "~1.4.1",
+    "gulp-nodemon": "^2.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "gulp-nodemon": "^2.2.1"
-  }
+  "license": "ISC"
 }
