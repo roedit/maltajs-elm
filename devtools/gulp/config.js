@@ -6,7 +6,7 @@ const sourceRoot = '../source/',
 module.exports = {
     source: {
         sass: sourceRoot + 'styles/**/*.scss',
-        js: sourceRoot + '*.elm'
+        js: sourceRoot + '**/*.elm'
     },
     public: {
         root: publicRoot,

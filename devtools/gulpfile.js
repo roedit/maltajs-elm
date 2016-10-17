@@ -4,7 +4,7 @@ require("require-dir")("./gulp");
 var gulp = require('gulp');
 
 // Build main task
-gulp.task('build', [ 'server', 'elm-bundle', 'styles', 'copy'], function() {
+gulp.task('build', ['elm-bundle', 'styles', 'copy'], function() {
     console.log('Setup application: localhost:3000');
 });
 

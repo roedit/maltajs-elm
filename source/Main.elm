@@ -188,7 +188,7 @@ view model =
           [ h4 [] [ text "Speakers" ] ]
         , div []
           [ div [ class "row" ]
-            [ div [ class "col-xs-12 col-sm-4 col-md-4 col-lg-4 speaker" ]
+            [ div [ class "col-xs-12 col-sm-6 col-md-6 col-lg-6 speaker center-speaker" ]
               [ div [ class "content" ]
                 [ div [ class "cardFront", style [ ("background-image", "url(/images/speakers/pietro_grandi.jpg)") ] ] []
                 , div [ class "cardBack" ]
