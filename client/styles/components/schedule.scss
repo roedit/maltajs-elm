@@ -1,0 +1,123 @@
+.schedule{
+  border-top: 1px solid #f2f2f2;
+  margin-top: 35px;
+  padding-top: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  color: #000000;
+
+  h4 {
+    color: #323232;
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 45px;
+  }
+
+  .eventTitle {
+    height: 58px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    .textCenter {
+      font-weight: 600;
+    }
+  }
+
+  .eventBackground {
+    background: #e6e6e6;
+    height: 58px;
+    line-height: 58px;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  .eventTimeHolder {
+    background: #fff;
+    color: #dc4e51;
+    border: 1px solid #dc4e51;
+    border-right: none;
+    font-size: 15px;
+    height: 58px;
+    line-height: 58px;
+    text-align: center;
+    padding: 0;
+    z-index: 2;
+
+    &:before, &:after {
+      left: 100%;
+      top: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &:before {
+      border-color: rgba(220, 78, 81, 0);
+      border-left-color: #dc4e51;
+      border-width: 29px;
+      margin-top: -30px;
+      border-left-width: 16px;
+      border-bottom-width: 30px;
+      border-top-width: 30px;
+    }
+
+    &:after {
+      border-color: rgba(255, 255, 255, 0);
+      border-left-color: #fff;
+      border-width: 28px;
+      margin-top: -28px;
+      border-left-width: 15px;
+    }
+  }
+
+  .eventLine {
+    hr {
+      margin-top: 29px;
+    }
+  }
+
+  .eventSpeaker {
+    .speakerImg {
+      width: 140px;
+      height: 140px;
+      float: left;
+      margin-right: 20px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      border: 1px solid #cccccc;
+    }
+
+    h5 {
+      color: #323232;
+      margin-bottom: 15px;
+
+      span {
+        font-weight: 600;
+      }
+
+      .compute {
+        color: #777;
+      }
+    }
+
+    p {
+      color: #646464;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .eventTitle {
+    .textCenter {
+      height: 58px;
+      display: flex;
+      line-height: 1;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

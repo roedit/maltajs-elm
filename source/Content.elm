@@ -21,7 +21,7 @@ defaultClassesWith customClasses =
   [ defaultClasses ] ++ customClasses
   |> String.join " "
 
-defaultClasses = String.join " " [ "col-xs-11" ]
+defaultClasses = String.join " " [ "col-xs-12" ]
 
 markDownWithDefault = Markdown.toHtml [ class defaultClasses ]
 
@@ -40,7 +40,7 @@ Our aim is to provide **a place to share knowledge and technologies**, through m
 
 Do you think you have a good idea for a talk, hackathon, demo or peer-learning?
 
-**Write us** and be part of the community!
+**Join us** [on Facebook](https://www.facebook.com/groups/941691142568690/) and be part of the community!
   """
 
 {-| Renders the HTML for the Venue section: where there will be the event
@@ -51,7 +51,12 @@ venueView : Html a
 venueView =
   markDownWithDefault
   """
-This event will be hosted by Microsoft.
+###### This event will be kindly hosted by Microsoft at the [Microsoft Innovation Center](https://www.microsoftinnovationcenters.com/locations/malta), located 
+at the SkyParks Business Center, Luqa.
+
+###### We'll provide food and drinks, you'll bring your passion for web-development!
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
   """
     
 {-| Renders the HTML for the Event section: what are we talking about.
@@ -62,11 +67,19 @@ eventView : Html a
 eventView =
   markDownWithDefault
   """
-We will talk about [Elm](http://elm-lang.org/), a new functional language which compiles to Javascript and
-enforce immutability and single source of truth.
+Join us on **Saturday, 29th October 2016 at 12.00AM**, for the first MaltaJS talk.
 
-The [Redux](https://github.com/reactjs/redux#thanks) project was actually inspired also by the
-[Elm Architecture](https://github.com/evancz/elm-architecture-tutorial).
+We will talk about [Elm](http://elm-lang.org/), a new functional language which compiles to Javascript and
+enforces immutability and single source of truth.
+
+One of the advantages is that within the Elm code **run-time exceptions are virtually impossible**: the compiler 
+prevents the developer from using the wrong types, keys and values of the records are checked at compile time, every value is immutable
+ and use of side-effects is strictly supervised.
+
+Furthermore, it forces the developer to design the application in terms of one centralized state which reacts to messages, the so called
+ [Elm Architecture](https://github.com/evancz/elm-architecture-tutorial).
+
+The [Redux](https://github.com/reactjs/redux#thanks) project was actually inspired also by the Elm Architecture.
   """
   
 privacyView : Html a

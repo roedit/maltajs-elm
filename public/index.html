@@ -1,25 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="shortcut icon" type="image/png" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="dist/css/style.min.css">
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
     <meta charset="UTF-8">
     <title>Maltajs Elm App</title>
     <script src="dist/js/bundle-min.js"></script>
+    <!-- EXTERNAL RESOURCES -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApbfoXOpdt8v4wB8spClqDaCsOtOQr4CQ">
+    </script>
 </head>
 <body>
 <div id="main"></div>
 <script>
+
+
+    /** gmap **/
+    function myMap() {
+        var defaultProps = {
+            initialZoom: 17,
+            mapCenterLat: 35.8512874,
+            mapCenterLng: 14.4943021
+        };
+        var mapCanvas = document.getElementById("map");
+        var mapCenterLatLng = new google.maps.LatLng(defaultProps.mapCenterLat, defaultProps.mapCenterLng);
+
+        var mapOptions = {
+            center: mapCenterLatLng,
+            zoom: defaultProps.initialZoom,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+
+        var image = {
+            url: '../../images/map_marker.png',
+            // This marker is 20 pixels wide by 32 pixels high.
+            size: new google.maps.Size(70, 70),
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(12, 70)
+        };
+
+        var contentString = '<div id="content">'+
+            '<div id="location-details">'+
+                '</div>'+
+                '<h1 id="firstHeading" class="firstHeading"><b>Location Details:</b></h1>'+
+                '<div id="bodyContent">'+
+                    '<p>Microsoft Innovation Center</p>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        var marker = new google.maps.Marker({
+            position: mapCenterLatLng,
+            title: 'MaltaJS',
+            map: map,
+            draggable: false,
+            icon: image
+        });
+
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+
+    }
+
+
 	var scroll = window.pageYOffset || document.body.scrollTop;
-	var mountNode = document.getElementById('main');
+    var mountNode = document.getElementById('main');
+
+    // look at http://stackoverflow.com/questions/39687776/how-to-render-embedded-elm-module-synchronously/
+    var mo = new MutationObserver(function(mutationRecords, instance) {
+        // a trivial check
+        for (var i = 0; i < mutationRecords.length; i += 1) {
+            if (mutationRecords[i].addedNodes.length > 0) {
+                myMap();
+                // stop observing, if not needed anymore
+                mo.disconnect();
+            }
+        }
+    });
+    mo.observe(mountNode, { childList: true });
+
 	var myApp = Elm.Main.embed(mountNode);
 
-	window.onscroll = function() {
-		var newScroll = window.pageYOffset || document.body.scrollTop;
-		myApp.ports.scroll.send([scroll, newScroll]);
-		scroll = newScroll;
-	};
+    window.onscroll = function() {
+        var newScroll = window.pageYOffset || document.body.scrollTop;
+        myApp.ports.scroll.send([scroll, newScroll]);
+        scroll = newScroll;
+    };
+
 </script>
 </body>
 </html>

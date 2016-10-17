@@ -28,6 +28,7 @@ module.exports= function(app) {
         subscriber.subscriberLastName = req.body.surname;
         subscriber.subscriberCompany = req.body.company;
         subscriber.subscriberEmail = req.body.email;
+
         subscriber.save(function(err, subscriber) {
             if (err) {
                 // if an error occurs, show it in console
@@ -35,7 +36,9 @@ module.exports= function(app) {
                 return err;
             }
 
-            res.send(subscriber);
+            res.send({
+                'subscriber': subscriber.subscriberFirstName
+            });
         });
     });
 
