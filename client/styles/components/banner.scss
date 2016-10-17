@@ -1,0 +1,35 @@
+.banner {
+  margin-top: 70px;
+  background-image: url('../../images/home_bg_top.jpg');
+  background-size: cover;
+  min-height: 350px;
+  color: #FFF;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  h2 {
+    text-align: center;
+    margin-top: 50px;
+    font-weight: 700;
+    font-size: 55px;
+    padding-top: 50px;
+  }
+
+  h3 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 35px;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 30px;
+
+    .betssonHeader {
+      width: 120px;
+      height: 30px;
+      margin-left: 10px;
+      margin-top: -7px;
+    }
+  }
+}
