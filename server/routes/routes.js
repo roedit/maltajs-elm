@@ -1,7 +1,8 @@
 module.exports= function(app) {
     var model     = require('../models/schema');
-    var nodemailer = require('../../node_modules/nodemailer');
-    var sgTransport = require('../../node_modules/nodemailer-sendgrid-transport');
+    var nodemailer = require('../../devtools/node_modules/nodemailer');
+    var sgTransport = require('../../devtools/node_modules/nodemailer-sendgrid-transport');
+
     /**
      * Get subscribers list
      * http://localhost:3000/api/subscribers
@@ -50,7 +51,7 @@ module.exports= function(app) {
         var email = {
           from: req.body.email,
           to: 'boggdan.dumitriu@gmail.com, tzuuc@yahoo.com, contact@maltajs.com',
-          subject: 'MaltaJs Conference 2015',
+          subject: 'MaltaJs Conference 2016',
           text: '',
           html: 'This a message from: '+ req.body.name + '<br>' +
                 '<p>Phone no: ' + req.body.phone + '</p></br>' +
