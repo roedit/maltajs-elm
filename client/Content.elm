@@ -51,10 +51,10 @@ venueView : Html a
 venueView =
   markDownWithDefault
   """
-This event will be kindly hosted by Microsoft at the [Microsoft Innovation Center](https://www.microsoftinnovationcenters.com/locations/malta), located 
+###### This event will be kindly hosted by Microsoft at the [Microsoft Innovation Center](https://www.microsoftinnovationcenters.com/locations/malta), located 
 at the SkyParks Business Center, Luqa.
 
-We'll provide food and drinks, you'll bring your passion for web-development!
+###### We'll provide food and drinks, you'll bring your passion for web-development!
 
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
   """

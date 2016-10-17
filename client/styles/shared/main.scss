@@ -1,0 +1,60 @@
+body * {
+  font-size: 14px;
+  font-family: 'Open Sans';
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+div {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  vertical-align: baseline;
+}
+
+b {
+  font-weight: 700!important;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+.textCenter{
+  text-align: center;
+}
+
+.menu li {
+  display: inline-block;
+  vertical-align: top;
+  zoom: 1;
+  padding: 10px;
+}
+
+.header div,
+.header ul {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.linkedin {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  background: url(../../images/media.png) -2px -0px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.website {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  background: url(../../images/media.png) -2px -21px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+

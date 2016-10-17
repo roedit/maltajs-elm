@@ -1,0 +1,84 @@
+.contact{
+  border-top: 1px solid #f2f2f2;
+  margin-top: 35px;
+  padding-top: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  color: #000000;
+
+  h4 {
+    color: #323232;
+    font-size: 50px;
+    font-weight: 700;
+    margin-top: 25px;
+    text-align: center;
+  }
+
+  .organizer {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 10px 25px;
+
+    .name {
+      display: block;
+      font-size: 20px;
+      font-weight: 600;
+      color: #323232;
+    }
+
+    .position {
+      display: block;
+      color: #dc4e51;
+      font-size: 16px;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    .email {
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .phone {
+      display: inline-block;
+      margin-bottom: 21px;
+    }
+
+    .glyphicon{
+      width: 24px;
+
+      &:before {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .contactForm {
+    h5 {
+      color: #323232;
+      font-size: 20px;
+      font-weight: 700;
+      float: left;
+      margin-left: 15px;
+    }
+
+    input {
+      width: calc(100% - 30px);
+      margin: 15px;
+      padding: 5px;
+    }
+
+    textarea {
+      width: calc(100% - 30px);
+      margin: 15px;
+      padding: 5px;
+      resize: vertical;
+      max-height: 300px;
+      min-height: 50px;
+      overflow: auto;
+    }
+  }
+}

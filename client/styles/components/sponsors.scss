@@ -1,0 +1,56 @@
+.sponsors {
+  background-color: #f0f0f0;
+  min-height: 550px;
+  margin-top: 70px;
+
+  .sponsor_button {
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 45px;
+    margin: 25px 0px 80px 0px;
+    background: #dc4e51;
+    border: 1px solid #dc4e51;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .sponsor_button:hover {
+    background: #fff;
+    color: #dc4e51;
+  }
+
+  h3 {
+    font-size: 50px;
+    font-weight: 700;
+    color: #323232;
+  }
+
+  h6 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+  }
+  img {
+    height: 100px;
+    width: auto;
+  }
+
+  a {
+    margin: 20px;
+  }
+
+}
+
+.sponsors-logo {
+  margin-top: 80px;
+  p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+  }
+}

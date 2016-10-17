@@ -4,7 +4,8 @@
     "repository": "https://github.com/user/project.git",
     "license": "BSD3",
     "source-directories": [
-        "client"
+        "client",
+        "client/components"
     ],
     "exposed-modules": [],
     "dependencies": {
@@ -14,8 +15,7 @@
         "elm-lang/html": "1.1.0 <= v < 2.0.0",
         "evancz/elm-http": "3.0.1 <= v < 4.0.0",
         "evancz/elm-markdown": "3.0.0 <= v < 4.0.0",
-        "mdgriffith/elm-style-animation": "3.1.0 <= v < 4.0.0",
-        "pietro909/elm-sticky-header": "1.0.0 <= v <= 2.0.0"
+        "mdgriffith/elm-style-animation": "3.1.0 <= v < 4.0.0"
     },
     "elm-version": "0.17.1 <= v < 0.18.0"
 }
