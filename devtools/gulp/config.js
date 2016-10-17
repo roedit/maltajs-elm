@@ -1,5 +1,5 @@
 const sourceRoot = '../source/',
-    publicRoot = '../public/',
+    publicRoot = '../public/dist/',
     serverRoot = '../server/',
     bootstrapRoot = '../node_modules/bootstrap/';
 
@@ -9,8 +9,9 @@ module.exports = {
         js: sourceRoot + '*.elm'
     },
     public: {
-        sass: publicRoot,
-        js: publicRoot,
+        root: publicRoot,
+        sass: publicRoot + 'css/',
+        js: publicRoot + 'js',
         fonts: publicRoot + 'fonts'
     },
     server: serverRoot + 'server.js',

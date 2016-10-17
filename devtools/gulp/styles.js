@@ -16,6 +16,6 @@ gulp.task('styles', function() {
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(concat('styles.min.css'))
         .pipe(minify())
-        .pipe(sourcemaps.write(config.public.sass))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.public.sass));
 });
