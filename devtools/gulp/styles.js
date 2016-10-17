@@ -12,7 +12,7 @@ var config = require("./config"),
 gulp.task('styles', function() {
     gulp.src(config.source.sass)
         .pipe(sass().on('error', sass.logError))
-        .pipe(concat())
+        .pipe(concat('styles.min.css'))
         .pipe(minify())
         .pipe(gulp.dest(config.public.sass));
 });

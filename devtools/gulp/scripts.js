@@ -9,7 +9,7 @@ gulp.task('elm-init', elm.init);
 gulp.task('elm-bundle', ['elm-init'], function() {
     console.log('Bundling the ELM!');
     gulp.src(config.source.js)
-        .pipe(elm.bundle())
+        .pipe(elm.bundle('app.min.js'))
         .pipe(minify())
         .pipe(gulp.dest(config.public.js));
 });
