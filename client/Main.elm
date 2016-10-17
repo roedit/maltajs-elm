@@ -191,7 +191,8 @@ view model =
     , section [ id "location", class "row location" ]
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
         [ h4 [] [ text "location" ] ]
-        , venueView
+        --, venueView
+      , div [ id "map", class "map-gic" ] []
       ]
     , footer [ class "footer" ]
       [ div [ class "row countdown sticky" ]
