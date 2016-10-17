@@ -1,7 +1,7 @@
 const sourceRoot = '../source/',
     publicRoot = '../public/dist/',
     serverRoot = '../server/',
-    bootstrapRoot = '../node_modules/bootstrap/';
+    bootstrapRoot = './node_modules/bootstrap/';
 
 module.exports = {
     source: {
@@ -16,7 +16,6 @@ module.exports = {
     },
     server: serverRoot + 'server.js',
     bootstrap: {
-        fonts: bootstrapRoot + 'fonts/*',
-        sass: bootstrapRoot + 'dist/css/bootstrap.min.css'
+        fonts: bootstrapRoot + 'fonts/*'
     }
 };
