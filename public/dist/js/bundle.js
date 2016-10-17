@@ -15953,277 +15953,6 @@ var _mdgriffith$elm_style_animation$Animation$inline = _mdgriffith$elm_style_ani
 var _mdgriffith$elm_style_animation$Animation$None = {ctor: 'None'};
 var _mdgriffith$elm_style_animation$Animation$none = _mdgriffith$elm_style_animation$Animation$None;
 
-var _pietro909$elm_sticky_header$StickyHeader$makeLogo = function (logo) {
-	var _p0 = logo;
-	var record = _p0._0;
-	var _p1 = record;
-	var link = _p1.link;
-	var cssClasses = _p1.cssClasses;
-	var image = _p1.image;
-	return A2(
-		_elm_lang$html$Html$span,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html_Attributes$class(
-				A2(_elm_lang$core$String$join, ' ', cssClasses))
-			]),
-		_elm_lang$core$Native_List.fromArray(
-			[image]));
-};
-var _pietro909$elm_sticky_header$StickyHeader$onShrink = function (model) {
-	return _abrykajlo$elm_scroll$Scroll$onDown(
-		function (m) {
-			return {ctor: '_Tuple2', _0: m, _1: _elm_lang$core$Platform_Cmd$none};
-		});
-};
-var _pietro909$elm_sticky_header$StickyHeader$easing = function (speed) {
-	return _mdgriffith$elm_style_animation$Animation$easing(
-		{
-			duration: _elm_lang$core$Basics$toFloat(speed) * _elm_lang$core$Time$millisecond,
-			ease: function (x) {
-				return Math.pow(x, 2);
-			}
-		});
-};
-var _pietro909$elm_sticky_header$StickyHeader$animateScroll = function (model) {
-	var end = model.nextGoal;
-	var start = model.current;
-	var speed = (_elm_lang$core$Native_Utils.cmp(start, end) > 0) ? model.speedUp : model.speedDown;
-	var style = A2(
-		_mdgriffith$elm_style_animation$Animation$queue,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_mdgriffith$elm_style_animation$Animation$toWith,
-				_pietro909$elm_sticky_header$StickyHeader$easing(speed),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_mdgriffith$elm_style_animation$Animation$top(
-						_mdgriffith$elm_style_animation$Animation$px(end))
-					]))
-			]),
-		_mdgriffith$elm_style_animation$Animation$style(
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_mdgriffith$elm_style_animation$Animation$top(
-					_mdgriffith$elm_style_animation$Animation$px(start))
-				])));
-	var newModel = _elm_lang$core$Native_Utils.update(
-		model,
-		{style: style});
-	return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
-};
-var _pietro909$elm_sticky_header$StickyHeader$onGrow = function (model) {
-	return _abrykajlo$elm_scroll$Scroll$onUp(_pietro909$elm_sticky_header$StickyHeader$animateScroll);
-};
-var _pietro909$elm_sticky_header$StickyHeader$update = F2(
-	function (action, model) {
-		var _p2 = action;
-		switch (_p2.ctor) {
-			case 'Animate':
-				var newModel = _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						style: A2(_mdgriffith$elm_style_animation$Animation$update, _p2._0, model.style),
-						current: model.nextGoal
-					});
-				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'Header':
-				var _p4 = _p2._0;
-				var _p3 = _p4;
-				var previous = _p3._0;
-				var current = _p3._1;
-				var newModel = _elm_lang$core$Native_Utils.update(
-					model,
-					{nextGoal: current});
-				return A3(
-					_abrykajlo$elm_scroll$Scroll$handle,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_pietro909$elm_sticky_header$StickyHeader$onGrow(model),
-							_pietro909$elm_sticky_header$StickyHeader$onShrink(model)
-						]),
-					_p4,
-					newModel);
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							active: _elm_lang$core$Maybe$Just(_p2._0)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
-	});
-var _pietro909$elm_sticky_header$StickyHeader$initialModel = F3(
-	function (logo, brand, links) {
-		return {
-			style: _mdgriffith$elm_style_animation$Animation$style(
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_mdgriffith$elm_style_animation$Animation$top(
-						_mdgriffith$elm_style_animation$Animation$px(0))
-					])),
-			current: 0.0,
-			nextGoal: 0.0,
-			logo: logo,
-			brand: brand,
-			links: links,
-			speedUp: 50,
-			speedDown: 500,
-			active: _elm_lang$core$Maybe$Nothing
-		};
-	});
-var _pietro909$elm_sticky_header$StickyHeader$init = {ctor: '_Tuple2', _0: _pietro909$elm_sticky_header$StickyHeader$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
-var _pietro909$elm_sticky_header$StickyHeader$Model = F9(
-	function (a, b, c, d, e, f, g, h, i) {
-		return {style: a, current: b, nextGoal: c, logo: d, brand: e, links: f, speedUp: g, speedDown: h, active: i};
-	});
-var _pietro909$elm_sticky_header$StickyHeader$Item = function (a) {
-	return {ctor: 'Item', _0: a};
-};
-var _pietro909$elm_sticky_header$StickyHeader$buildItem = F2(
-	function (title, cssClasses) {
-		return _pietro909$elm_sticky_header$StickyHeader$Item(
-			{title: title, link: _elm_lang$core$Maybe$Nothing, cssClasses: cssClasses});
-	});
-var _pietro909$elm_sticky_header$StickyHeader$buildActiveItem = F3(
-	function (title, url, cssClasses) {
-		return _pietro909$elm_sticky_header$StickyHeader$Item(
-			{
-				title: title,
-				link: _elm_lang$core$Maybe$Just(url),
-				cssClasses: cssClasses
-			});
-	});
-var _pietro909$elm_sticky_header$StickyHeader$Logo = function (a) {
-	return {ctor: 'Logo', _0: a};
-};
-var _pietro909$elm_sticky_header$StickyHeader$buildLogo = F2(
-	function (image, cssClasses) {
-		return _pietro909$elm_sticky_header$StickyHeader$Logo(
-			{link: _elm_lang$core$Maybe$Nothing, cssClasses: cssClasses, image: image});
-	});
-var _pietro909$elm_sticky_header$StickyHeader$Select = function (a) {
-	return {ctor: 'Select', _0: a};
-};
-var _pietro909$elm_sticky_header$StickyHeader$makeLink = F3(
-	function (activeIndex, index, component) {
-		var _p5 = component;
-		var record = _p5._0;
-		var _p6 = record;
-		var link = _p6.link;
-		var title = _p6.title;
-		var cssClasses = _p6.cssClasses;
-		var classesAsString = A2(
-			_elm_lang$core$String$join,
-			' ',
-			A2(
-				_elm_lang$core$List_ops['::'],
-				_elm_lang$core$Native_Utils.eq(index, activeIndex) ? 'active' : '',
-				cssClasses));
-		var linkBuilder = function (url) {
-			return A2(
-				_elm_lang$html$Html$a,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$href(url),
-						_elm_lang$html$Html_Attributes$class(classesAsString),
-						_elm_lang$html$Html_Events$onClick(
-						_pietro909$elm_sticky_header$StickyHeader$Select(index))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(title)
-					]));
-		};
-		return A2(
-			_elm_lang$core$Maybe$withDefault,
-			A2(
-				_elm_lang$html$Html$a,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class(classesAsString),
-						_elm_lang$html$Html_Events$onClick(
-						_pietro909$elm_sticky_header$StickyHeader$Select(index))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(title)
-					])),
-			A2(_elm_lang$core$Maybe$map, linkBuilder, link));
-	});
-var _pietro909$elm_sticky_header$StickyHeader$view = function (model) {
-	var logo = A2(
-		_elm_lang$core$Maybe$withDefault,
-		_elm_lang$html$Html$text(''),
-		A2(
-			_elm_lang$core$Maybe$map,
-			function (l) {
-				return _pietro909$elm_sticky_header$StickyHeader$makeLogo(l);
-			},
-			model.logo));
-	var activeIndex = A2(_elm_lang$core$Maybe$withDefault, _elm_lang$core$Random$minInt, model.active);
-	var brand = A2(
-		_elm_lang$core$Maybe$withDefault,
-		_elm_lang$html$Html$text(''),
-		A2(
-			_elm_lang$core$Maybe$map,
-			function (b) {
-				return A2(
-					_elm_lang$html$Html$h1,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							A3(_pietro909$elm_sticky_header$StickyHeader$makeLink, activeIndex, -1, b)
-						]));
-			},
-			model.brand));
-	var navs = A2(
-		_elm_lang$core$List$indexedMap,
-		_pietro909$elm_sticky_header$StickyHeader$makeLink(activeIndex),
-		model.links);
-	var styles = _mdgriffith$elm_style_animation$Animation$render(model.style);
-	return A2(
-		_elm_lang$html$Html$header,
-		styles,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[logo, brand])),
-				A2(
-				_elm_lang$html$Html$nav,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				navs)
-			]));
-};
-var _pietro909$elm_sticky_header$StickyHeader$Animate = function (a) {
-	return {ctor: 'Animate', _0: a};
-};
-var _pietro909$elm_sticky_header$StickyHeader$Header = function (a) {
-	return {ctor: 'Header', _0: a};
-};
-var _pietro909$elm_sticky_header$StickyHeader$subscriptions = F2(
-	function (portForScroll, model) {
-		return _elm_lang$core$Native_List.fromArray(
-			[
-				portForScroll(_pietro909$elm_sticky_header$StickyHeader$Header),
-				A2(
-				_mdgriffith$elm_style_animation$Animation$subscription,
-				_pietro909$elm_sticky_header$StickyHeader$Animate,
-				_elm_lang$core$Native_List.fromArray(
-					[model.style]))
-			]);
-	});
-
 var _user$project$Content$defaultClasses = A2(
 	_elm_lang$core$String$join,
 	' ',
@@ -16235,7 +15964,7 @@ var _user$project$Content$markDownWithDefault = _evancz$elm_markdown$Markdown$to
 			_elm_lang$html$Html_Attributes$class(_user$project$Content$defaultClasses)
 		]));
 var _user$project$Content$aboutView = _user$project$Content$markDownWithDefault('\nMaltaJS is the new front-end community in Malta: born in 2016 as internal guild at Betsson,\nnow it is open to all the developers on the island.\n\nOur aim is to provide **a place to share knowledge and technologies**, through meetings and talks.\n\nDo you think you have a good idea for a talk, hackathon, demo or peer-learning?\n\n**Join us** [on Facebook](https://www.facebook.com/groups/941691142568690/) and be part of the community!\n  ');
-var _user$project$Content$venueView = _user$project$Content$markDownWithDefault('\nThis event will be kindly hosted by Microsoft at the [Microsoft Innovation Center](https://www.microsoftinnovationcenters.com/locations/malta), located \nat the SkyParks Business Center, Luqa.\n\nWe\'ll provide food and drinks, you\'ll bring your passion for web-development!\n\n<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n  ');
+var _user$project$Content$venueView = _user$project$Content$markDownWithDefault('\n###### This event will be kindly hosted by Microsoft at the [Microsoft Innovation Center](https://www.microsoftinnovationcenters.com/locations/malta), located \nat the SkyParks Business Center, Luqa.\n\n###### We\'ll provide food and drinks, you\'ll bring your passion for web-development!\n\n<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.938068431182!2d14.49330431657561!3d35.850522115308074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDUxJzA0LjYiTiAxNMKwMjknMzkuNSJF!5e0!3m2!1sen!2sit!4v1476439123047\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n  ');
 var _user$project$Content$eventView = _user$project$Content$markDownWithDefault('\nJoin us on **Saturday, 29th October 2016 at 12.00AM**, for the first MaltaJS talk.\n\nWe will talk about [Elm](http://elm-lang.org/), a new functional language which compiles to Javascript and\nenforces immutability and single source of truth.\n\nOne of the advantages is that within the Elm code **run-time exceptions are virtually impossible**: the compiler \nprevents the developer from using the wrong types, keys and values of the records are checked at compile time, every value is immutable\n and use of side-effects is strictly supervised.\n\nFurthermore, it forces the developer to design the application in terms of one centralized state which reacts to messages, the so called\n [Elm Architecture](https://github.com/evancz/elm-architecture-tutorial).\n\nThe [Redux](https://github.com/reactjs/redux#thanks) project was actually inspired also by the Elm Architecture.\n  ');
 var _user$project$Content$privacyView = _user$project$Content$markDownWithDefault('\nBy signing up, you agree with with our <a href=\"privacy-policy\" target=\"_blank\">privacy policy</a>.\n  ');
 var _user$project$Content$formErrorView = _user$project$Content$markDownWithDefault('\nPlease fill in all the required field\n  ');
@@ -16324,11 +16053,7 @@ var _user$project$Form$isFormValid = function (model) {
 	return _elm_lang$core$Basics$not(
 		_user$project$Form$isFormInvalid(model));
 };
-var _user$project$Form$formFieldClasses = A2(
-	_elm_lang$core$String$join,
-	' ',
-	_elm_lang$core$Native_List.fromArray(
-		['form-group', 'col-xs-12', 'col-sm-9']));
+var _user$project$Form$formFieldClasses = 'col-xs-12 col-sm-6 col-md-3 col-lg-3';
 var _user$project$Form$initialModel = {name: '', surname: '', company: '', email: '', error: ''};
 var _user$project$Form$Model = F5(
 	function (a, b, c, d, e) {
@@ -16357,142 +16082,524 @@ var _user$project$Form$view = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
-				_elm_lang$html$Html$fieldset,
+				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
+						_elm_lang$html$Html_Attributes$class('row')
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
-						_elm_lang$html$Html$label,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$for('name')
+								_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Name: ')
+								A2(
+								_elm_lang$html$Html$input,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$id('name'),
+										_elm_lang$html$Html_Attributes$type$('text'),
+										_elm_lang$html$Html_Attributes$placeholder('Name'),
+										_elm_lang$html$Html_Attributes$value(model.name),
+										_elm_lang$html$Html_Attributes$required(true),
+										_elm_lang$html$Html_Events$onInput(_user$project$Form$Name)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
 							])),
 						A2(
-						_elm_lang$html$Html$input,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$id('name'),
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$class('form-control'),
-								_elm_lang$html$Html_Attributes$value(model.name),
-								_elm_lang$html$Html_Attributes$required(true),
-								_elm_lang$html$Html_Events$onInput(_user$project$Form$Name)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[]))
-					])),
-				A2(
-				_elm_lang$html$Html$fieldset,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$label,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$for('surname')
+								_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Surname: ')
+								A2(
+								_elm_lang$html$Html$input,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$id('surname'),
+										_elm_lang$html$Html_Attributes$type$('text'),
+										_elm_lang$html$Html_Attributes$placeholder('Surname'),
+										_elm_lang$html$Html_Attributes$value(model.surname),
+										_elm_lang$html$Html_Attributes$required(true),
+										_elm_lang$html$Html_Events$onInput(_user$project$Form$Surname)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
 							])),
 						A2(
-						_elm_lang$html$Html$input,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$id('surname'),
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$class('form-control'),
-								_elm_lang$html$Html_Attributes$value(model.surname),
-								_elm_lang$html$Html_Attributes$required(true),
-								_elm_lang$html$Html_Events$onInput(_user$project$Form$Surname)
+								_elm_lang$html$Html_Attributes$class('clearfix visible-xs-block')
 							]),
 						_elm_lang$core$Native_List.fromArray(
-							[]))
-					])),
-				A2(
-				_elm_lang$html$Html$fieldset,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
+							[])),
 						A2(
-						_elm_lang$html$Html$label,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$for('company')
+								_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Company: ')
+								A2(
+								_elm_lang$html$Html$input,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$id('company'),
+										_elm_lang$html$Html_Attributes$type$('text'),
+										_elm_lang$html$Html_Attributes$placeholder('Company'),
+										_elm_lang$html$Html_Attributes$value(model.company),
+										_elm_lang$html$Html_Attributes$required(true),
+										_elm_lang$html$Html_Events$onInput(_user$project$Form$Company)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
 							])),
 						A2(
-						_elm_lang$html$Html$input,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$id('company'),
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$class('form-control'),
-								_elm_lang$html$Html_Attributes$value(model.company),
-								_elm_lang$html$Html_Attributes$required(true),
-								_elm_lang$html$Html_Events$onInput(_user$project$Form$Company)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[]))
-					])),
-				A2(
-				_elm_lang$html$Html$fieldset,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$label,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$for('email')
+								_elm_lang$html$Html_Attributes$class(_user$project$Form$formFieldClasses)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html$text('Email: ')
-							])),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$id('email'),
-								_elm_lang$html$Html_Attributes$type$('email'),
-								_elm_lang$html$Html_Attributes$class('form-control'),
-								_elm_lang$html$Html_Attributes$value(model.email),
-								_elm_lang$html$Html_Attributes$required(true),
-								_elm_lang$html$Html_Events$onInput(_user$project$Form$Email)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[]))
+								A2(
+								_elm_lang$html$Html$input,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$id('email'),
+										_elm_lang$html$Html_Attributes$type$('email'),
+										_elm_lang$html$Html_Attributes$placeholder('Email'),
+										_elm_lang$html$Html_Attributes$value(model.email),
+										_elm_lang$html$Html_Attributes$required(true),
+										_elm_lang$html$Html_Events$onInput(_user$project$Form$Email)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
+							]))
 					]))
 			]));
 };
+
+var _user$project$StickyHeader$makeLogo = function (logo) {
+	var _p0 = logo;
+	var record = _p0._0;
+	var _p1 = record;
+	var link = _p1.link;
+	var cssClasses = _p1.cssClasses;
+	var image = _p1.image;
+	return A2(
+		_elm_lang$html$Html$span,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class(
+				A2(_elm_lang$core$String$join, ' ', cssClasses))
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[image]));
+};
+var _user$project$StickyHeader$onShrink = function (model) {
+	return _abrykajlo$elm_scroll$Scroll$onDown(
+		function (m) {
+			return {ctor: '_Tuple2', _0: m, _1: _elm_lang$core$Platform_Cmd$none};
+		});
+};
+var _user$project$StickyHeader$easing = function (speed) {
+	return _mdgriffith$elm_style_animation$Animation$easing(
+		{
+			duration: _elm_lang$core$Basics$toFloat(speed) * _elm_lang$core$Time$millisecond,
+			ease: function (x) {
+				return Math.pow(x, 2);
+			}
+		});
+};
+var _user$project$StickyHeader$animateScroll = function (model) {
+	var end = model.nextGoal;
+	var start = model.current;
+	var speed = (_elm_lang$core$Native_Utils.cmp(start, end) > 0) ? model.speedUp : model.speedDown;
+	var style = A2(
+		_mdgriffith$elm_style_animation$Animation$queue,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_mdgriffith$elm_style_animation$Animation$toWith,
+				_user$project$StickyHeader$easing(speed),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_mdgriffith$elm_style_animation$Animation$top(
+						_mdgriffith$elm_style_animation$Animation$px(end))
+					]))
+			]),
+		_mdgriffith$elm_style_animation$Animation$style(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_mdgriffith$elm_style_animation$Animation$top(
+					_mdgriffith$elm_style_animation$Animation$px(start))
+				])));
+	var newModel = _elm_lang$core$Native_Utils.update(
+		model,
+		{style: style});
+	return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+};
+var _user$project$StickyHeader$onGrow = function (model) {
+	return _abrykajlo$elm_scroll$Scroll$onUp(_user$project$StickyHeader$animateScroll);
+};
+var _user$project$StickyHeader$update = F2(
+	function (action, model) {
+		var _p2 = action;
+		switch (_p2.ctor) {
+			case 'Animate':
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						style: A2(_mdgriffith$elm_style_animation$Animation$update, _p2._0, model.style),
+						current: model.nextGoal
+					});
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Header':
+				var _p4 = _p2._0;
+				var _p3 = _p4;
+				var previous = _p3._0;
+				var current = _p3._1;
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{nextGoal: current});
+				return A3(
+					_abrykajlo$elm_scroll$Scroll$handle,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_user$project$StickyHeader$onGrow(model),
+							_user$project$StickyHeader$onShrink(model)
+						]),
+					_p4,
+					newModel);
+			case 'Select':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							active: _elm_lang$core$Maybe$Just(_p2._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						headerCollapsed: _elm_lang$core$Basics$not(model.headerCollapsed)
+					});
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$StickyHeader$initialModel = F3(
+	function (logo, brand, links) {
+		return {
+			style: _mdgriffith$elm_style_animation$Animation$style(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_mdgriffith$elm_style_animation$Animation$top(
+						_mdgriffith$elm_style_animation$Animation$px(0))
+					])),
+			current: 0.0,
+			nextGoal: 0.0,
+			logo: logo,
+			brand: brand,
+			links: links,
+			speedUp: 50,
+			speedDown: 500,
+			active: _elm_lang$core$Maybe$Nothing,
+			headerCollapsed: true
+		};
+	});
+var _user$project$StickyHeader$init = {ctor: '_Tuple2', _0: _user$project$StickyHeader$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$StickyHeader$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return {style: a, current: b, nextGoal: c, logo: d, brand: e, links: f, speedUp: g, speedDown: h, active: i, headerCollapsed: j};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _user$project$StickyHeader$Item = function (a) {
+	return {ctor: 'Item', _0: a};
+};
+var _user$project$StickyHeader$buildItem = F2(
+	function (title, cssClasses) {
+		return _user$project$StickyHeader$Item(
+			{title: title, link: _elm_lang$core$Maybe$Nothing, cssClasses: cssClasses});
+	});
+var _user$project$StickyHeader$buildActiveItem = F3(
+	function (title, url, cssClasses) {
+		return _user$project$StickyHeader$Item(
+			{
+				title: title,
+				link: _elm_lang$core$Maybe$Just(url),
+				cssClasses: cssClasses
+			});
+	});
+var _user$project$StickyHeader$Logo = function (a) {
+	return {ctor: 'Logo', _0: a};
+};
+var _user$project$StickyHeader$buildLogo = F2(
+	function (image, cssClasses) {
+		return _user$project$StickyHeader$Logo(
+			{link: _elm_lang$core$Maybe$Nothing, cssClasses: cssClasses, image: image});
+	});
+var _user$project$StickyHeader$ToggleNavbar = {ctor: 'ToggleNavbar'};
+var _user$project$StickyHeader$Select = function (a) {
+	return {ctor: 'Select', _0: a};
+};
+var _user$project$StickyHeader$makeLink = F3(
+	function (activeIndex, index, component) {
+		var _p5 = component;
+		var record = _p5._0;
+		var _p6 = record;
+		var link = _p6.link;
+		var title = _p6.title;
+		var cssClasses = _p6.cssClasses;
+		var classesAsString = A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(
+				_elm_lang$core$List_ops['::'],
+				_elm_lang$core$Native_Utils.eq(index, activeIndex) ? 'active' : '',
+				cssClasses));
+		var linkBuilder = function (url) {
+			return A2(
+				_elm_lang$html$Html$li,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$a,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$href(url),
+								_elm_lang$html$Html_Attributes$class(classesAsString),
+								_elm_lang$html$Html_Events$onClick(
+								_user$project$StickyHeader$Select(index))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(title)
+							]))
+					]));
+		};
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			A2(
+				_elm_lang$html$Html$a,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class(classesAsString),
+						_elm_lang$html$Html_Events$onClick(
+						_user$project$StickyHeader$Select(index))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(title)
+					])),
+			A2(_elm_lang$core$Maybe$map, linkBuilder, link));
+	});
+var _user$project$StickyHeader$view = function (model) {
+	var collapsedClasses = A2(
+		_elm_lang$core$Basics_ops['++'],
+		model.headerCollapsed ? 'collapse' : 'collapse in',
+		' navbar-collapse');
+	var logo = A2(
+		_elm_lang$core$Maybe$withDefault,
+		_elm_lang$html$Html$text(''),
+		A2(
+			_elm_lang$core$Maybe$map,
+			function (l) {
+				return _user$project$StickyHeader$makeLogo(l);
+			},
+			model.logo));
+	var activeIndex = A2(_elm_lang$core$Maybe$withDefault, _elm_lang$core$Random$minInt, model.active);
+	var brand = A2(
+		_elm_lang$core$Maybe$withDefault,
+		_elm_lang$html$Html$text(''),
+		A2(
+			_elm_lang$core$Maybe$map,
+			function (b) {
+				return A2(
+					_elm_lang$html$Html$h1,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A3(_user$project$StickyHeader$makeLink, activeIndex, -1, b)
+						]));
+			},
+			model.brand));
+	var navs = A2(
+		_elm_lang$core$List$indexedMap,
+		_user$project$StickyHeader$makeLink(activeIndex),
+		model.links);
+	var styles = _mdgriffith$elm_style_animation$Animation$render(model.style);
+	return A2(
+		_elm_lang$html$Html$header,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 menu')
+				]),
+			styles),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$nav,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('navbar navbar-default')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('container')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('navbar-header')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$a,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$href('#home')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('logo')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[]))
+											])),
+										A2(
+										_elm_lang$html$Html$button,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('navbar-toggle'),
+												_elm_lang$html$Html_Events$onClick(_user$project$StickyHeader$ToggleNavbar)
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$span,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('sr-only')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[])),
+												A2(
+												_elm_lang$html$Html$span,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('icon-bar')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[])),
+												A2(
+												_elm_lang$html$Html$span,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('icon-bar')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[])),
+												A2(
+												_elm_lang$html$Html$span,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('icon-bar')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[]))
+											]))
+									])),
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class(collapsedClasses)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$ul,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('nav navbar-nav navbar-right')
+											]),
+										navs)
+									]))
+							]))
+					]))
+			]));
+};
+var _user$project$StickyHeader$Animate = function (a) {
+	return {ctor: 'Animate', _0: a};
+};
+var _user$project$StickyHeader$Header = function (a) {
+	return {ctor: 'Header', _0: a};
+};
+var _user$project$StickyHeader$subscriptions = F2(
+	function (portForScroll, model) {
+		return _elm_lang$core$Native_List.fromArray(
+			[
+				portForScroll(_user$project$StickyHeader$Header),
+				A2(
+				_mdgriffith$elm_style_animation$Animation$subscription,
+				_user$project$StickyHeader$Animate,
+				_elm_lang$core$Native_List.fromArray(
+					[model.style]))
+			]);
+	});
 
 var _user$project$Shared$headerLinks = A2(
 	_elm_lang$core$List$map,
 	function (_p0) {
 		var _p1 = _p0;
 		return A3(
-			_pietro909$elm_sticky_header$StickyHeader$buildActiveItem,
+			_user$project$StickyHeader$buildActiveItem,
 			_p1._0,
 			_p1._1,
 			_elm_lang$core$Native_List.fromArray(
@@ -16500,31 +16607,32 @@ var _user$project$Shared$headerLinks = A2(
 	},
 	_elm_lang$core$Native_List.fromArray(
 		[
-			{ctor: '_Tuple2', _0: 'About', _1: '#about'},
-			{ctor: '_Tuple2', _0: 'Event', _1: '#event'},
-			{ctor: '_Tuple2', _0: 'Registration', _1: '#registration'},
-			{ctor: '_Tuple2', _0: 'Venue', _1: '#venue'}
+			{ctor: '_Tuple2', _0: 'Subscribe', _1: '#subscribe'},
+			{ctor: '_Tuple2', _0: 'Schedule', _1: '#schedule'},
+			{ctor: '_Tuple2', _0: 'Speakers', _1: '#speakers'},
+			{ctor: '_Tuple2', _0: 'Location', _1: '#location'},
+			{ctor: '_Tuple2', _0: 'Contacts', _1: '#contacts'}
 		]));
 var _user$project$Shared$initialModel = function () {
 	var headerLogo = A2(
-		_pietro909$elm_sticky_header$StickyHeader$buildLogo,
+		_user$project$StickyHeader$buildLogo,
 		A2(
 			_elm_lang$html$Html$img,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$src('logo.jpg')
+					_elm_lang$html$Html_Attributes$src('images/logo.jpg')
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[])),
 		_elm_lang$core$Native_List.fromArray(
 			['header-logo']));
 	var headerBrand = A2(
-		_pietro909$elm_sticky_header$StickyHeader$buildItem,
+		_user$project$StickyHeader$buildItem,
 		'MaltaJS',
 		_elm_lang$core$Native_List.fromArray(
 			['brand']));
 	var headerInitialModel = A3(
-		_pietro909$elm_sticky_header$StickyHeader$initialModel,
+		_user$project$StickyHeader$initialModel,
 		_elm_lang$core$Maybe$Just(headerLogo),
 		_elm_lang$core$Maybe$Just(headerBrand),
 		_user$project$Shared$headerLinks);
@@ -16559,7 +16667,7 @@ var _user$project$HttpUtils$registerMe = function (model) {
 			_elm_lang$core$Json_Encode$encode,
 			0,
 			_user$project$Form$formToJson(model.formModel)));
-	var url = 'http://localhost:3000/api/add-subscriber';
+	var url = '/api/add-subscriber';
 	var request = {
 		verb: 'POST',
 		headers: _elm_lang$core$Native_List.fromArray(
@@ -16595,7 +16703,7 @@ var _user$project$Main$subscriptions = function (model) {
 		A2(
 			_elm_lang$core$List$map,
 			_elm_lang$core$Platform_Sub$map(_user$project$Shared$StickyHeaderMsg),
-			A2(_pietro909$elm_sticky_header$StickyHeader$subscriptions, _user$project$Ports$scroll, model.headerModel)));
+			A2(_user$project$StickyHeader$subscriptions, _user$project$Ports$scroll, model.headerModel)));
 };
 var _user$project$Main$renderAlert = function (model) {
 	return _user$project$Form$isFormInvalid(model.formModel) ? A2(
@@ -16674,133 +16782,476 @@ var _user$project$Main$renderAlert = function (model) {
 					[
 						_elm_lang$html$Html$text('You\'re registered for the event!')
 					]))
-			])) : A2(
-		_elm_lang$html$Html$div,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html_Attributes$class('alert alert-info small col-xs-12 col-sm-9')
-			]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$html$Html$span,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('glyphicon glyphicon-info-sign')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				_user$project$Content$privacyView
-			]))));
+			])) : _elm_lang$html$Html$text('')));
 };
 var _user$project$Main$view = function (model) {
 	var disableForm = _user$project$Form$isFormInvalid(model.formModel) || model.registered;
 	return A2(
-		_elm_lang$html$Html$article,
+		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$id('container')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html_App$map,
 				_user$project$Shared$StickyHeaderMsg,
-				_pietro909$elm_sticky_header$StickyHeader$view(model.headerModel)),
+				_user$project$StickyHeader$view(model.headerModel)),
 				A2(
-				_elm_lang$html$Html$div,
+				_elm_lang$html$Html$section,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class('container-banner')
+						_elm_lang$html$Html_Attributes$id('home'),
+						_elm_lang$html$Html_Attributes$class('row banner')
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
-						_elm_lang$html$Html$img,
+						_elm_lang$html$Html$h2,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$src('malta.jpg'),
-								_elm_lang$html$Html_Attributes$class('banner')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[]))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('main')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$section,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('row')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								A2(
-								_elm_lang$html$Html$h1,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Attributes$id('event')
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html$text('Elm and functional programming')
-									])),
-								_user$project$Content$eventView
+								_elm_lang$html$Html$text('Malta JS')
 							])),
 						A2(
-						_elm_lang$html$Html$section,
+						_elm_lang$html$Html$h3,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$class('row jumbotron')
+								_elm_lang$html$Html$text('Javascript community in Malta')
+							])),
+						A2(
+						_elm_lang$html$Html$p,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('29th of OCTOBER | MICROSOFT INNOVATION CENTER')
+							]))
+					])),
+				A2(
+				_elm_lang$html$Html$section,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$id('subscribe'),
+						_elm_lang$html$Html_Attributes$class('row subscribe')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter')
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								A2(
-								_elm_lang$html$Html$h1,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Attributes$id('registration')
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html$text('Save your seat!')
-									])),
-								A2(
-								_elm_lang$html$Html$h3,
+								_elm_lang$html$Html$h4,
 								_elm_lang$core$Native_List.fromArray(
 									[]),
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html$text('Saturday 29 October, 12.00')
+										_elm_lang$html$Html$text('Subscribe')
 									])),
 								A2(
-								_elm_lang$html$Html_App$map,
-								_user$project$Shared$FormMsg,
-								_user$project$Form$view(model.formModel)),
+								_elm_lang$html$Html$h6,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Only 30 seats available.')
+									]))
+							])),
+						A2(
+						_elm_lang$html$Html_App$map,
+						_user$project$Shared$FormMsg,
+						_user$project$Form$view(model.formModel)),
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_user$project$Main$renderAlert(model),
+								A2(
+								_elm_lang$html$Html$button,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Events$onClick(_user$project$Shared$Register),
+										_elm_lang$html$Html_Attributes$class('btn btn-default register'),
+										_elm_lang$html$Html_Attributes$disabled(disableForm)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Subscribe')
+									]))
+							]))
+					])),
+				A2(
+				_elm_lang$html$Html$section,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$id('schedule'),
+						_elm_lang$html$Html_Attributes$class('row schedule')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$h4,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Schedule')
+									]))
+							])),
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
 								A2(
 								_elm_lang$html$Html$div,
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html_Attributes$class('form-footer container-fluid')
+										_elm_lang$html$Html_Attributes$class('row scheduleRow')
 									]),
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_user$project$Main$renderAlert(model),
 										A2(
-										_elm_lang$html$Html$button,
+										_elm_lang$html$Html$div,
 										_elm_lang$core$Native_List.fromArray(
 											[
-												_elm_lang$html$Html_Events$onClick(_user$project$Shared$Register),
-												_elm_lang$html$Html_Attributes$class('btn btn-default col-xs-12 col-sm-9'),
-												_elm_lang$html$Html_Attributes$disabled(disableForm)
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground')
 											]),
 										_elm_lang$core$Native_List.fromArray(
 											[
-												_elm_lang$html$Html$text('Sign Up!')
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('12:00')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('-')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('12:15')
+															]))
+													])),
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('WELCOME COFFEE & REGISTRATION')
+													]))
+											]))
+									])),
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('row scheduleRow')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('12:15')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('-')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('12:30')
+															]))
+													])),
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('Welcome speech')
+													]))
+											]))
+									])),
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('row scheduleRow')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('12:30')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('-')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('13:30')
+															]))
+													])),
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-8 col-sm-10 col-md-10 col-lg-10 eventLine')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$hr,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[]))
+													]))
+											])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('speakerImg'),
+														_elm_lang$html$Html_Attributes$style(
+														_elm_lang$core$Native_List.fromArray(
+															[
+																{ctor: '_Tuple2', _0: 'background-image', _1: 'url(/images/speakers/pietro_grandi.jpg)'}
+															]))
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[])),
+												A2(
+												_elm_lang$html$Html$h5,
+												_elm_lang$core$Native_List.fromArray(
+													[]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Elm: frontend code without runtime exceptions')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('compute')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text(' with ')
+															])),
+														A2(
+														_elm_lang$html$Html$span,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Pietro Grandi')
+															]))
+													])),
+												A2(
+												_elm_lang$html$Html$p,
+												_elm_lang$core$Native_List.fromArray(
+													[]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('\n                    As the market started asking for more complex web-applications, the limits of a dynamic, loosely typed language like\n                    Javascript forced the developers to look for solutions like Flow and Typescript. Elm is a functional language which\n                    compiles to Javascript. It is strongly typed, has an ML syntax, and a small, yet skilled adn growing, community.\n                    ')
+													])),
+												A2(
+												_elm_lang$html$Html$a,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('linkedin')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[])),
+												A2(
+												_elm_lang$html$Html$a,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('website'),
+														_elm_lang$html$Html_Attributes$href('http://pietrograndi.com')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[]))
+											])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('row scheduleRow')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('13:30')
+																	])),
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('-')
+																	])),
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('14:00')
+																	]))
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Food and networking')
+															]))
+													]))
 											]))
 									]))
 							])),
@@ -16808,41 +17259,558 @@ var _user$project$Main$view = function (model) {
 						_elm_lang$html$Html$section,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$class('row')
+								_elm_lang$html$Html_Attributes$id('speakers'),
+								_elm_lang$html$Html_Attributes$class('row speakers')
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								A2(
-								_elm_lang$html$Html$h1,
+								_elm_lang$html$Html$div,
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html_Attributes$id('venue')
+										_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter')
 									]),
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html$text('The venue')
+										A2(
+										_elm_lang$html$Html$h4,
+										_elm_lang$core$Native_List.fromArray(
+											[]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text('Speakers')
+											]))
 									])),
-								_user$project$Content$venueView
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('row')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-4 col-md-4 col-lg-4 speaker')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('content')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$div,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('cardFront'),
+																		_elm_lang$html$Html_Attributes$style(
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				{ctor: '_Tuple2', _0: 'background-image', _1: 'url(/images/speakers/pietro_grandi.jpg)'}
+																			]))
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[])),
+																A2(
+																_elm_lang$html$Html$div,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('cardBack')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		A2(
+																		_elm_lang$html$Html$h6,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html$text('Pietro Grandi')
+																			])),
+																		A2(
+																		_elm_lang$html$Html$p,
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html_Attributes$id('speakerPosition')
+																			]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				A2(
+																				_elm_lang$html$Html$span,
+																				_elm_lang$core$Native_List.fromArray(
+																					[]),
+																				_elm_lang$core$Native_List.fromArray(
+																					[
+																						_elm_lang$html$Html$text('Frontend Development at'),
+																						A2(
+																						_elm_lang$html$Html$a,
+																						_elm_lang$core$Native_List.fromArray(
+																							[
+																								_elm_lang$html$Html_Attributes$href('http://www.evokegaming.com/')
+																							]),
+																						_elm_lang$core$Native_List.fromArray(
+																							[
+																								A2(
+																								_elm_lang$html$Html$span,
+																								_elm_lang$core$Native_List.fromArray(
+																									[]),
+																								_elm_lang$core$Native_List.fromArray(
+																									[
+																										_elm_lang$html$Html$text(' Evoke')
+																									]))
+																							]))
+																					])),
+																				A2(
+																				_elm_lang$html$Html$a,
+																				_elm_lang$core$Native_List.fromArray(
+																					[
+																						_elm_lang$html$Html_Attributes$class('linkedin'),
+																						_elm_lang$html$Html_Attributes$href('https://www.linkedin.com/in/pietrograndi')
+																					]),
+																				_elm_lang$core$Native_List.fromArray(
+																					[])),
+																				A2(
+																				_elm_lang$html$Html$a,
+																				_elm_lang$core$Native_List.fromArray(
+																					[
+																						_elm_lang$html$Html_Attributes$class('twitter'),
+																						_elm_lang$html$Html_Attributes$href('https://twitter.com/PietroGrandi3D')
+																					]),
+																				_elm_lang$core$Native_List.fromArray(
+																					[])),
+																				A2(
+																				_elm_lang$html$Html$p,
+																				_elm_lang$core$Native_List.fromArray(
+																					[
+																						_elm_lang$html$Html_Attributes$id('speakerDescription')
+																					]),
+																				_elm_lang$core$Native_List.fromArray(
+																					[
+																						_elm_lang$html$Html$text('\n                    Frontend Developer with a strong 3D Graphics background and a passion for languages.\n                    Currently exploring the Functional Programming.\n                    ')
+																					]))
+																			]))
+																	]))
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('speakerInfo')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$h6,
+																_elm_lang$core$Native_List.fromArray(
+																	[]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('Pietro Grandi')
+																	])),
+																A2(
+																_elm_lang$html$Html$p,
+																_elm_lang$core$Native_List.fromArray(
+																	[]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('Frontend Developer at Evoke.')
+																	])),
+																A2(
+																_elm_lang$html$Html$div,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$id('speakersCompany')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		A2(
+																		_elm_lang$html$Html$a,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				A2(
+																				_elm_lang$html$Html$img,
+																				_elm_lang$core$Native_List.fromArray(
+																					[]),
+																				_elm_lang$core$Native_List.fromArray(
+																					[]))
+																			]))
+																	]))
+															]))
+													]))
+											]))
+									]))
 							])),
 						A2(
 						_elm_lang$html$Html$section,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$class('row')
+								_elm_lang$html$Html_Attributes$id('contact'),
+								_elm_lang$html$Html_Attributes$class('row contact')
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								A2(
-								_elm_lang$html$Html$h1,
+								_elm_lang$html$Html$div,
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html_Attributes$id('about')
+										_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12')
 									]),
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html$text('MaltaJS')
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-5 col-md-offset-1 col-lg-5 col-md-offset-1')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$h4,
+												_elm_lang$core$Native_List.fromArray(
+													[]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('Contact')
+													]))
+											])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-6 col-md-6 col-lg-6')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('organizer')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('name')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Andrei Toma')
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('position')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Event Organizer')
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('glyphicon glyphicon-envelope')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[])),
+																A2(
+																_elm_lang$html$Html$p,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('email')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('tzuuc@yahoo.com')
+																	]))
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('glyphicon glyphicon-earphone')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[])),
+																A2(
+																_elm_lang$html$Html$p,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('phone')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		A2(
+																		_elm_lang$html$Html$span,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html$text('+40')
+																			])),
+																		A2(
+																		_elm_lang$html$Html$span,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html$text('744267230')
+																			]))
+																	]))
+															]))
+													]))
+											])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-6 col-md-6 col-lg-6')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('organizer')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('name')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Bogdan Dumitriu')
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html_Attributes$class('position')
+															]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																_elm_lang$html$Html$text('Event Organizer')
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('glyphicon glyphicon-envelope')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[])),
+																A2(
+																_elm_lang$html$Html$p,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('email')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html$text('boggdan.dumitriu@gmail.com')
+																	]))
+															])),
+														A2(
+														_elm_lang$html$Html$div,
+														_elm_lang$core$Native_List.fromArray(
+															[]),
+														_elm_lang$core$Native_List.fromArray(
+															[
+																A2(
+																_elm_lang$html$Html$span,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('glyphicon glyphicon-earphone')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[])),
+																A2(
+																_elm_lang$html$Html$p,
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		_elm_lang$html$Html_Attributes$class('phone')
+																	]),
+																_elm_lang$core$Native_List.fromArray(
+																	[
+																		A2(
+																		_elm_lang$html$Html$span,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html$text('+356')
+																			])),
+																		A2(
+																		_elm_lang$html$Html$span,
+																		_elm_lang$core$Native_List.fromArray(
+																			[]),
+																		_elm_lang$core$Native_List.fromArray(
+																			[
+																				_elm_lang$html$Html$text('99946933')
+																			]))
+																	]))
+															]))
+													]))
+											]))
+									]))
+							])),
+						A2(
+						_elm_lang$html$Html$section,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$id('location'),
+								_elm_lang$html$Html_Attributes$class('row location')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$h4,
+										_elm_lang$core$Native_List.fromArray(
+											[]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text('Location')
+											]))
 									])),
-								_user$project$Content$aboutView
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$id('map'),
+										_elm_lang$html$Html_Attributes$class('map-gic')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
+							])),
+						A2(
+						_elm_lang$html$Html$footer,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('footer')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('row countdown sticky')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('timer')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('register')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$a,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$href('#subscribe')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('Subscribe')
+													]))
+											]))
+									])),
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('col-xs-12 col-sm-12 col-md-12 col-lg-12')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('leftSide')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_elm_lang$html$Html$p,
+												_elm_lang$core$Native_List.fromArray(
+													[]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html$text('Copyright Ⓒ MaltaJs 2015 All Rights Reserved')
+													]))
+											])),
+										A2(
+										_elm_lang$html$Html$div,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('rightSide')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[]))
+									]))
 							]))
 					]))
 			]));
@@ -16891,7 +17859,7 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Shared$FormMsg, widgetCmd)
 				};
 			default:
-				var _p2 = A2(_pietro909$elm_sticky_header$StickyHeader$update, _p0._0, model.headerModel);
+				var _p2 = A2(_user$project$StickyHeader$update, _p0._0, model.headerModel);
 				var updatedHeaderModel = _p2._0;
 				var headerCmd = _p2._1;
 				return {

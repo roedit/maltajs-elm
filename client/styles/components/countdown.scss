@@ -1,0 +1,67 @@
+.countdown {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 99;
+
+  &.sticky {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    height: 40px;
+  }
+
+  .timer {
+    background: #dc4e51;
+    padding: 0 12px;
+    height: 40px;
+    float: left;
+
+    p {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 300;
+      line-height: 40px;
+      margin: 0;
+
+      .count {
+        font-weight: 600;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .register {
+    display: block;
+    height: 40px;
+    background: #323232;
+    border: 1px solid #323232;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    float: right;
+    padding: 0 12px;
+
+    a {
+      font-size: 16px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 40px;
+      text-decoration: none;
+      margin: 0;
+    }
+
+    &:hover {
+      border: 1px solid #dc4e51;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out 0s;
+      -moz-transition: all 0.2s ease-in-out 0s;
+      -webkit-transition: all 0.2s ease-in-out 0s;
+
+      a {
+        color: #dc4e51;
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+.subscribe{
+  border-top: 1px solid #f2f2f2;
+  margin-top: 35px;
+  padding-top: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  color: #000000;
+
+  h4 {
+    color: #323232;
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  input {
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 5px;
+  }
+
+  .register {
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 45px;
+    margin: 15px;
+    background: #dc4e51;
+    border: 1px solid #dc4e51;
+    border-radius: 8px;
+    overflow: hidden;
+    outline:none;
+    position: relative;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+
+    &:hover {
+      background: #ffffff;
+      color: #dc4e51;
+    }
+  }
+
+  .confirmation {
+    line-height: 40px;
+    margin-top: 20px;
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    .errorMessage {
+      border: 1px solid #dc4e51;
+      color: #dc4e51;
+    }
+
+    .successMessage {
+      border: 1px solid #008A00;
+      color: #008A00;
+    }
+  }
+
+  .subscribe-appear {
+    opacity: 0.01;
+    transition: opacity 0.5s ease-in;
+  }
+
+  .subscribe-appear.subscribe-appear-active {
+    opacity: 1;
+  }
+
+  .subscribe-leave {
+    opacity: 1;
+  }
+
+  .subscribe-leave.subscribe-leave-active {
+    opacity: 0.01;
+    transition: opacity .5s ease-in;
+  }
+}
