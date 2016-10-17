@@ -2,16 +2,11 @@ module Form exposing (..)
 
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label, fieldset, img, span)
 
-import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
-import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled)
-import Http
-import Task exposing (Task)
-import Json.Decode exposing (list, string)
+import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, placeholder )
 import String exposing (join, isEmpty)
 import Regex
 import Json.Encode
-import Json.Decode 
 
 
 -- MODEL
@@ -47,65 +42,56 @@ type Msg
 
 -- VIEW
 
-formFieldClasses = String.join " " [ "form-group", "col-xs-12", "col-sm-9" ]
+formFieldClasses = "col-xs-12 col-sm-6 col-md-3 col-lg-3"
 
 view : Model -> Html Msg
 view model =
-    form [ id "signup-form", class "container-fluid" ]  
-    [ fieldset [ class formFieldClasses ]
-      [ label [ for "name" ] [ text "Name: " ]
-      , input 
-        [ id "name"
-        , type' "text"
-        , class "form-control"
-        , value model.name
-        , required True
-        , onInput Name
-        ] []
+    form [ id "signup-form", class "container-fluid" ]
+      [ div [ class "row" ]
+        [ div [ class formFieldClasses ]
+          [ input 
+            [ id "name"
+            , type' "text"
+            , placeholder "Name"
+            , value model.name
+            , required True
+            , onInput Name
+            ] []
+          ]
+        , div [ class formFieldClasses ]
+          [ input 
+            [ id "surname"
+            , type' "text"
+            , placeholder "Surname"
+            , value model.surname
+            , required True
+            , onInput Surname
+            ] []
+          ]
+        , div [ class "clearfix visible-xs-block" ] []
+        , div [ class formFieldClasses ]
+          [ input 
+            [ id "company"
+            , type' "text"
+            , placeholder "Company"
+            , value model.company
+            , required True
+            , onInput Company
+            ] []
+          ]
+        , div [ class formFieldClasses ]
+          [ input 
+            [ id "email"
+            , type' "email"
+            , placeholder "Email"
+            , value model.email
+            , required True
+            , onInput Email
+            ] []
+          ]
+        ]
       ]
-    , fieldset [ class formFieldClasses ]
-      [ label [ for "surname" ] [ text "Surname: " ]
-      , input 
-        [ id "surname"
-        , type' "text"
-        , class "form-control"
-        , value model.surname
-        , required True
-        , onInput Surname
-        ] []
-      ]
-    , fieldset [ class formFieldClasses ]
-      [ label [ for "company" ] [ text "Company: " ]
-      , input 
-        [ id "company"
-        , type' "text"
-        , class "form-control"
-        , value model.company
-        , required True
-        , onInput Company
-        ] []
-      ]
-    , fieldset [ class formFieldClasses ]
-      [ label [ for "email" ] [ text "Email: " ]
-      , input 
-        [ id "email"
-        , type' "email"
-        , class "form-control"
-        , value model.email
-        , required True
-        , onInput Email
-        ] []
-      ]
-   ]
 
-
-
-submittedView : Model -> Html a
-submittedView model =
-  div [ class "alert alert-success smal" ]
-    [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
-    , p [ class "text-success form-success-message" ] [ text "You're registered for the event!" ]  
-    ]
 
 -- UTILS
 

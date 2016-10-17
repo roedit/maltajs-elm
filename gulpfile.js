@@ -4,9 +4,9 @@ var minifyCSS = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var clean = require('gulp-clean');
+var del = require('del')
 var sass = require('gulp-sass');
-
-var    exec = require('child_process').exec;
+var runSequence = require('run-sequence');
 
 var distDir = 'public/dist/';
 var serverDistDir = 'dist/';
@@ -14,32 +14,11 @@ var bootstrap = 'node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 var buildDir = 'build/';
 
-gulp.task('default', function() {
-  // place code for your default task here
-  console.log('no default, buddy!')
-});
+/** client tasks **/
 
-// Clean
-gulp.task('clean', function() {
-  gulp.src(['dist', 'public/dist', 'build'], { read: false })
-    .pipe(clean());
-});
+// Elm 
 
-gulp.task('build:client', [ 'elm-bundle', 'styles' ], function() {
-  console.log('client ready in the /public folder!');
-});
-
-gulp.task('rebuild:client', [ 'clean', 'elm-bundle', 'styles' ], function() {
-  console.log('client ready in the /public folder!');
-});
-
-gulp.task('build', [ 'clean', 'js', 'elm-bundle', 'styles'], function() {
-  console.log('application ready! type `npm start` and go to `localhost:3000`');
-})
-
-// Elm tasks 
-
-gulp.task('elm-init', elm.init);
+gulp.task('elm-init', ['clean:client'], elm.init);
 
 gulp.task('elm-bundle', ['elm-init'], function() {
   gulp.src('client/*.elm')
@@ -48,39 +27,40 @@ gulp.task('elm-bundle', ['elm-init'], function() {
     .pipe(gulp.dest(distDir+'js'));
 });
 
-// CSS related tasks
+// CSS
 gulp.task('styles:sass', function() {
-    gulp.src('client/styles/**/*.scss')
+    return gulp.src(['client/styles/*.scss', 'client/styles/shared/*.scss', 'client/styles/components/*.scss'])
         .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(buildDir+'css'))
+        .pipe(gulp.dest(buildDir+'css'))
 });
 
 gulp.task('styles:concat', function() {
-  gulp.src([buildDir+'css/**/*.css'])
+  return gulp.src([buildDir+'css/**/*.css'])
     .pipe(minifyCSS())
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest(buildDir+'css'));
-});
-
-gulp.task('fonts', function() {
-  gulp.src(['node_modules/bootstrap/fonts/*'])
-    .pipe(gulp.dest(distDir+'fonts'));
-});
-
-gulp.task('styles', ['styles:sass', 'styles:concat', 'fonts'], function() {
-  gulp.src([
-    bootstrap,
-    buildDir+'**/*.css'
-  ])
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest(distDir+'css'));
 });
 
-// Server
-
-gulp.task('js', function() {
-  gulp.src('server/**/*.js')
-    .pipe(concat('server.js'))
-    .pipe(minify())
-    .pipe(gulp.dest(serverDistDir));
+gulp.task('fonts', function() {
+  return gulp.src(['node_modules/bootstrap/fonts/*'])
+    .pipe(gulp.dest(distDir+'fonts'));
 });
+
+gulp.task('bootstrap', function() {
+  return gulp.src(bootstrap).pipe(gulp.dest(distDir+'css'));
+});
+
+gulp.task('styles', [ 'clean:client' ], function() {
+  runSequence('styles:sass', 'styles:concat', ['fonts', 'bootstrap']);
+});
+
+gulp.task('clean:client', function() {
+  gulp.src(['public/dist', 'build/css'], { read: false })
+    .pipe(clean());
+});
+
+gulp.task('rebuild:client', function() {
+  runSequence('clean:client', 'elm-bundle', 'styles');
+});
+
+gulp.task('client', ['rebuild:client']);
