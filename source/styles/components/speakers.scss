@@ -14,6 +14,12 @@
     margin-bottom: 45px;
   }
 
+  .center-speaker {
+    float: none;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
   .speaker {
     perspective: 1000px;
     -webkit-perspective: 1000px;
