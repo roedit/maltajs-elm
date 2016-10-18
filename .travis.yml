@@ -4,6 +4,6 @@ node_js:
 install:
   - cd devtools
   - npm install
-  - elm-package install -y
+  - elm package install -y
 script: 
   - gulp build
