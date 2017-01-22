@@ -26,9 +26,9 @@ import Html
 import Html exposing (div, header, text, h1, nav, a, img, span, ul, li, button)
 import Html.Attributes exposing (href, class)
 import Html.Events exposing (onClick)
-import Animation exposing (px)
-import Animation
-import Scroll exposing (Move)
+--import Animation exposing (px)
+--import Animation
+--import Scroll exposing (Move)
 import Time exposing (millisecond)
 import String
 import Random
@@ -91,8 +91,8 @@ buildLogo image cssClasses =
         { headerModel: StickyHeader.Model }
 -}
 type alias Model =
-    { style : Animation.State
-    , current : Float
+    --{ style : Animation.State
+    { current : Float
     , nextGoal : Float
     , logo : Maybe Logo
     , brand : Maybe Item
@@ -114,8 +114,8 @@ type alias Model =
 -}
 initialModel : Maybe Logo -> Maybe Item -> List Item -> Model
 initialModel logo brand links =
-    { style = Animation.style [ Animation.top (px 0) ]
-    , current = 0.0
+    --{ style = Animation.style [ Animation.top (px 0) ]
+    { current = 0.0
     , nextGoal = 0.0
     , logo = logo
     , brand = brand
@@ -135,19 +135,19 @@ initialModel logo brand links =
 
 -}
 type Msg
-    = Header Move
-    | Animate Animation.Msg
-    | Select Int
+    --=Header Move
+    --| Animate Animation.Msg
+    = Select Int
     | ToggleNavbar
 
 init =
     ( initialModel, Cmd.none )
-
+{--
 easing speed =
     Animation.easing
         { duration = toFloat(speed) * millisecond
         , ease = (\x -> x^2)
-        }
+        }--}
 
 animateScroll : Model -> (Model, Cmd a)
 animateScroll model =
@@ -157,19 +157,20 @@ animateScroll model =
         speed =
             if (start > end) then model.speedUp
             else model.speedDown
-        style = 
+        {--style = 
             Animation.queue [ Animation.toWith (easing speed) [ Animation.top (px end ) ] ]
-                <| Animation.style [ Animation.top (px start) ]
-        newModel = { model | style = style }
+                <| Animation.style [ Animation.top (px start) ] --}
+        newModel = model --{ model | style = style }
     in
         --(newModel, Cmd.none)
         (model, Cmd.none)
-
+{--
 onGrow model =
     Scroll.onUp animateScroll
 
 onShrink model =
     Scroll.onDown (\m -> (m, Cmd.none))
+--}
 
 
 {-| Update function to handle the header's messages. It needs to be placed inside your application's update function.
@@ -186,6 +187,7 @@ onShrink model =
 update : Msg -> Model -> (Model, Cmd a)
 update action model =
     case action of
+    {--
         Animate animMsg ->
             let
                 newModel = 
@@ -195,12 +197,16 @@ update action model =
                     }
             in
                 (newModel, Cmd.none)
-        Header move ->
+                --}
+        --Header move ->
+         --   (model, Cmd.none)
+            {--
             let
                 (previous, current) = move
                 newModel = { model | nextGoal = current } 
             in
                 Scroll.handle [ onGrow model, onShrink model ] move newModel
+                --}
         Select index ->
             ({ model | active = Just index }, Cmd.none)
         ToggleNavbar ->
@@ -241,7 +247,7 @@ makeLogo logo =
 view : Model -> Html.Html Msg
 view model =
     let
-        styles = Animation.render model.style
+        --styles = Animation.render model.style
         activeIndex = Maybe.withDefault (Random.minInt) model.active
         logo =
             Maybe.map (\l -> makeLogo l) model.logo
@@ -255,7 +261,7 @@ view model =
             (if model.headerCollapsed then "collapse"
             else "collapse in") ++ " navbar-collapse"
     in
-        header ([ class "col-xs-12 col-sm-12 col-md-12 menu" ] ++ styles )
+        header ([ class "col-xs-12 col-sm-12 col-md-12 menu" ] ) --++ styles )
             [ nav [ class "navbar navbar-default" ]
               [ div [ class "container" ]
                 [ div [ class "navbar-header" ]
@@ -282,7 +288,7 @@ view model =
 
     port scroll : (Move -> msg) -> Sub msg
 -}
-type alias Port = (Move -> Msg) -> Sub Msg
+type alias Port = Int --(Move -> Msg) -> Sub Msg
 
 {-| Provide the subscription to the JS port which brings the scroll values.
     The port named 'scroll' needs to be fed with window's scroll event.
@@ -311,7 +317,9 @@ type alias Port = (Move -> Msg) -> Sub Msg
 
 -}
 subscriptions : Port -> Model -> List (Sub Msg)
-subscriptions portForScroll model =
+subscriptions portForScroll model = []
+{--
     [ portForScroll Header
     , Animation.subscription Animate [ model.style ]
     ]
+--}

@@ -1,15 +1,14 @@
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header, hr, h5, 
                       ol, li, h2, h3, h4, text, form, input, label, fieldset, img, span, h6, footer, button)
 
-import Html.App as App
 import Html.Events exposing (onClick, on, onInput)
-import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, style)
+import Html.Attributes exposing ( id, type_, for, value, class, href, class, required, src, disabled, style)
 import Platform.Sub
 import String
 import StickyHeader
 
 import Content exposing (..)
-import Ports exposing (..)
+--import Ports exposing (..)
 import Form
 import Shared exposing (..)
 import HttpUtils exposing (registerMe)
@@ -17,8 +16,8 @@ import HttpUtils exposing (registerMe)
 
 -- PROGRAM
 
-main : Program Never
-main = App.program
+main : Program Never Model Msg
+main = Html.program
   { init = init
   , view = view
   , update = update
@@ -37,9 +36,9 @@ update msg model =
   case msg of
     Register ->
       ( { model | signed = True }, registerMe model )
-    PostSucceed result ->
+    PostResult (Ok result) ->
         ( { model | registered = True }, Cmd.none )
-    PostFail error ->
+    PostResult (Err error) ->
       let er = Debug.log "Post failed" (toString error) 
       in
       ( { model | error = er }, Cmd.none )
@@ -50,6 +49,9 @@ update msg model =
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
     StickyHeaderMsg subMsg->
+      (model, Cmd.none)
+        {--
+    StickyHeaderMsg subMsg->
       let
         ( updatedHeaderModel, headerCmd ) =
             StickyHeader.update subMsg model.headerModel
@@ -57,6 +59,7 @@ update msg model =
         ( { model | headerModel = updatedHeaderModel }
         , Cmd.map StickyHeaderMsg headerCmd
         )
+        --}
 
     
 -- VIEW
@@ -94,7 +97,7 @@ view model =
     disableForm = (Form.isFormInvalid model.formModel) || model.registered
   in
     div [ id "container" ]
-      [ App.map StickyHeaderMsg (StickyHeader.view model.headerModel)
+      [ Html.map StickyHeaderMsg (StickyHeader.view model.headerModel)
 
       , section [ id "home", class "row banner" ]
         [ h2 [] [ text "Malta JS" ]
@@ -105,7 +108,7 @@ view model =
       , section [ id "subscribe", class "row subscribe" ]
         [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
           [ h4 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
-        , App.map FormMsg (Form.view model.formModel)
+        , Html.map FormMsg (Form.view model.formModel)
         , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
           [ renderAlert model
           , button 
@@ -282,5 +285,9 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
+  Sub.none
+{--
     List.map (Platform.Sub.map StickyHeaderMsg) (StickyHeader.subscriptions Ports.scroll model.headerModel)
         |> Sub.batch
+       )
+--}

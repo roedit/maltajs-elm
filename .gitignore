@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+*.lock
+.DS_Store
 
 # Runtime data
 pids

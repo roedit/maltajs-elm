@@ -1,6 +1,6 @@
-const sourceRoot = '../source/',
-    publicRoot = '../public/dist/',
-    serverRoot = '../server/',
+const sourceRoot = './source/',
+    publicRoot = './public/dist/',
+    serverRoot = './server/',
     bootstrapRoot = './node_modules/bootstrap/';
 
 module.exports = {

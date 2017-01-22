@@ -1,4 +1,4 @@
-var mongoose = require('../../devtools/node_modules/mongoose'),
+var mongoose = require('../../node_modules/mongoose'),
     Schema = mongoose.Schema;
 /*
 Subscribers Schema

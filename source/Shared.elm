@@ -1,7 +1,7 @@
 module Shared exposing (..)
 
 import Form exposing (Model)
-import Scroll exposing (Move)
+--import Scroll exposing (Move)
 import Http exposing (Error)
 import Html exposing (img)
 import Html.Attributes exposing (src)
@@ -49,7 +49,6 @@ initialModel =
 
 type Msg
   = Register
-  | PostSucceed String
-  | PostFail Error
+  | PostResult (Result Error String)
   | FormMsg Form.Msg
   | StickyHeaderMsg StickyHeader.Msg

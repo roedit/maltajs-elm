@@ -1,6 +1,6 @@
-var express = require("../devtools/node_modules/express");
-var bodyParser = require("../devtools/node_modules/body-parser");
-var morgan = require("../devtools/node_modules/morgan");
+var express = require("../node_modules/express");
+var bodyParser = require("../node_modules/body-parser");
+var morgan = require("../node_modules/morgan");
 var db = require("./db.js");
 var app = express();
 
