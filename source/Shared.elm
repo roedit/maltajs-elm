@@ -14,34 +14,14 @@ type alias Model =
   , signed : Bool
   , error : String
   , formModel : Form.Model
-  , headerModel : StickyHeader.Model
   }
-
-headerLinks =
-    List.map 
-        (\(title, url) -> StickyHeader.buildActiveItem title url [])
-        [ ("Subscribe", "#subscribe")
-        , ("Schedule", "#schedule")
-        , ("Speakers", "#speakers")
-        , ("Location", "#location")
-        , ("Contacts", "#contacts")
-        ]
 
 initialModel : Model
 initialModel =
-  let
-    headerBrand = StickyHeader.buildItem "MaltaJS" [ "brand" ]
-    headerLogo =
-      StickyHeader.buildLogo
-        (img [ src "images/logo.jpg" ] []) [ "header-logo" ]
-    headerInitialModel =
-      StickyHeader.initialModel (Just headerLogo) (Just headerBrand) headerLinks
-  in
     { registered = False
     , signed = False
     , error = ""
     , formModel = Form.initialModel
-    , headerModel = headerInitialModel
     }
 
 
@@ -51,4 +31,3 @@ type Msg
   = Register
   | PostResult (Result Error String)
   | FormMsg Form.Msg
-  | StickyHeaderMsg StickyHeader.Msg

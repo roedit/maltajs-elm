@@ -97,7 +97,7 @@
 
     window.onscroll = function() {
         var newScroll = window.pageYOffset || document.body.scrollTop;
-        myApp.ports.scroll.send([scroll, newScroll]);
+        // myApp.ports.scroll.send([scroll, newScroll]);
         scroll = newScroll;
     };
 
