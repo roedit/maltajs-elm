@@ -108,6 +108,8 @@ view model =
         , p [] [ text "Talks, meetups, coding sessions, ..." ]
         ]
 
+      , viewAbout model
+
        , footer [ class "footer" ]
         [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
           [ div [ class "leftSide" ]
@@ -116,6 +118,15 @@ view model =
           ]
         ]
       ]
+
+viewAbout : Model -> Html Msg
+viewAbout model =
+     section [ id "about", class "row about" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+          [ h4 [] [ text "About" ] ]
+        , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+          [ Content.aboutView ]
+        ]
 
 
 subscriptions : Model -> Sub Msg
