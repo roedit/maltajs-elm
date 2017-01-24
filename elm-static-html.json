@@ -1,0 +1,8 @@
+{
+    "files": {
+        "source/Main.elm": {
+            "output":"index.html",
+            "viewFunction":"initialView"
+        }
+    }
+}
