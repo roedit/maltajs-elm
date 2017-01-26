@@ -1,18 +1,20 @@
 const sourceRoot = './source/',
-    publicRoot = './public/dist/',
+    publicRoot = './public/assets/dist/',
     serverRoot = './server/',
     bootstrapRoot = './node_modules/bootstrap/';
 
 module.exports = {
     source: {
         sass: sourceRoot + 'styles/**/*.scss',
-        js: sourceRoot + '**/*.elm'
+        js: sourceRoot + '**/*.elm',
+        templates: sourceRoot + 'templates/',
     },
     public: {
         root: publicRoot,
         sass: publicRoot + 'css/',
         js: publicRoot + 'js',
-        fonts: publicRoot + 'fonts'
+        fonts: publicRoot + 'fonts',
+        html: publicRoot
     },
     server: serverRoot + 'server.js',
     bootstrap: {
