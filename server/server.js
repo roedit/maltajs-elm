@@ -3,11 +3,12 @@ var bodyParser = require("../node_modules/body-parser");
 var morgan = require("../node_modules/morgan");
 var db = require("./db.js");
 var app = express();
+var publicFolder = __dirname.replace(/server/,'public/')
 
 // Set the port
 app.set("port", process.env.PORT || 3000);
 // Set the server working directory
-//app.use(express.static(__dirname + './../public'));
+app.use(express.static(publicFolder+'assets/'));
 // log every request to the console
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -28,12 +29,12 @@ var detector = require('../node_modules/spider-detector');
  
 app.use(detector.middleware())
 
-var public =  __dirname.replace(/server/,'public/')
-
 app.get('/', function(req, res) {
     if (req.isSpider()) {
-        res.sendFile(public+'prerender.html')
+        console.log('spider!')
+        res.sendFile(publicFolder+'static.html')
     } else {
-        res.sendFile(public+'index.html')
+        console.log('app!!')
+        res.sendFile(publicFolder+'index.html')
     }
 })
