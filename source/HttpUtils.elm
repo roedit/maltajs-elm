@@ -13,6 +13,7 @@ decoder =
     Json.Decode.at [ "subscriber" ]
        ( Json.Decode.string )
 
+
 registerMe : Model -> Cmd Msg
 registerMe model =
   let
@@ -20,12 +21,8 @@ registerMe model =
     body = model.formModel
       |> Form.formToJson
       |> Json.Encode.encode 0 
-      |> Http.string
-    request =
-      { verb = "POST"
-      , headers = [( "Content-Type", "application/json" )]
-      , url = url
-      , body = body 
-      }
+      |> Http.stringBody "application/json"
+    post : Http.Request String
+    post = Http.post url body decoder
   in
-    Task.perform PostFail PostSucceed (Http.fromJson decoder (Http.send Http.defaultSettings request))
+    Http.send PostResult post

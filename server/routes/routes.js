@@ -1,7 +1,7 @@
 module.exports= function(app) {
     var model     = require('../models/schema');
-    var nodemailer = require('../../devtools/node_modules/nodemailer');
-    var sgTransport = require('../../devtools/node_modules/nodemailer-sendgrid-transport');
+    var nodemailer = require('../../node_modules/nodemailer');
+    var sgTransport = require('../../node_modules/nodemailer-sendgrid-transport');
 
     /**
      * Get subscribers list

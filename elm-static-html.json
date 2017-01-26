@@ -1,0 +1,8 @@
+{
+    "files": {
+        "source/Main.elm": {
+            "output":"source/templates/body-static.html",
+            "viewFunction":"initialView"
+        }
+    }
+}

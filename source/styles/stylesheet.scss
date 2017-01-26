@@ -1,11 +1,12 @@
 // Bootstrap
-@import '../../devtools/node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
 // Shared
 @import 'shared/main.scss';
 @import 'shared/bootstrapOverwrite.scss';
 
 // Components
+@import 'components/about.scss';
 @import 'components/banner.scss';
 @import 'components/contact.scss';
 @import 'components/countdown.scss';

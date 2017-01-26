@@ -10,10 +10,14 @@
 
 ## Instructions
 
+$ cd devtools
+
 $ npm install
+
+$ elm package install -y
 
 $ gulp build
 
-$ npm start
+$ gulp server
 
 Navigate to `localhost:3000`

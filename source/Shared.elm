@@ -1,7 +1,7 @@
 module Shared exposing (..)
 
 import Form exposing (Model)
-import Scroll exposing (Move)
+--import Scroll exposing (Move)
 import Http exposing (Error)
 import Html exposing (img)
 import Html.Attributes exposing (src)
@@ -14,34 +14,14 @@ type alias Model =
   , signed : Bool
   , error : String
   , formModel : Form.Model
-  , headerModel : StickyHeader.Model
   }
-
-headerLinks =
-    List.map 
-        (\(title, url) -> StickyHeader.buildActiveItem title url [])
-        [ ("Subscribe", "#subscribe")
-        , ("Schedule", "#schedule")
-        , ("Speakers", "#speakers")
-        , ("Location", "#location")
-        , ("Contacts", "#contacts")
-        ]
 
 initialModel : Model
 initialModel =
-  let
-    headerBrand = StickyHeader.buildItem "MaltaJS" [ "brand" ]
-    headerLogo =
-      StickyHeader.buildLogo
-        (img [ src "images/logo.jpg" ] []) [ "header-logo" ]
-    headerInitialModel =
-      StickyHeader.initialModel (Just headerLogo) (Just headerBrand) headerLinks
-  in
     { registered = False
     , signed = False
     , error = ""
     , formModel = Form.initialModel
-    , headerModel = headerInitialModel
     }
 
 
@@ -49,7 +29,5 @@ initialModel =
 
 type Msg
   = Register
-  | PostSucceed String
-  | PostFail Error
+  | PostResult (Result Error String)
   | FormMsg Form.Msg
-  | StickyHeaderMsg StickyHeader.Msg
