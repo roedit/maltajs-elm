@@ -1,8 +1,0 @@
-{
-    "files": {
-        "Main.elm": {
-            "output":"index.html",
-            "viewFunction":"viewForRender"
-        }
-    }
-}
