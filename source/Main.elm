@@ -1,3 +1,4 @@
+module Main exposing (..)
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header, hr, h5, 
                       ol, li, h2, h3, h4, text, form, input, label, fieldset, img, span, h6, footer, button)
 
@@ -27,6 +28,7 @@ init : ( Model, Cmd Msg )
 init =
     ( initialModel, Cmd.none )
 
+initialView = view initialModel
 
 -- UPDATE
 
@@ -34,7 +36,9 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Register ->
-      ( { model | signed = True }, registerMe model )
+      let signed = Debug.log "signed" (not model.signed)
+      in
+        ( { model | signed = signed }, registerMe model )
     PostResult (Ok result) ->
         ( { model | registered = True }, Cmd.none )
     PostResult (Err error) ->
@@ -108,7 +112,11 @@ view model =
         , p [] [ text "Talks, meetups, coding sessions, ..." ]
         ]
 
-       , footer [ class "footer" ]
+      , viewAbout model
+      , div [] [ text (toString model) ]
+      , button [ onClick Register ] [ text "Button" ]
+
+      , footer [ class "footer" ]
         [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
           [ div [ class "leftSide" ]
             [ p [] [ text "Copyright Ⓒ MaltaJs 2017 All Rights Reserved" ] ]
@@ -116,6 +124,15 @@ view model =
           ]
         ]
       ]
+
+viewAbout : Model -> Html Msg
+viewAbout model =
+     section [ id "about", class "row about" ]
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+          [ h4 [] [ text "About" ] ]
+        , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+          [ Content.aboutView ]
+        ]
 
 
 subscriptions : Model -> Sub Msg
