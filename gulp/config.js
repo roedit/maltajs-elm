@@ -1,9 +1,14 @@
 const sourceRoot = './source/',
-    publicRoot = './public/assets/dist/',
+    distRoot = './public/assets/dist/',
+    assetsRoot = './public/assets/',
+    publicRoot = './public/',
     serverRoot = './server/',
     bootstrapRoot = './node_modules/bootstrap/';
 
 module.exports = {
+    assets: {
+      images: sourceRoot + 'images/*'
+    },
     source: {
         sass: sourceRoot + 'styles/**/*.scss',
         js: sourceRoot + '**/*.elm',
@@ -11,10 +16,11 @@ module.exports = {
     },
     public: {
         root: publicRoot,
-        sass: publicRoot + 'css/',
-        js: publicRoot + 'js',
-        fonts: publicRoot + 'fonts',
-        html: publicRoot
+        sass: assetsRoot + 'css/',
+        js: assetsRoot + 'js',
+        fonts: assetsRoot + 'fonts',
+        html: publicRoot,
+        images: assetsRoot+'images' 
     },
     server: serverRoot + 'server.js',
     bootstrap: {

@@ -1,10 +1,14 @@
-all:
-	elm-make source/Main.elm --output=public/dist/js/app-min.js
+elm:
+	elm-make source/Main.elm --output=public/assets/js/app-min.js
 	elm-static-html -c elm-static-html.json
+templates:
 	gulp html:app
 	gulp html:static
+styles:
 	gulp styles
-	gulp copy
 clean:
 	gulp clean
+copy:
+	gulp copy
+all: clean elm templates styles copy
 
