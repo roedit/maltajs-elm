@@ -1,4 +1,4 @@
-module StickyHeader exposing
+module Header exposing
     ( Item
     , Config
     , view
@@ -19,7 +19,7 @@ module StickyHeader exposing
 
 import Html
 import Html exposing (div, header, text, h1, nav, a, img, span, ul, li, button)
-import Html.Attributes exposing (href, class)
+import Html.Attributes exposing (href, class, value)
 import Html.Events exposing (onClick)
 import Time exposing (millisecond)
 import String
@@ -43,10 +43,11 @@ type Logo msg
         , image : Html.Html msg
         }
 
+
 {-| Build a Item with a title and a list of css classes to be applied
 
     -- a header's item just showing the title
-    headerBrand = StickyHeader.buildItem "" []
+    headerBrand = Header.buildItem "" []
 -}
 buildItem : String -> List String -> Item
 buildItem title cssClasses =
@@ -55,7 +56,7 @@ buildItem title cssClasses =
 {-| Build a Item with a title and a list of css classes to be applied
 
     -- a header's item just showing the title
-    headerBrand = StickyHeader.buildActiveItem "" "#home" []
+    headerBrand = Header.buildActiveItem "" "#home" []
 -}
 buildActiveItem : String -> String -> List String -> Item
 buildActiveItem title url cssClasses =
@@ -66,7 +67,7 @@ buildActiveItem title url cssClasses =
 
     -- a simple logo with an image and the class 'logo' applied on it
     logoImage = 
-        headerLogo = StickyHeader.buildLogo (img [ src "logo-elm.png" ] []) [ "logo" ]
+        headerLogo = Header.buildLogo (img [ src "logo-elm.png" ] []) [ "logo" ]
 -} 
 buildLogo : (Html.Html msg) -> List String -> Logo msg
 buildLogo image cssClasses =
@@ -80,6 +81,7 @@ type alias Config msg =
     { logo : Maybe (Logo msg)
     , brand : Maybe Item 
     , links : List Item
+    , onClickLink : Maybe (Bool -> msg)
     }
 
 makeLink : Int -> Int -> Item -> Html.Html msg
@@ -120,6 +122,11 @@ view config headerCollapsed active =
         collapsedClasses =
             (if headerCollapsed then "collapse"
             else "collapse in") ++ " navbar-collapse"
+        navBarToggle =
+          Maybe.withDefault (button [ class "navbar-toggle"])
+            (Maybe.map
+              (\f -> (button [ class "navbar-toggle",  onClick (f headerCollapsed)]))
+              config.onClickLink)
     in
         header ([ class "col-xs-12 col-sm-12 col-md-12 menu" ] )
             [ nav [ class "navbar navbar-default" ]
@@ -127,8 +134,7 @@ view config headerCollapsed active =
                 [ div [ class "navbar-header" ]
                   [ a [ href "#home" ]
                     [ div [ class "logo" ] [] ]
-                  --, button [ class "navbar-toggle", onClick ToggleNavbar ]
-                  , button [ class "navbar-toggle" ]
+                  , navBarToggle 
                     [ span [ class "sr-only" ] []
                     , span [ class "icon-bar" ] []
                     , span [ class "icon-bar" ] []

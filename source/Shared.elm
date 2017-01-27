@@ -1,33 +1,18 @@
 module Shared exposing (..)
 
-import Form exposing (Model)
---import Scroll exposing (Move)
 import Http exposing (Error)
 import Html exposing (img)
 import Html.Attributes exposing (src)
-import StickyHeader
+import Header
+
 
 -- MODEL
 
+
 type alias Model = 
-  { registered : Bool
-  , signed : Bool
-  , error : String
-  , formModel : Form.Model
-  }
+  { showNavigation: Bool }
 
 initialModel : Model
 initialModel =
-    { registered = False
-    , signed = False
-    , error = ""
-    , formModel = Form.initialModel
-    }
+    { showNavigation = True }
 
-
--- MESSAGE
-
-type Msg
-  = Register
-  | PostResult (Result Error String)
-  | FormMsg Form.Msg
