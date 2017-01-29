@@ -30,7 +30,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server"
+    "start": "node server/server",
+    "postinstall": "elm-package install -y"
   },
   "author": "",
   "license": "ISC"
