@@ -6,6 +6,9 @@ npm-debug.log*
 .DS_Store
 public/
 
+# this template is generated from elm
+source/templates/body-static.html
+
 # Runtime data
 pids
 *.pid
