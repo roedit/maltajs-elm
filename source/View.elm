@@ -37,10 +37,12 @@ header headerCollapsed active onNavigation  =
     logo =
       Header.buildLogo
         (img [ src "images/logo.jpg" ] []) [ "header-logo" ]
-    links =
+    links = []
+      {--
         List.map 
             (\(title, url) -> Header.buildActiveItem title url [])
             [ ("Past events", "/") ]
+            --}
     config : Header.Config msg
     config = Header.Config (Just logo) (Just brand) links (Just onNavigation)
   in

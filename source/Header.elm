@@ -122,10 +122,11 @@ view config headerCollapsed active =
         collapsedClasses =
             (if headerCollapsed then "collapse"
             else "collapse in") ++ " navbar-collapse"
+        navBarToggleClass = if (List.isEmpty config.links) then "hide" else "navbar-toggle"
         navBarToggle =
-          Maybe.withDefault (button [ class "navbar-toggle"])
+          Maybe.withDefault (button [ class navBarToggleClass ])
             (Maybe.map
-              (\f -> (button [ class "navbar-toggle",  onClick (f headerCollapsed)]))
+              (\f -> (button [ class navBarToggleClass,  onClick (f headerCollapsed)]))
               config.onClickLink)
     in
         header ([ class "col-xs-12 col-sm-12 col-md-12 menu" ] )
