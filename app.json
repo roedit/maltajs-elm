@@ -1,0 +1,15 @@
+{
+    "name": "MJS",
+    "repository": "https://github.com/pietro909/maltajs-elm",
+    "env": {
+        "ELM_COMPILE": "make all"
+    },
+    "buildpacks": [
+        {
+            "url": "https://github.com/srid/heroku-buildpack-elm.git"
+        },
+        {
+            "url": "https://github.com/hone/heroku-buildpack-static"
+        }
+    ]
+}

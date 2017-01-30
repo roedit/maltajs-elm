@@ -1,6 +1,6 @@
 elm:
 	elm-make source/Main.elm --output=public/assets/js/app-min.js
-	elm-static-html -c elm-static-html.json
+	node_modules/.bin/elm-static-html -c elm-static-html.json
 templates:
 	gulp html:app
 	gulp html:static
