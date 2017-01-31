@@ -5,12 +5,15 @@
 <script>
     /** gmap **/
     function myMap() {
+      /*
         var defaultProps = {
             initialZoom: 17,
             mapCenterLat: 35.8512874,
             mapCenterLng: 14.4943021
         };
+        */
         var mapCanvas = document.getElementById("map");
+        var defaultProps = JSON.parse(mapCanvas.dataset.coordinates);
         var mapCenterLatLng = new google.maps.LatLng(defaultProps.mapCenterLat, defaultProps.mapCenterLng);
 
         var mapOptions = {
@@ -69,7 +72,7 @@
         // a trivial check
         for (var i = 0; i < mutationRecords.length; i += 1) {
             if (mutationRecords[i].addedNodes.length > 0) {
-                // myMap();
+                myMap();
                 // stop observing, if not needed anymore
                 mo.disconnect();
             }

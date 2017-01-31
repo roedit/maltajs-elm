@@ -1,7 +1,17 @@
-module View exposing (banner, contacts, footer, header, about, eventDescription)
+module View exposing
+  ( Coordinates
+  , banner
+  , contacts
+  , footer
+  , header
+  , about
+  , eventDescription
+  , map
+  )
 
 import Html exposing (Html, a, div, img, hr, h2, h3, h4, h5, span, section,  text, p)
 import Html.Attributes exposing (class, id, src, href, style, attribute)
+import Json.Encode as JSE
 
 import Shared exposing (Model)
 import Content exposing (..)
@@ -142,13 +152,13 @@ renderExtendedSchedule schedule =
     , div [ class "col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker" ]
       [ div
       -- speaker's image
-        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/pietro_grandi.jpg\");" ]
+        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.jpg\");" ]
         []
       , h5 []
         [ span []
           [ text schedule.title ]
         , span [ class "compute" ]
-          [ text "with " ]
+          [ text " with " ]
         , span []
           [ text schedule.name ]
         ]
@@ -191,3 +201,29 @@ eventDescription =
       , renderSchedule (Schedule "20:30" "21:00" "Networking")
       ]
     ]
+
+type alias Coordinates =
+  { initialZoom : Int
+  , latitude : Float
+  , longitude : Float
+  }
+
+map : Coordinates -> Html msg
+map coordinates =
+  let
+    json =
+      JSE.object
+        [ ("initialZoom", JSE.int coordinates.initialZoom)
+        , ("mapCenterLat", JSE.float coordinates.latitude)
+        , ("mapCenterLng", JSE.float coordinates.longitude)
+        ]
+  in
+    section [ id "location", class "row location" ]
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+        [ h4 [] [ text "Location" ] ]
+      , div
+        [ id "map"
+        , class "map-gic"
+        , attribute "data-coordinates" (JSE.encode 0 json) ] []
+      ]
+        

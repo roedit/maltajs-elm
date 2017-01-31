@@ -60,8 +60,9 @@ view model =
 
     , View.contacts
 
-    , View.footer
+    , View.map (View.Coordinates 16 35.8512874 14.4943021)
 
+    , View.footer
     ]
 
 
