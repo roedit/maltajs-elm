@@ -58,72 +58,113 @@ about model =
       [ Content.aboutView ]
     ]
 
-type alias Schedule msg =
+type alias Schedule =
   { start: String
   , end: String
-  , content: Maybe (Html msg)
-  , title: Maybe String
+  , title: String
+  }
+type alias ExtendedSchedule =
+  { start: String
+  , end: String
+  , title: String
+  , name: String
+  , description: String 
+  , links: List (String, String)
   }
 
+type alias Organizer =
+  { name : String
+  , email : String
+  }
+
+viewOrganizer : Organizer -> Html msg
+viewOrganizer organizer =
+  div [ class "col-xs-12 col-sm-6 col-md-6 col-lg-6" ]
+    [ div [ class "organizer" ]
+      [ div [ class "name" ]
+        [ text organizer.name ]
+      , div [ class "position" ]
+        [ text "Event Organizer" ]
+      , div []
+        [ span [ class "glyphicon glyphicon-envelope" ]
+          []
+        , p [ class "email" ]
+          [ text organizer.email ]
+        ]
+      ]
+    ]
+
+renderSchedule : Schedule -> Html msg
+renderSchedule schedule =
+  div [ class "row scheduleRow" ]
+    [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground" ]
+      [ timeSpan schedule.start schedule.end
+      , div [ class "col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter" ]
+        [ text schedule.title ]
+      ]
+    ]
 
 contacts : Html msg
 contacts =
   section [ class "row contact", id "contact" ]
-  [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
-    [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-      [ h4 []
-        [ text "Contact" ]
-      ]
-    , div [ class "col-xs-12 col-sm-6 col-md-6 col-lg-6" ]
-      [ div [ class "organizer" ]
-        [ div [ class "name" ]
-          [ text "Andrei Toma" ]
-        , div [ class "position" ]
-          [ text "Event Organizer" ]
-        , div []
-          [ span [ class "glyphicon glyphicon-envelope" ]
-            []
-          , p [ class "email" ]
-            [ text "mail@andreitoma.com" ]
-          ]
-        , div []
-          [ span [ class "glyphicon glyphicon-earphone" ]
-            []
-          , p [ class "phone" ]
-            [ span []
-              [ text "+40" ]
-            , span []
-              [ text "744267230" ]
-            ]
-          ]
+    [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+        [ h4 []
+          [ text "Contact" ]
         ]
-      ]
-    , div [ class "col-xs-12 col-sm-6 col-md-6 col-lg-6" ]
-      [ div [ class "organizer" ]
-        [ div [ class "name" ]
-          [ text "Bogdan Dumitriu" ]
-        , div [ class "position" ]
-          [ text "Event Organizer" ]
-        , div []
-          [ span [ class "glyphicon glyphicon-envelope" ]
-            []
-          , p [ class "email" ]
-            [ text "boggdan.dumitriu@gmail.com" ]
-          ]
-        , div []
-          [ span [ class "glyphicon glyphicon-earphone" ]
-            []
-          , p [ class "phone" ]
-            [ span []
-              [ text "+356" ]
-            , span []
-              [ text "99946933" ]
-            ]
-          ]
-        ]
+      , viewOrganizer (Organizer "Andrei Toma" "andrei@maltajs.com")
+      , viewOrganizer (Organizer "Bogdan Dumitru" "bogdan@maltajs.com")
+      , viewOrganizer (Organizer "Pietro Grandi" "pietro@maltajs.com")
+      , viewOrganizer (Organizer "Contact" "contact@maltajs.com")
       ]
     ]
-  ]
+
+timeSpan : String -> String -> Html msg
+timeSpan start end =
+  div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
+    [ span []
+      [ text start ]
+    , span []
+      [ text "-" ]
+    , span []
+      [ text end ]
+    ]
+
+
+renderExtendedSchedule : ExtendedSchedule -> Html msg
+renderExtendedSchedule schedule =
+  div [ class "row scheduleRow" ]
+    [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle" ]
+      [ timeSpan schedule.start schedule.end
+      , div [ class "col-xs-8 col-sm-10 col-md-10 col-lg-10 eventLine" ]
+        [ hr [] [] ]
+      ]
+    , div [ class "col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker" ]
+      [ div
+      -- speaker's image
+        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/pietro_grandi.jpg\");" ]
+        []
+      , h5 []
+        [ span []
+          [ text schedule.title ]
+        , span [ class "compute" ]
+          [ text "with " ]
+        , span []
+          [ text schedule.name ]
+        ]
+      , p []
+        [ text schedule.description ]
+        -- links (type, link)
+        {--
+      , a [ class "linkedin" ]
+        []
+      , a [ class "website", href "http://pietrograndi.com" ]
+        []
+        ]--}
+      ]
+    ]
+
+
 
 --eventDescription : Html msg
 eventDescription =
@@ -135,85 +176,18 @@ eventDescription =
       ]
 
     , div []
-      [ div [ class "row scheduleRow" ]
-        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground" ]
-          [ div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
-            [ span []
-              [ text "12:00" ]
-            , span []
-              [ text "-" ]
-            , span []
-              [ text "12:15" ]
-            ]
-          , div [ class "col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter" ]
-            [ text "WELCOME COFFEE & REGISTRATION" ]
-          ]
-        ]
+      [ renderSchedule (Schedule "19:00" "19:15" "WELCOME COFFEE & REGISTRATION")
 
-      , div [ class "row scheduleRow" ]
-        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground" ]
-          [ div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
-            [ span []
-              [ text "12:15" ]
-            , span []
-              [ text "-" ]
-            , span []
-              [ text "12:30" ]
-            ]
-          , div [ class "col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter" ]
-            [ text "Welcome speech" ]
-          ]
-        ]
+      , renderSchedule (Schedule "19:15" "19:30" "Welcome speech")
 
-      , div [ class "row scheduleRow" ]
-        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle" ]
-          [ div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
-            [ span []
-              [ text "12:30" ]
-            , span []
-              [ text "-" ]
-            , span []
-              [ text "13:30" ]
-            ]
-          , div [ class "col-xs-8 col-sm-10 col-md-10 col-lg-10 eventLine" ]
-            [ hr []
-              []
-            ]
-          ]
-        , div [ class "col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker" ]
-          [ div
-            [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/pietro_grandi.jpg\");" ]
-            []
-          , h5 []
-            [ span []
-              [ text "Elm: frontend code without runtime exceptions" ]
-            , span [ class "compute" ]
-              [ text "with " ]
-            , span []
-              [ text "Pietro Grandi" ]
-            ]
-          , p []
-            [ text "As the market started asking for more complex web-applications, the limits of a dynamic, loosely typed language like                    Javascript forced the developers to look for solutions like Flow and Typescript. Elm is a functional language which                    compiles to Javascript. It is strongly typed, has an ML syntax, and a small, yet skilled and growing, community.                    " ]
-          , a [ class "linkedin" ]
-            []
-          , a [ class "website", href "http://pietrograndi.com" ]
-            []
-          ]
-
-        , div [ class "row scheduleRow" ]
-          [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 eventTitle eventBackground" ]
-            [ div [ class "col-xs-4 col-sm-2 col-md-2 col-lg-2 eventTimeHolder" ]
-              [ span []
-                [ text "13:30" ]
-              , span []
-                [ text "-" ]
-              , span []
-                [ text "14:00" ]
-              ]
-            , div [ class "col-xs-8 col-sm-8 col-md-8 col-lg-8 textCenter" ]
-              [ text "Networking" ]
-            ]
-          ]
-        ]
+      , renderExtendedSchedule
+        (ExtendedSchedule
+          "19:30" "20:15"
+          "Webpack stuff"
+          "Peter Bakonyi"
+          "Bundling the frontend: wtf is it a mess and I have no idea how to do it. I hope Peter will handle it. Thank you."
+          []
+        )
+      , renderSchedule (Schedule "20:30" "21:00" "Networking")
       ]
     ]
