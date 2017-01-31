@@ -56,8 +56,13 @@ view model =
 
     , View.about model
 
-    , View.footer
+    , View.eventDescription 
 
+    , View.contacts
+
+    , View.map (View.Coordinates 16 35.8512874 14.4943021)
+
+    , View.footer
     ]
 
 
