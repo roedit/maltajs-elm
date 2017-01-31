@@ -56,6 +56,8 @@ view model =
 
     , View.about model
 
+    , View.event model
+
     , View.footer
 
     ]
