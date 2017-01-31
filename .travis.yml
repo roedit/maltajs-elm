@@ -2,8 +2,6 @@ language: haskell
 node_js:
   - 4.6.0
 install:
-  - cd devtools
   - npm install
-  - elm package install -y
 script:
-  - gulp build
+  - make all
