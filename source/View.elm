@@ -7,15 +7,18 @@ module View exposing
   , about
   , eventDescription
   , map
+  , registrationForm
   )
 
-import Html exposing (Html, a, div, img, hr, h2, h3, h4, h5, span, section,  text, p)
-import Html.Attributes exposing (class, id, src, href, style, attribute)
+import Html exposing (Html, a, button, div, img, hr, h2, h3, h4, h5, h6, span, section,  text, p)
+import Html.Attributes exposing (class, disabled, id, src, href, style, attribute)
+import Html.Events exposing (onClick)
 import Json.Encode as JSE
 
-import Shared exposing (Model)
+import Shared exposing (..)
 import Content exposing (..)
 import Header
+import Form
 
 twelveColumns = "col-xs-12 col-sm-12 col-md-12 col-lg-12"
 
@@ -226,4 +229,44 @@ map coordinates =
         , class "map-gic"
         , attribute "data-coordinates" (JSE.encode 0 json) ] []
       ]
-        
+
+alert : Model -> Html Msg
+alert model =
+  if (Form.isFormInvalid model.formModel) then
+    div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+      , formErrorView
+      ]
+  else if not((String.isEmpty model.error)) then
+    div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
+      [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
+      , p [] [ text "We apologize, something went wrong." ]
+      , p [ class "hide" ] [ text model.error ]
+      ]
+  else if (model.registered) then
+    div [ class "alert alert-success small" ]
+      [ span [ class "glyphicon glyphicon-info-sign" ] []
+      , p [] [ text "You're registered for the event!" ]  
+      ]
+  else
+    Html.text ""
+
+registrationForm : (String -> Msg) -> Model -> Html Msg
+registrationForm register model =
+  let
+    disableForm = (Form.isFormInvalid model.formModel) || model.registered
+  in
+    section [ id "subscribe", class "row subscribe" ]
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+        [ h4 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
+      , mapMsgToForm model
+      , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
+        [ alert model
+        , button 
+          [ onClick Register
+          , class "btn btn-default register"
+          , disabled disableForm
+          ] [ text "Subscribe" ]
+        ]
+    ]
+

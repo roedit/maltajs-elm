@@ -6,7 +6,7 @@ import Html exposing (Html, div, img, h2, h3, h4, h6, span, section,  text, p)
 import Html.Attributes exposing (class, id, src)
 
 import Content exposing (..)
-import Shared exposing (Model)
+import Shared exposing (..)
 import View
 import Header
 import Form
@@ -32,14 +32,6 @@ init =
 initialView = view Shared.initialModel
 
 
--- MESSAGE
-
-type Msg
-  = ToggleNavigation Bool
-  | FormMsg Form.Msg
-
-
-
 -- UPDATE
 
 
@@ -54,6 +46,8 @@ update msg model =
           Form.update subMsg model.formModel
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
+    Register ->
+      ( model, Cmd.none )
     
         
 view : Model -> Html Msg
@@ -67,19 +61,7 @@ view model =
 
     , View.eventDescription 
 
-    , section [ id "subscribe", class "row subscribe" ]
-      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h4 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
-      , Html.map FormMsg (Form.view model.formModel) 
-      , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
-        --[ renderAlert model
-        [ ] {--button 
-          [ onClick Register
-          , class "btn btn-default register"
-          , disabled disableForm
-          ] [ text "Subscribe" ]
-          ]--}
-    ]
+    , View.registrationForm (\_ -> Register) model
 
     , View.contacts
 
