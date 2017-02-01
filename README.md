@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/pietro909/maltajs-elm.svg?branch=master)](https://travis-ci.org/pietro909/maltajs-elm)
 
-# MaltaJS Elm event
+# MaltaJS website
 
 ## Requirements
 
@@ -10,14 +10,14 @@
 
 ## Instructions
 
-$ cd devtools
-
+```
 $ npm install
 
-$ elm package install -y
+$ make all
 
-$ gulp build
+$ AUTH_TOKEN=yoursecrettoken MONGODB_PORT=yourmongoport PORT=optional npm start
+```
 
-$ gulp server
+The app will be running on `localhost` at the port you specified (default is 3000).
 
-Navigate to `localhost:3000`
+Default port for **mongod** is 27017
