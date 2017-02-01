@@ -14,6 +14,7 @@ type alias Model =
   { error : String 
   , formModel : Form.Model
   , registered : Bool
+  , signed : Bool
   , showNavigation: Bool
   }
 
@@ -22,6 +23,7 @@ initialModel =
     { error = ""
     , formModel = Form.initialModel
     , registered = False
+    , signed = False
     , showNavigation = True
     }
 
@@ -31,6 +33,7 @@ initialModel =
 type Msg
   = ToggleNavigation Bool
   | FormMsg Form.Msg
+  | PostResult (Result Http.Error String)
   | Register
 
 mapMsgToForm : Model -> Html Msg

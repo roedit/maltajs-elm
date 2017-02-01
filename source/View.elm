@@ -251,10 +251,10 @@ alert model =
   else
     Html.text ""
 
-registrationForm : (String -> Msg) -> Model -> Html Msg
-registrationForm register model =
+registrationForm : Model -> Html Msg
+registrationForm model =
   let
-    disableForm = (Form.isFormInvalid model.formModel) || model.registered
+    disableForm = False && (Form.isFormInvalid model.formModel) || model.registered
   in
     section [ id "subscribe", class "row subscribe" ]
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]

@@ -7,6 +7,7 @@ import Html.Attributes exposing (class, id, src)
 
 import Content exposing (..)
 import Shared exposing (..)
+import HttpUtils exposing (registerMe)
 import View
 import Header
 import Form
@@ -47,7 +48,14 @@ update msg model =
       in
         ( { model | formModel = updatedFormModel }, Cmd.map FormMsg widgetCmd )
     Register ->
-      ( model, Cmd.none )
+      ( { model | signed = True }, registerMe model )
+    PostResult (Ok result) ->
+      ( { model | registered = True }, Cmd.none )
+    PostResult (Err httpError) ->
+      let
+        error = Debug.log "Post failed" (toString httpError) 
+      in
+          ( { model | error = error }, Cmd.none )
     
         
 view : Model -> Html Msg
@@ -61,7 +69,7 @@ view model =
 
     , View.eventDescription 
 
-    , View.registrationForm (\_ -> Register) model
+    , View.registrationForm model
 
     , View.contacts
 
