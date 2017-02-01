@@ -2,16 +2,29 @@ module.exports= function(app) {
     var model     = require('../models/schema');
     var nodemailer = require('../../node_modules/nodemailer');
     var sgTransport = require('../../node_modules/nodemailer-sendgrid-transport');
+    var AUTH_TOKEN = process.env.AUTH_TOKEN
 
     /**
      * Get subscribers list
      * http://localhost:3000/api/subscribers
      */
     app.get('/api/joined', function(req, res) {
+
+      console.log('token: '+AUTH_TOKEN)
+
+        if (AUTH_TOKEN === undefined || AUTH_TOKEN === '') {
+          res.send(500).send('Token not initialized')
+          return
+        }
+
+        if (req.query.token !== AUTH_TOKEN) {
+          res.send(401).send('Wrong token')
+          return
+        }
+
         var query = model.Subscribers.find();
 
         query.exec(function(err,subscribers){
-            console.log(subscribers);
             res.send(subscribers);
         });
     });

@@ -31,10 +31,8 @@ app.use(detector.middleware())
 
 app.get('/', function(req, res) {
     if (req.isSpider()) {
-        console.log('spider!')
         res.sendFile(publicFolder+'static.html')
     } else {
-        console.log('app!!')
         res.sendFile(publicFolder+'index.html')
     }
 })
