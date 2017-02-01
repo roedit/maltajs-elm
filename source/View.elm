@@ -241,6 +241,7 @@ alert model =
     div [ class "alert alert-danger small col-xs-12 col-sm-9" ]
       [ span [ class "glyphicon glyphicon-exclamation-sign" ] []
       , p [] [ text "We apologize, something went wrong." ]
+      , p [] [ text model.error ]
       , p [ class "hide" ] [ text model.error ]
       ]
   else if (model.registered) then

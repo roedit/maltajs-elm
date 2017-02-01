@@ -10,22 +10,20 @@ module.exports= function(app) {
      */
     app.get('/api/joined', function(req, res) {
 
-      console.log('token: '+AUTH_TOKEN)
-
         if (AUTH_TOKEN === undefined || AUTH_TOKEN === '') {
-          res.send(500).send('Token not initialized')
+          res.status(500).send('Token not initialized')
           return
         }
 
         if (req.query.token !== AUTH_TOKEN) {
-          res.send(401).send('Wrong token')
+          res.status(401).send('Wrong token')
           return
         }
 
         var query = model.Subscribers.find();
 
         query.exec(function(err,subscribers){
-            res.send(subscribers);
+            res.status('200').send(subscribers);
         });
     });
 
@@ -35,24 +33,35 @@ module.exports= function(app) {
      */
     app.post('/api/add-subscriber', function(req, res) {
         console.log(req.body);
-        var subscriber = new model.Subscribers();
 
-        subscriber.subscriberFirstName = req.body.name;
-        subscriber.subscriberLastName = req.body.surname;
-        subscriber.subscriberCompany = req.body.company;
-        subscriber.subscriberEmail = req.body.email;
+        model.Subscribers.find({ email: req.body.email }, function(err, user) {
+          console.log(user)
+          console.log(user.length)
+          if (user.length > 0) {
+            res.status(403).send('User already registered')
+          } else {
+            var subscriber = new model.Subscribers();
 
-        subscriber.save(function(err, subscriber) {
-            if (err) {
-                // if an error occurs, show it in console
-                console.log(err);
-                return err;
-            }
+            subscriber.firstName = req.body.name;
+            subscriber.lastName = req.body.surname;
+            subscriber.company = req.body.company;
+            subscriber.email = req.body.email;
 
-            res.send({
-                'subscriber': subscriber.subscriberFirstName
+            subscriber.save(function(err, subscriber) {
+                if (err) {
+                    // if an error occurs, show it in console
+                    console.log(err);
+                    return err;
+                }
+
+                res.status(200).send({
+                    'subscriber': subscriber.subscriberFirstName
+                });
             });
-        });
+
+          }
+        })
+
     });
 
     app.post('/api/contact', function(req, res) {
