@@ -5,7 +5,7 @@ import String
 import Html exposing (Html, div, img, h2, h3, h4, h6, span, section,  text, p)
 import Html.Attributes exposing (class, id, src)
 
-import Content exposing (..)
+--import Content exposing (..)
 import Shared exposing (..)
 import HttpUtils exposing (registerMe)
 import View
@@ -73,7 +73,7 @@ view model =
 
     , View.contacts
 
-    , View.map (View.Coordinates 16 35.8512874 14.4943021)
+    , View.map (View.Coordinates 15 35.8969459 14.4978039)
 
     , View.footer
     ]

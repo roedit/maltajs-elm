@@ -28,7 +28,7 @@ banner =
   section [ id "home", class "row banner" ]
     [ h2 [] [ text "Malta JS" ]
       , h3 [] [ text "Javascript community in Malta" ]
-      , p [] [ text "Talks, meetups, coding sessions, ..." ]
+      , p [] [ text "23rd of FEBRUARY | Royal Malta Yacht Club" ]
     ]
 
 
@@ -128,7 +128,7 @@ contacts =
       , viewOrganizer (Organizer "Andrei Toma" "andrei@maltajs.com")
       , viewOrganizer (Organizer "Bogdan Dumitru" "bogdan@maltajs.com")
       , viewOrganizer (Organizer "Pietro Grandi" "pietro@maltajs.com")
-      , viewOrganizer (Organizer "Contact" "contact@maltajs.com")
+      , viewOrganizer (Organizer "Organization" "contact@maltajs.com")
       ]
     ]
 
@@ -155,7 +155,7 @@ renderExtendedSchedule schedule =
     , div [ class "col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker" ]
       [ div
       -- speaker's image
-        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.jpg\");" ]
+        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.png\");" ]
         []
       , h5 []
         [ span []
@@ -168,12 +168,8 @@ renderExtendedSchedule schedule =
       , p []
         [ text schedule.description ]
         -- links (type, link)
-        {--
-      , a [ class "linkedin" ]
-        []
-      , a [ class "website", href "http://pietrograndi.com" ]
-        []
-        ]--}
+      , a [ class "linkedin", href "https://mt.linkedin.com/in/peter-bakonyi-58b68a74" ] []
+      , a [ class "github", href "https://github.com/peterbakonyi05" ] []
       ]
     ]
 
@@ -195,10 +191,12 @@ eventDescription =
 
       , renderExtendedSchedule
         (ExtendedSchedule
-          "19:30" "20:15"
-          "Webpack stuff"
-          "Peter Bakonyi"
-          "Bundling the frontend: wtf is it a mess and I have no idea how to do it. I hope Peter will handle it. Thank you."
+          "19:30" "20:30"
+          "Bundling under the hood"
+          "Péter Bakonyi"
+          """
+          Choosing and configuring a bundling tool is one of the hottest topics among front-end developers. In this presentation we take a deep dive into how Webpack, Rollup and Browserify work internally. The main focus will be on understanding the building blocks and comparing the existing implementations.
+          """
           []
         )
       , renderSchedule (Schedule "20:30" "21:00" "Networking")
