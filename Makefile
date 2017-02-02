@@ -10,5 +10,7 @@ clean:
 	gulp clean
 copy:
 	gulp copy
+	# can't use gulp properly, I'm sorry
+	cp -r source/images public/assets
 all: clean elm templates styles copy
 

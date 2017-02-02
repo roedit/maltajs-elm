@@ -20,7 +20,7 @@ module.exports = {
         js: assetsRoot + 'js',
         fonts: assetsRoot + 'fonts',
         html: publicRoot,
-        images: assetsRoot+'images' 
+        images: assetsRoot+'images/**/*'
     },
     server: serverRoot + 'server.js',
     bootstrap: {

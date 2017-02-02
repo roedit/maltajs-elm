@@ -7,8 +7,9 @@ gulp.task('copy:fonts', function() {
         .pipe(gulp.dest(config.public.fonts));
 });
 
+// todo: fix this mess, it doesn't work
 gulp.task('copy:images', function() {
-    gulp.src([config.assets.images])
+    gulp.src([config.assets.images], { base: 'images'  })
         .pipe(gulp.dest(config.public.images));
 });
 
