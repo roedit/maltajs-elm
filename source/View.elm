@@ -62,33 +62,14 @@ header headerCollapsed active onNavigation  =
     Header.view config headerCollapsed active
 
 
-about : Model -> Html msg
-about model =
+about : Html msg -> Html msg
+about content =
   section [ id "about", class "row about" ]
     [ div [ class twelveColumns ]
       [ h4 [] [ text "About" ] ]
     , div [ class twelveColumns ]
-      [ Content.aboutView ]
+      [ content ]
     ]
-
-type alias Schedule =
-  { start: String
-  , end: String
-  , title: String
-  }
-type alias ExtendedSchedule =
-  { start: String
-  , end: String
-  , title: String
-  , name: String
-  , description: String 
-  , links: List (String, String)
-  }
-
-type alias Organizer =
-  { name : String
-  , email : String
-  }
 
 viewOrganizer : Organizer -> Html msg
 viewOrganizer organizer =
@@ -117,19 +98,17 @@ renderSchedule schedule =
       ]
     ]
 
-contacts : Html msg
-contacts =
+contacts : List Organizer -> Html msg
+contacts organizers =
   section [ class "row contact", id "contact" ]
     [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
-      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h4 []
-          [ text "Contact" ]
-        ]
-      , viewOrganizer (Organizer "Andrei Toma" "andrei@maltajs.com")
-      , viewOrganizer (Organizer "Bogdan Dumitru" "bogdan@maltajs.com")
-      , viewOrganizer (Organizer "Pietro Grandi" "pietro@maltajs.com")
-      , viewOrganizer (Organizer "Organization" "contact@maltajs.com")
-      ]
+      (
+        [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+          [ h4 []
+            [ text "Contact" ]
+          ]
+        ] ++ (List.map viewOrganizer organizers)
+      )
     ]
 
 timeSpan : String -> String -> Html msg
@@ -153,55 +132,43 @@ renderExtendedSchedule schedule =
         [ hr [] [] ]
       ]
     , div [ class "col-xs-12 col-sm-9 col-md-9 col-lg-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 eventSpeaker" ]
-      [ div
-      -- speaker's image
-        [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.png\");" ]
-        []
-      , h5 []
-        [ span []
-          [ text schedule.title ]
-        , span [ class "compute" ]
-          [ text " with " ]
-        , span []
-          [ text schedule.name ]
-        ]
-      , p []
-        [ text schedule.description ]
-        -- links (type, link)
-      , a [ class "linkedin", href "https://mt.linkedin.com/in/peter-bakonyi-58b68a74" ] []
-      , a [ class "github", href "https://github.com/peterbakonyi05" ] []
-      ]
-    ]
-
-
-
---eventDescription : Html msg
-eventDescription =
-  section [ class "row schedule", id "schedule" ]
-
-    [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-      [ h4 []
-        [ text "Schedule" ]
-      ]
-
-    , div []
-      [ renderSchedule (Schedule "19:00" "19:15" "WELCOME COFFEE & REGISTRATION")
-
-      , renderSchedule (Schedule "19:15" "19:30" "Welcome speech")
-
-      , renderExtendedSchedule
-        (ExtendedSchedule
-          "19:30" "20:30"
-          "Bundling under the hood"
-          "Péter Bakonyi"
-          """
-          Choosing and configuring a bundling tool is one of the hottest topics among front-end developers. In this presentation we take a deep dive into how Webpack, Rollup and Browserify work internally. The main focus will be on understanding the building blocks and comparing the existing implementations.
-          """
+      (
+        [ div
+        -- speaker's image
+          [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.png\");" ]
           []
-        )
-      , renderSchedule (Schedule "20:30" "21:00" "Networking")
-      ]
+        , h5 []
+          [ span []
+            [ text schedule.title ]
+          , span [ class "compute" ]
+            [ text " with " ]
+          , span []
+            [ text schedule.name ]
+          ]
+        , p []
+          [ text schedule.description ]
+        ] ++ (List.map (\(c, l) -> a [ class c, href l ] []) schedule.links)
+      )
     ]
+
+
+
+eventDescription : List Schedule -> List ExtendedSchedule -> List Schedule -> Html msg
+eventDescription pre main post =
+  let
+    prepend = List.map renderSchedule pre
+    central = List.map renderExtendedSchedule main
+    append = List.map renderSchedule post
+  in
+    section [ class "row schedule", id "schedule" ]
+
+      [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
+        [ h4 []
+          [ text "Schedule" ]
+        ]
+
+      , div [] (prepend ++ central ++ append)
+      ]
 
 type alias Coordinates =
   { initialZoom : Int

@@ -5,7 +5,7 @@ import String
 import Html exposing (Html, div, img, h2, h3, h4, h6, span, section,  text, p)
 import Html.Attributes exposing (class, id, src)
 
---import Content exposing (..)
+import Content
 import Shared exposing (..)
 import HttpUtils exposing (registerMe)
 import View
@@ -65,13 +65,13 @@ view model =
 
     , View.banner
 
-    , View.about model
+    , View.about Content.aboutView
 
-    , View.eventDescription 
+    , View.eventDescription Content.preEvents Content.mainEvent Content.postEvents
 
     , View.registrationForm model
 
-    , View.contacts
+    , View.contacts Content.organizers
 
     , View.map (View.Coordinates 15 35.8969459 14.4978039)
 

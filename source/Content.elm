@@ -1,4 +1,4 @@
-module Content exposing (aboutView, venueView, eventView, privacyView, formErrorView)
+module Content exposing (..)
 
 {-| This module hosts the actual content of the page. Thus can be edited right here,
     using Markdown. 
@@ -15,6 +15,7 @@ import Html exposing (Html, h1, div, p, text)
 import Html.Attributes exposing (class)
 import Markdown
 import String
+import Shared exposing (..)
 
 defaultClassesWith : List String -> String
 defaultClassesWith customClasses =
@@ -24,6 +25,39 @@ defaultClassesWith customClasses =
 defaultClasses = String.join " " [ "col-xs-12" ]
 
 markDownWithDefault = Markdown.toHtml [ class defaultClasses ]
+
+
+organizers : List Organizer
+organizers =
+  [ Organizer "Andrei Toma" "andrei@maltajs.com"
+  , Organizer "Bogdan Dumitru" "bogdan@maltajs.com"
+  , Organizer "Pietro Grandi" "pietro@maltajs.com"
+  , Organizer "Organization" "contact@maltajs.com"
+  ]
+
+
+mainEvent = 
+  [
+    ExtendedSchedule
+      "19:30" "20:30"
+      "Bundling under the hood"
+      "Péter Bakonyi"
+      """
+      Choosing and configuring a bundling tool is one of the hottest topics among front-end developers. In this presentation we take a deep dive into how Webpack, Rollup and Browserify work internally. The main focus will be on understanding the building blocks and comparing the existing implementations.
+      """
+      [ ("linkedin", "https://mt.linkedin.com/in/peter-bakonyi-58b68a74")
+      , ("github", "https://github.com/peterbakonyi05")
+      ]
+  ]
+
+preEvents =
+  [ Schedule "19:00" "19:15" "WELCOME COFFEE & REGISTRATION"
+  , Schedule "19:15" "19:30" "Welcome speech"
+  ]
+
+postEvents =
+  [ Schedule "20:30" "21:00" "Networking" ]
+
 
 {-| Renders the HTML for the About section: what is MaltaJS 
 

@@ -40,3 +40,28 @@ mapMsgToForm : Model -> Html Msg
 mapMsgToForm model =
   Html.map FormMsg (Form.view model.formModel) 
 
+
+-- TYPES
+
+type alias Organizer =
+  { name : String
+  , email : String
+  }
+
+type alias Schedule =
+  { start: String
+  , end: String
+  , title: String
+  }
+
+type alias ExtendedSchedule =
+  { start: String
+  , end: String
+  , title: String
+  , name: String
+  , description: String 
+  , links: List (String, String)
+  }
+
+
+
