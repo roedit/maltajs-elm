@@ -1,7 +1,7 @@
-module HttpUtils exposing (registerMe)
+module HttpUtils exposing (registerMe, errorExtractor)
 
-import Http
-import Json.Decode exposing (list, string)
+import Http exposing (..)
+import Json.Decode exposing (decodeString, list, string)
 import Json.Encode
 import Task
 
@@ -12,6 +12,19 @@ decoder : Json.Decode.Decoder String
 decoder =
     Json.Decode.at [ "subscriber" ]
        ( Json.Decode.string )
+
+errorDecoder : Json.Decode.Decoder String 
+errorDecoder =
+    Json.Decode.at [ "error" ]
+       ( Json.Decode.string )
+
+
+errorExtractor : Error -> String
+errorExtractor error =
+  case error of
+    BadStatus response ->
+      Result.withDefault "Unknown error" (decodeString errorDecoder response.body)
+    _ -> "We apologize, something went wrong."
 
 
 registerMe : Model -> Cmd Msg

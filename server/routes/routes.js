@@ -32,13 +32,10 @@ module.exports= function(app) {
      * http://localhost:3000/api/add-subscriber
      */
     app.post('/api/add-subscriber', function(req, res) {
-        console.log(req.body);
 
         model.Subscribers.find({ email: req.body.email }, function(err, user) {
-          console.log(user)
-          console.log(user.length)
           if (user.length > 0) {
-            res.status(403).send('User already registered')
+            res.status(403).json({ error: 'User already registered' })
           } else {
             var subscriber = new model.Subscribers();
 
@@ -54,8 +51,8 @@ module.exports= function(app) {
                     return err;
                 }
 
-                res.status(200).send({
-                    'subscriber': subscriber.subscriberFirstName
+                res.status(200).json({
+                    'subscriber': subscriber.firstName
                 });
             });
 
@@ -64,6 +61,7 @@ module.exports= function(app) {
 
     });
 
+  // todo: not in use right now
     app.post('/api/contact', function(req, res) {
         console.log(req.body);
 

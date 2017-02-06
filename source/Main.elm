@@ -7,7 +7,7 @@ import Html.Attributes exposing (class, id, src)
 
 import Content
 import Shared exposing (..)
-import HttpUtils exposing (registerMe)
+import HttpUtils exposing (registerMe, errorExtractor)
 import View
 import Header
 import Form
@@ -53,7 +53,7 @@ update msg model =
       ( { model | registered = True }, Cmd.none )
     PostResult (Err httpError) ->
       let
-        error = Debug.log "Post failed" (toString httpError) 
+        error = errorExtractor httpError
       in
           ( { model | error = error }, Cmd.none )
     
