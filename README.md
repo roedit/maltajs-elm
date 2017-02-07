@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pietro909/maltajs-elm.svg?branch=master)](https://travis-ci.org/pietro909/maltajs-elm)
-
 # MaltaJS website
 
 ## Requirements
