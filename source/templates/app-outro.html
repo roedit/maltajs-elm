@@ -1,17 +1,10 @@
 </div>
 <!-- EXTERNAL RESOURCES -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApbfoXOpdt8v4wB8spClqDaCsOtOQr4CQ"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlkLWTphqTVHZ45YQYeatBHp2LoHi4tbA"></script>
 <script src="js/app-min.js"></script>
 <script>
     /** gmap **/
     function myMap() {
-      /*
-        var defaultProps = {
-            initialZoom: 17,
-            mapCenterLat: 35.8512874,
-            mapCenterLng: 14.4943021
-        };
-        */
         var mapCanvas = document.getElementById("map");
         var defaultProps = JSON.parse(mapCanvas.dataset.coordinates);
         var mapCenterLatLng = new google.maps.LatLng(defaultProps.mapCenterLat, defaultProps.mapCenterLng);
