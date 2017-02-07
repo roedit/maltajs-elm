@@ -1,16 +1,17 @@
 module View exposing
   ( Coordinates
+  , about
   , banner
   , contacts
+  , eventDescription
   , footer
   , header
-  , about
-  , eventDescription
   , map
   , registrationForm
+  , sponsor
   )
 
-import Html exposing (Html, a, button, div, img, hr, h2, h3, h4, h5, h6, span, section,  text, p)
+import Html exposing (Html, a, button, div, img, hr, h2, h3, h1, h5, h6, span, section, text, p)
 import Html.Attributes exposing (class, disabled, id, src, href, style, attribute)
 import Html.Events exposing (onClick)
 import Json.Encode as JSE
@@ -21,7 +22,7 @@ import Header
 import Form
 
 twelveColumns = "col-xs-12 col-sm-12 col-md-12 col-lg-12"
-
+sixColumns = "col-xs-12 col-sm-10 col-md-6 col-lg-4"
 
 banner : Html msg
 banner =
@@ -62,11 +63,22 @@ header headerCollapsed active onNavigation  =
     Header.view config headerCollapsed active
 
 
+sponsor : Html msg -> Html msg
+sponsor content =
+  section [ id "sponsor", class "row sponsor" ]
+    [ div [ class twelveColumns ]
+      [ h1 [] [ text "Thanks to..." ] ]
+    , div [ class sixColumns ]
+      [ a [ href "https://igamingcloud.com/" ] [ img [ src sponsorLogo ] [] ] ]
+    , div [ class twelveColumns ]
+      [ content ]
+    ]
+
 about : Html msg -> Html msg
 about content =
   section [ id "about", class "row about" ]
     [ div [ class twelveColumns ]
-      [ h4 [] [ text "About" ] ]
+      [ h1 [] [ text "About" ] ]
     , div [ class twelveColumns ]
       [ content ]
     ]
@@ -104,7 +116,7 @@ contacts organizers =
     [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12" ]
       (
         [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-          [ h4 []
+          [ h1 []
             [ text "Contact" ]
           ]
         ] ++ (List.map viewOrganizer organizers)
@@ -163,7 +175,7 @@ eventDescription pre main post =
     section [ class "row schedule", id "schedule" ]
 
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h4 []
+        [ h1 []
           [ text "Schedule" ]
         ]
 
@@ -188,7 +200,7 @@ map coordinates =
   in
     section [ id "location", class "row location" ]
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h4 [] [ text "Location" ] ]
+        [ h1 [] [ text "Location" ] ]
       , div
         [ id "map"
         , class "map-gic"
@@ -223,7 +235,7 @@ registrationForm model =
   in
     section [ id "subscribe", class "row subscribe" ]
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h4 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
+        [ h1 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
       , mapMsgToForm model
       , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
         [ alert model
