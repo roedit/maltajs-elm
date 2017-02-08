@@ -1,18 +1,29 @@
 module.exports= function(app) {
     var model     = require('../models/schema');
-    var nodemailer = require('../../devtools/node_modules/nodemailer');
-    var sgTransport = require('../../devtools/node_modules/nodemailer-sendgrid-transport');
+    var nodemailer = require('../../node_modules/nodemailer');
+    var sgTransport = require('../../node_modules/nodemailer-sendgrid-transport');
+    var AUTH_TOKEN = process.env.AUTH_TOKEN
 
     /**
      * Get subscribers list
      * http://localhost:3000/api/subscribers
      */
     app.get('/api/joined', function(req, res) {
+
+        if (AUTH_TOKEN === undefined || AUTH_TOKEN === '') {
+          res.status(500).send('Token not initialized')
+          return
+        }
+
+        if (req.query.token !== AUTH_TOKEN) {
+          res.status(401).send('Wrong token')
+          return
+        }
+
         var query = model.Subscribers.find();
 
         query.exec(function(err,subscribers){
-            console.log(subscribers);
-            res.send(subscribers);
+            res.status('200').send(subscribers);
         });
     });
 
@@ -21,27 +32,36 @@ module.exports= function(app) {
      * http://localhost:3000/api/add-subscriber
      */
     app.post('/api/add-subscriber', function(req, res) {
-        console.log(req.body);
-        var subscriber = new model.Subscribers();
 
-        subscriber.subscriberFirstName = req.body.name;
-        subscriber.subscriberLastName = req.body.surname;
-        subscriber.subscriberCompany = req.body.company;
-        subscriber.subscriberEmail = req.body.email;
+        model.Subscribers.find({ email: req.body.email }, function(err, user) {
+          if (user.length > 0) {
+            res.status(403).json({ error: 'User already registered' })
+          } else {
+            var subscriber = new model.Subscribers();
 
-        subscriber.save(function(err, subscriber) {
-            if (err) {
-                // if an error occurs, show it in console
-                console.log(err);
-                return err;
-            }
+            subscriber.firstName = req.body.name;
+            subscriber.lastName = req.body.surname;
+            subscriber.company = req.body.company;
+            subscriber.email = req.body.email;
 
-            res.send({
-                'subscriber': subscriber.subscriberFirstName
+            subscriber.save(function(err, subscriber) {
+                if (err) {
+                    // if an error occurs, show it in console
+                    console.log(err);
+                    return err;
+                }
+
+                res.status(200).json({
+                    'subscriber': subscriber.firstName
+                });
             });
-        });
+
+          }
+        })
+
     });
 
+  // todo: not in use right now
     app.post('/api/contact', function(req, res) {
         console.log(req.body);
 

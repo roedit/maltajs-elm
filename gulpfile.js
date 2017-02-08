@@ -6,15 +6,15 @@ var gulp = require('gulp'),
 
 // Build main task
 gulp.task('build', function(cb) {
-    runSequence('elm-bundle', 'styles', 'copy', function() {
+    runSequence( 'styles', 'copy', function() {
         console.log('Setup application: localhost:3000');
         cb();
     });
 });
-
+//
 // Rebuild source
 gulp.task('rebuild', function(cb) {
-    runSequence('clean', 'elm-bundle', 'styles', 'copy', function() {
+    runSequence('clean', 'styles', 'copy', function() {
         console.log('Source ready in the /public folder!');
         cb();
     });
@@ -24,3 +24,4 @@ gulp.task('rebuild', function(cb) {
 gulp.task('default', function() {
     console.log('No default, buddy!')
 });
+

@@ -3,7 +3,7 @@ module Form exposing (..)
 import Html exposing (Html, text, button, div, section, article, h1, p, a, header, ol, li, h2, text, form, input, label, fieldset, img, span)
 
 import Html.Events exposing (onClick, on, onInput)
-import Html.Attributes exposing ( id, type', for, value, class, href, class, required, src, disabled, placeholder )
+import Html.Attributes exposing ( id, type_, for, value, class, href, class, required, src, disabled, placeholder )
 import String exposing (join, isEmpty)
 import Regex
 import Json.Encode
@@ -51,7 +51,7 @@ view model =
         [ div [ class formFieldClasses ]
           [ input 
             [ id "name"
-            , type' "text"
+            , type_ "text"
             , placeholder "Name"
             , value model.name
             , required True
@@ -61,7 +61,7 @@ view model =
         , div [ class formFieldClasses ]
           [ input 
             [ id "surname"
-            , type' "text"
+            , type_ "text"
             , placeholder "Surname"
             , value model.surname
             , required True
@@ -72,7 +72,7 @@ view model =
         , div [ class formFieldClasses ]
           [ input 
             [ id "company"
-            , type' "text"
+            , type_ "text"
             , placeholder "Company"
             , value model.company
             , required True
@@ -82,7 +82,7 @@ view model =
         , div [ class formFieldClasses ]
           [ input 
             [ id "email"
-            , type' "email"
+            , type_ "email"
             , placeholder "Email"
             , value model.email
             , required True

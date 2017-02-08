@@ -1,55 +1,67 @@
 module Shared exposing (..)
 
-import Form exposing (Model)
-import Scroll exposing (Move)
 import Http exposing (Error)
-import Html exposing (img)
+import Html exposing (Html)
 import Html.Attributes exposing (src)
-import StickyHeader
+import Header
+import Form
+
 
 -- MODEL
 
-type alias Model = 
-  { registered : Bool
-  , signed : Bool
-  , error : String
-  , formModel : Form.Model
-  , headerModel : StickyHeader.Model
-  }
 
-headerLinks =
-    List.map 
-        (\(title, url) -> StickyHeader.buildActiveItem title url [])
-        [ ("Subscribe", "#subscribe")
-        , ("Schedule", "#schedule")
-        , ("Speakers", "#speakers")
-        , ("Location", "#location")
-        , ("Contacts", "#contacts")
-        ]
+type alias Model = 
+  { error : String 
+  , formModel : Form.Model
+  , registered : Bool
+  , signed : Bool
+  , showNavigation: Bool
+  }
 
 initialModel : Model
 initialModel =
-  let
-    headerBrand = StickyHeader.buildItem "MaltaJS" [ "brand" ]
-    headerLogo =
-      StickyHeader.buildLogo
-        (img [ src "images/logo.jpg" ] []) [ "header-logo" ]
-    headerInitialModel =
-      StickyHeader.initialModel (Just headerLogo) (Just headerBrand) headerLinks
-  in
-    { registered = False
-    , signed = False
-    , error = ""
+    { error = ""
     , formModel = Form.initialModel
-    , headerModel = headerInitialModel
+    , registered = False
+    , signed = False
+    , showNavigation = True
     }
 
 
 -- MESSAGE
 
 type Msg
-  = Register
-  | PostSucceed String
-  | PostFail Error
+  = ToggleNavigation Bool
   | FormMsg Form.Msg
-  | StickyHeaderMsg StickyHeader.Msg
+  | PostResult (Result Http.Error String)
+  | Register
+
+mapMsgToForm : Model -> Html Msg
+mapMsgToForm model =
+  Html.map FormMsg (Form.view model.formModel) 
+
+
+-- TYPES
+
+type alias Organizer =
+  { name : String
+  , email : String
+  }
+
+type alias Schedule =
+  { start: String
+  , end: String
+  , title: String
+  }
+
+type alias ExtendedSchedule =
+  { start: String
+  , end: String
+  , title: String
+  , name: String
+  , description: String 
+  , links: List (String, String)
+  }
+
+
+

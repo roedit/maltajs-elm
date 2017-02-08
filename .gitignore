@@ -2,6 +2,12 @@
 logs
 *.log
 npm-debug.log*
+*.lock
+.DS_Store
+public/
+
+# this template is generated from elm
+source/templates/body-static.html
 
 # Runtime data
 pids
@@ -47,7 +53,7 @@ elm-stuff
 
 # elm-repl generated files
 repl-temp-*
-
+_
 .idea/
 *.swf
 *.swp
@@ -55,3 +61,4 @@ repl-temp-*
 node_modules/
 dist/
 build/
+.elm-static-html/

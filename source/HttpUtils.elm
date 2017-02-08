@@ -1,7 +1,7 @@
-module HttpUtils exposing (registerMe)
+module HttpUtils exposing (registerMe, errorExtractor)
 
-import Http
-import Json.Decode exposing (list, string)
+import Http exposing (..)
+import Json.Decode exposing (decodeString, list, string)
 import Json.Encode
 import Task
 
@@ -13,6 +13,20 @@ decoder =
     Json.Decode.at [ "subscriber" ]
        ( Json.Decode.string )
 
+errorDecoder : Json.Decode.Decoder String 
+errorDecoder =
+    Json.Decode.at [ "error" ]
+       ( Json.Decode.string )
+
+
+errorExtractor : Error -> String
+errorExtractor error =
+  case error of
+    BadStatus response ->
+      Result.withDefault "Unknown error" (decodeString errorDecoder response.body)
+    _ -> "We apologize, something went wrong."
+
+
 registerMe : Model -> Cmd Msg
 registerMe model =
   let
@@ -20,12 +34,8 @@ registerMe model =
     body = model.formModel
       |> Form.formToJson
       |> Json.Encode.encode 0 
-      |> Http.string
-    request =
-      { verb = "POST"
-      , headers = [( "Content-Type", "application/json" )]
-      , url = url
-      , body = body 
-      }
+      |> Http.stringBody "application/json"
+    post : Http.Request String
+    post = Http.post url body decoder
   in
-    Task.perform PostFail PostSucceed (Http.fromJson decoder (Http.send Http.defaultSettings request))
+    Http.send PostResult post

@@ -3,12 +3,5 @@ node_js:
   - 4.6.0
 install:
   - npm install
-  - elm-package install -y
-# before_script: 
-  # - elm-make --yes --output raw-test.js tests/Tests.elm
-  # - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
-  # - npm install -g gulp
 script:
-  - gulp server
-  - gulp build
-  # - node test.js
+  - make all
