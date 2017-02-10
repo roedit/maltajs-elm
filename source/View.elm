@@ -57,7 +57,7 @@ header headerCollapsed active onNavigation  =
             [ ("About", "#about")
             , ("Schedule", "#schedule")
             , ("Subscribe", "#subscribe")
-            , ("Our sponsor", "#sponsor")
+            , ("Sponsor", "#sponsor")
             , ("Location", "#location")
             ]
     config : Header.Config msg
