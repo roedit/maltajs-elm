@@ -6,6 +6,10 @@
     /** gmap **/
     function myMap() {
         var mapCanvas = document.getElementById("map");
+        if (!mapCanvas) {
+          return;
+        }
+
         var defaultProps = JSON.parse(mapCanvas.dataset.coordinates);
         var mapCenterLatLng = new google.maps.LatLng(defaultProps.mapCenterLat, defaultProps.mapCenterLng);
 
@@ -65,7 +69,7 @@
         // a trivial check
         for (var i = 0; i < mutationRecords.length; i += 1) {
             if (mutationRecords[i].addedNodes.length > 0) {
-                myMap();
+                // myMap();
                 // stop observing, if not needed anymore
                 mo.disconnect();
             }

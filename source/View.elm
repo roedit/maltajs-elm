@@ -29,7 +29,7 @@ banner =
   section [ id "home", class "row banner" ]
     [ h2 [] [ text "Malta JS" ]
       , h3 [] [ text "Javascript community in Malta" ]
-      , p [] [ text "23rd of FEBRUARY | Royal Malta Yacht Club" ]
+      , p [] [ text "Meetups | Talks | Coding" ]
     ]
 
 
@@ -54,12 +54,15 @@ header headerCollapsed active onNavigation  =
     links =  --[]
         List.map 
             (\(title, url) -> Header.buildActiveItem title url [])
-            [ ("About", "#about")
+            [ ]
+            {--
+              ("About", "#about")
             , ("Schedule", "#schedule")
             , ("Subscribe", "#subscribe")
             , ("Sponsor", "#sponsor")
             , ("Location", "#location")
             ]
+            --}
     config : Header.Config msg
     config = Header.Config (Just logo) (Just brand) links (Just onNavigation)
   in
