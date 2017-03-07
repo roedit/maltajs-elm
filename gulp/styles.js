@@ -3,7 +3,7 @@
  - concat all css files
  - minify all css files
  */
-var config = require("./config"),
+var config = require('./config'),
     gulp = require('gulp'),
     sass = require('gulp-sass'),
     minify = require('gulp-clean-css'),
