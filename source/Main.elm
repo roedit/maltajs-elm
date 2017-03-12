@@ -67,17 +67,15 @@ view model =
 
     , View.about Content.aboutView
 
-    {--
     , View.eventDescription Content.preEvents Content.mainEvent Content.postEvents
 
     , View.registrationForm model
 
     , View.sponsor Content.sponsor
-    --}
 
     , View.contacts Content.organizers
 
-    --, View.map (View.Coordinates 15 35.8969459 14.4978039)
+    , View.map (View.Coordinates 15 35.8969459 14.4978039)
 
     , View.footer
     ]

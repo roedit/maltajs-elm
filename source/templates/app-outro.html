@@ -3,6 +3,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlkLWTphqTVHZ45YQYeatBHp2LoHi4tbA"></script>
 <script src="js/app-min.js"></script>
 <script>
+  
     /** gmap **/
     function myMap() {
         var mapCanvas = document.getElementById("map");
@@ -60,8 +61,7 @@
 
     }
 
-
-	var scroll = window.pageYOffset || document.body.scrollTop;
+	  var scroll = window.pageYOffset || document.body.scrollTop;
     var mountNode = document.getElementById('main');
 
     // look at http://stackoverflow.com/questions/39687776/how-to-render-embedded-elm-module-synchronously/
@@ -69,7 +69,7 @@
         // a trivial check
         for (var i = 0; i < mutationRecords.length; i += 1) {
             if (mutationRecords[i].addedNodes.length > 0) {
-                // myMap();
+                myMap();
                 // stop observing, if not needed anymore
                 mo.disconnect();
             }
@@ -77,13 +77,7 @@
     });
     mo.observe(mountNode, { childList: true });
 
-	var myApp = Elm.Main.embed(mountNode);
-
-    window.onscroll = function() {
-        var newScroll = window.pageYOffset || document.body.scrollTop;
-        // myApp.ports.scroll.send([scroll, newScroll]);
-        scroll = newScroll;
-    };
+    var myApp = Elm.Main.embed(mountNode);
 
 </script>
 </body>

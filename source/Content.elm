@@ -39,20 +39,21 @@ organizers =
 mainEvent = 
   [
     ExtendedSchedule
-      "19:30" "20:30"
-      "Bundling under the hood"
-      "Péter Bakonyi"
+      "19:00" "20:00"
+      "An introduction to Progressive Web Apps"
+      "Kevin Farrugia"
       """
-      Choosing and configuring a bundling tool is one of the hottest topics among front-end developers. In this presentation we take a deep dive into how Webpack, Rollup and Browserify work internally. The main focus will be on understanding the building blocks and comparing the existing implementations.
+      PWAs are web-based applications, accessible and discoverable through your browser as any ordinary web app; but also with the ability to be installed to your mobile’s home screen and enable native-like behavior, including the ability to work offline, be viewed in fullscreen and receive push notifications.
       """
-      [ ("linkedin", "https://mt.linkedin.com/in/peter-bakonyi-58b68a74")
-      , ("github", "https://github.com/peterbakonyi05")
+      [ ("linkedin", "https://mt.linkedin.com/in/https://www.linkedin.com/in/kevin-farrugia-69ba8881/")
+      , ("github", "https://github.com/kevinfarrugia")
+      , ("site", "https://www.incredible-web.com/")
       ]
   ]
 
 preEvents =
-  [ Schedule "19:00" "19:15" "WELCOME COFFEE & REGISTRATION"
-  , Schedule "19:15" "19:30" "Welcome speech"
+  [ Schedule "18:30" "18.45" "WELCOME COFFEE & REGISTRATION"
+  , Schedule "18.45" "19:00" "Welcome speech"
   ]
 
 postEvents =
