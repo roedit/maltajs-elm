@@ -29,7 +29,7 @@ banner =
   section [ id "home", class "row banner" ]
     [ h2 [] [ text "Malta JS" ]
       , h3 [] [ text "Javascript community in Malta" ]
-      , p [] [ text "23rd of FEBRUARY | Royal Malta Yacht Club" ]
+      , p [] [ text "5th of APRIL | Royal Malta Yacht Club" ]
     ]
 
 
@@ -150,7 +150,7 @@ renderExtendedSchedule schedule =
       (
         [ div
         -- speaker's image
-          [ class "speakerImg", attribute "style" "background-image: url(\"/images/speakers/peter-bakonyi.png\");" ]
+          [ class "speakerImg", attribute "style" "background-image: url('/images/speakers/kevin-farrugia.jpg');" ]
           []
         , h5 []
           [ span []
@@ -238,7 +238,7 @@ registrationForm model =
   in
     section [ id "subscribe", class "row subscribe" ]
       [ div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter" ]
-        [ h1 [] [ text "Subscribe" ], h6 [] [ text "Only 30 seats available." ] ]
+        [ h1 [] [ text "Subscribe" ], h6 [] [ text "Only 50 seats available." ] ]
       , mapMsgToForm model
       , div [ class "col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter form-footer" ]
         [ alert model

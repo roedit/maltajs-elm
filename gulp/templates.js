@@ -3,7 +3,7 @@ var config = require("./config"),
     minify = require('gulp-minify'),
     concat = require('gulp-concat');
 
-var appTmpl = [ 'intro.html', 'app-outro.html' ].map(file =>
+var appTmpl = [ 'intro.html', 'body-static.html', 'app-outro.html' ].map(file =>
   config.source.templates + file)
 var staticTmpl = [ 'intro.html', 'body-static.html', 'outro.html' ].map(file =>
   config.source.templates + file)

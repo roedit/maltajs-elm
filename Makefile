@@ -6,6 +6,7 @@ templates:
 	gulp html:static
 styles:
 	gulp styles
+	cp node_modules/bootstrap/dist/css/bootstrap.min.css public/assets/css/
 clean:
 	gulp clean
 copy:
