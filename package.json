@@ -21,7 +21,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.1.1",
     "mongoose": "5.7.7",
-    "morgan": "~1.0.0",
+    "morgan": "~1.9.1",
     "nodemailer": "^1.8.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "~1.4.1",
